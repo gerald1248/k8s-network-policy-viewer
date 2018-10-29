@@ -1,0 +1,2255 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "extensions/v1beta1",
+            "kind": "NetworkPolicy",
+            "metadata": {
+                "creationTimestamp": "2018-10-29T08:01:36Z",
+                "generation": 1,
+                "name": "default-deny",
+                "namespace": "default",
+                "resourceVersion": "270973",
+                "selfLink": "/apis/extensions/v1beta1/namespaces/default/networkpolicies/default-deny",
+                "uid": "dbbc7761-db50-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "podSelector": {},
+                "policyTypes": [
+                    "Ingress",
+                    "Egress"
+                ]
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-22T21:09:52Z",
+                "generateName": "bash-677748fc49-",
+                "labels": {
+                    "pod-template-hash": "2333049705",
+                    "run": "bash"
+                },
+                "name": "bash-677748fc49-8fc5w",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "bash-677748fc49",
+                        "uid": "9f9f01c3-d63e-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "199802",
+                "selfLink": "/api/v1/namespaces/default/pods/bash-677748fc49-8fc5w",
+                "uid": "d18f0885-d63e-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "image": "httpd",
+                        "imagePullPolicy": "Always",
+                        "name": "bash",
+                        "resources": {},
+                        "stdin": true,
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "tty": true,
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-7ql6r",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "default-token-7ql6r",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-7ql6r"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T21:09:52Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T21:09:57Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T21:09:52Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://789794e4b8987032bdb430b9bed0743a29d3e0bc3d9c4818ae0a54481420cb0e",
+                        "image": "httpd:latest",
+                        "imageID": "docker-pullable://httpd@sha256:378951edb85bfd57ddaf2edf482ec62e552667bfc4deeaf326342d481ac526f0",
+                        "lastState": {},
+                        "name": "bash",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "running": {
+                                "startedAt": "2018-10-22T21:09:56Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Running",
+                "podIP": "172.17.0.11",
+                "qosClass": "BestEffort",
+                "startTime": "2018-10-22T21:09:52Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-11T14:49:17Z",
+                "generateName": "continuous-documentation-7fbc6cdbb7-",
+                "labels": {
+                    "app": "continuous-documentation",
+                    "pod-template-hash": "3967278663"
+                },
+                "name": "continuous-documentation-7fbc6cdbb7-shcwj",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "continuous-documentation-7fbc6cdbb7",
+                        "uid": "d4103c15-cd64-11e8-8aef-08002710109d"
+                    }
+                ],
+                "resourceVersion": "154659",
+                "selfLink": "/api/v1/namespaces/default/pods/continuous-documentation-7fbc6cdbb7-shcwj",
+                "uid": "d4132abe-cd64-11e8-8aef-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/continuous-documentation",
+                        "imagePullPolicy": "Always",
+                        "name": "continuous-documentation",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "continuous-documentation-token-5pwdm",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "continuous-documentation",
+                "serviceAccountName": "continuous-documentation",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "continuous-documentation-token-5pwdm",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "continuous-documentation-token-5pwdm"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-11T14:49:17Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-18T17:50:58Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-11T14:49:17Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://43527bd9c866107510137ce702f2051b63e93d96a9ffbd086851177c0a78b872",
+                        "image": "gerald1248/continuous-documentation:latest",
+                        "imageID": "docker-pullable://gerald1248/continuous-documentation@sha256:5fe94c4d23d18633b46917ba4422531f01c72ee201ab69bcb980d2f63eaa925e",
+                        "lastState": {
+                            "terminated": {
+                                "containerID": "docker://fb86f1fc24d46c4db66f120d7619ed320ff387f6faf7c3e812226362b2eee9f6",
+                                "exitCode": 255,
+                                "finishedAt": "2018-10-18T17:49:18Z",
+                                "reason": "Error",
+                                "startedAt": "2018-10-11T14:49:19Z"
+                            }
+                        },
+                        "name": "continuous-documentation",
+                        "ready": true,
+                        "restartCount": 1,
+                        "state": {
+                            "running": {
+                                "startedAt": "2018-10-18T17:50:57Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Running",
+                "podIP": "172.17.0.7",
+                "qosClass": "Burstable",
+                "startTime": "2018-10-11T14:49:17Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-22T21:11:49Z",
+                "labels": {
+                    "run": "httpd"
+                },
+                "name": "httpd",
+                "namespace": "default",
+                "resourceVersion": "200144",
+                "selfLink": "/api/v1/namespaces/default/pods/httpd",
+                "uid": "170ef0f3-d63f-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "sh"
+                        ],
+                        "image": "httpd",
+                        "imagePullPolicy": "Always",
+                        "name": "httpd",
+                        "resources": {},
+                        "stdin": true,
+                        "stdinOnce": true,
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "tty": true,
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-7ql6r",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "default-token-7ql6r",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-7ql6r"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T21:11:49Z",
+                        "reason": "PodCompleted",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T21:14:22Z",
+                        "reason": "PodCompleted",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T21:11:49Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://6cc86982182927b3e652bea9bbff7a041164bdfe1188d47eff7151ed5b413490",
+                        "image": "httpd:latest",
+                        "imageID": "docker-pullable://httpd@sha256:378951edb85bfd57ddaf2edf482ec62e552667bfc4deeaf326342d481ac526f0",
+                        "lastState": {},
+                        "name": "httpd",
+                        "ready": false,
+                        "restartCount": 0,
+                        "state": {
+                            "terminated": {
+                                "containerID": "docker://6cc86982182927b3e652bea9bbff7a041164bdfe1188d47eff7151ed5b413490",
+                                "exitCode": 0,
+                                "finishedAt": "2018-10-22T21:14:22Z",
+                                "reason": "Completed",
+                                "startedAt": "2018-10-22T21:11:53Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Succeeded",
+                "podIP": "172.17.0.10",
+                "qosClass": "BestEffort",
+                "startTime": "2018-10-22T21:11:49Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-23T06:02:12Z",
+                "generateName": "k8s-backup-1540253700-",
+                "labels": {
+                    "controller-uid": "2efa8daa-d689-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540253700"
+                },
+                "name": "k8s-backup-1540253700-2ht5t",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540253700",
+                        "uid": "2efa8daa-d689-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "205680",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540253700-2ht5t",
+                "uid": "2efd98be-d689-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-23T06:02:12Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-24T06:35:27Z",
+                "generateName": "k8s-backup-1540340100-",
+                "labels": {
+                    "controller-uid": "fe7326d3-d756-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540340100"
+                },
+                "name": "k8s-backup-1540340100-pxgk8",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540340100",
+                        "uid": "fe7326d3-d756-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "224063",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540340100-pxgk8",
+                "uid": "fe77e4ca-d756-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-24T06:35:27Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-25T06:28:15Z",
+                "generateName": "k8s-backup-1540426500-",
+                "labels": {
+                    "controller-uid": "27aac832-d81f-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540426500"
+                },
+                "name": "k8s-backup-1540426500-lb9hm",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540426500",
+                        "uid": "27aac832-d81f-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "236155",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540426500-lb9hm",
+                "uid": "27ad4eb2-d81f-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-25T06:28:15Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-26T06:43:41Z",
+                "generateName": "k8s-backup-1540512900-",
+                "labels": {
+                    "controller-uid": "79ada661-d8ea-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540512900"
+                },
+                "name": "k8s-backup-1540512900-mwms2",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540512900",
+                        "uid": "79ada661-d8ea-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "246326",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540512900-mwms2",
+                "uid": "79aff20f-d8ea-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-26T06:43:41Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-27T11:00:13Z",
+                "generateName": "k8s-backup-1540599300-",
+                "labels": {
+                    "controller-uid": "7af4481a-d9d7-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540599300"
+                },
+                "name": "k8s-backup-1540599300-vxlcv",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540599300",
+                        "uid": "7af4481a-d9d7-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "260384",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540599300-vxlcv",
+                "uid": "7af81715-d9d7-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-27T11:00:13Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-28T15:56:08Z",
+                "generateName": "k8s-backup-1540685700-",
+                "labels": {
+                    "controller-uid": "fbc2356d-dac9-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540685700"
+                },
+                "name": "k8s-backup-1540685700-r9nz2",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540685700",
+                        "uid": "fbc2356d-dac9-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "261562",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540685700-r9nz2",
+                "uid": "fbc6318a-dac9-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-28T15:56:08Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-29T00:15:03Z",
+                "generateName": "k8s-backup-1540772100-",
+                "labels": {
+                    "controller-uid": "ae905af8-db0f-11e8-9699-08002710109d",
+                    "job-name": "k8s-backup-1540772100"
+                },
+                "name": "k8s-backup-1540772100-dtjd8",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-backup-1540772100",
+                        "uid": "ae905af8-db0f-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "262960",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-1540772100-dtjd8",
+                "uid": "ae964f4c-db0f-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-backup || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-backup",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-29T00:15:03Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-22T17:27:51Z",
+                "generateName": "k8s-backup-8ddc67f69-",
+                "labels": {
+                    "app": "k8s-backup",
+                    "pod-template-hash": "488723925"
+                },
+                "name": "k8s-backup-8ddc67f69-sr8bg",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "k8s-backup-8ddc67f69",
+                        "uid": "cdc21c95-d61f-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "191495",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-backup-8ddc67f69-sr8bg",
+                "uid": "cdc3cd62-d61f-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            },
+                            {
+                                "name": "BACKUP_SECRETS",
+                                "value": "false"
+                            },
+                            {
+                                "name": "K8S_BACKUP_NAMESPACES",
+                                "value": "*"
+                            },
+                            {
+                                "name": "K8S_BACKUP_ALL",
+                                "value": "true"
+                            },
+                            {
+                                "name": "K8S_BACKUP_RETAIN_DAYS",
+                                "value": "7"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-backup",
+                        "imagePullPolicy": "Always",
+                        "livenessProbe": {
+                            "exec": {
+                                "command": [
+                                    "date"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "k8s-backup",
+                        "readinessProbe": {
+                            "exec": {
+                                "command": [
+                                    "date"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 20,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/k8s-backup",
+                                "name": "k8s-backup-data"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-backup-token-9kvjc",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-backup",
+                "serviceAccountName": "k8s-backup",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "k8s-backup-data"
+                    },
+                    {
+                        "name": "k8s-backup-token-9kvjc",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-backup-token-9kvjc"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T17:27:51Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T17:28:19Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-22T17:27:51Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://2c0c70cb5ba26d7d16af0b1cf16e1ea2f68ccc07ec600d9b22c0241a276defe2",
+                        "image": "gerald1248/k8s-backup:latest",
+                        "imageID": "docker-pullable://gerald1248/k8s-backup@sha256:74535ea4e3cb641c601c25b6fea4bc0b456c13a7f63470a52bdb456574f96d17",
+                        "lastState": {},
+                        "name": "k8s-backup",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "running": {
+                                "startedAt": "2018-10-22T17:27:54Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Running",
+                "podIP": "172.17.0.9",
+                "qosClass": "Burstable",
+                "startTime": "2018-10-22T17:27:51Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-25T06:28:15Z",
+                "generateName": "k8s-cluster-tests-1540427400-",
+                "labels": {
+                    "controller-uid": "27afb24a-d81f-11e8-9699-08002710109d",
+                    "job-name": "k8s-cluster-tests-1540427400"
+                },
+                "name": "k8s-cluster-tests-1540427400-42fvq",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-cluster-tests-1540427400",
+                        "uid": "27afb24a-d81f-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "236162",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-cluster-tests-1540427400-42fvq",
+                "uid": "27b0847d-d81f-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-cluster-tests || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-cluster-tests",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-cluster-tests",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/k8s-cluster-tests.d",
+                                "name": "k8s-cluster-tests-volume"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-cluster-tests-token-wp4wk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-cluster-tests",
+                "serviceAccountName": "k8s-cluster-tests",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "k8s-cluster-tests"
+                        },
+                        "name": "k8s-cluster-tests-volume"
+                    },
+                    {
+                        "name": "k8s-cluster-tests-token-wp4wk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-cluster-tests-token-wp4wk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-25T06:28:15Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-26T06:43:41Z",
+                "generateName": "k8s-cluster-tests-1540513800-",
+                "labels": {
+                    "controller-uid": "79b2713b-d8ea-11e8-9699-08002710109d",
+                    "job-name": "k8s-cluster-tests-1540513800"
+                },
+                "name": "k8s-cluster-tests-1540513800-md4fq",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-cluster-tests-1540513800",
+                        "uid": "79b2713b-d8ea-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "246334",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-cluster-tests-1540513800-md4fq",
+                "uid": "79b37762-d8ea-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-cluster-tests || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-cluster-tests",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-cluster-tests",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/k8s-cluster-tests.d",
+                                "name": "k8s-cluster-tests-volume"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-cluster-tests-token-wp4wk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-cluster-tests",
+                "serviceAccountName": "k8s-cluster-tests",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "k8s-cluster-tests"
+                        },
+                        "name": "k8s-cluster-tests-volume"
+                    },
+                    {
+                        "name": "k8s-cluster-tests-token-wp4wk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-cluster-tests-token-wp4wk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-26T06:43:41Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-27T11:00:13Z",
+                "generateName": "k8s-cluster-tests-1540600200-",
+                "labels": {
+                    "controller-uid": "7af94ebb-d9d7-11e8-9699-08002710109d",
+                    "job-name": "k8s-cluster-tests-1540600200"
+                },
+                "name": "k8s-cluster-tests-1540600200-5nbr9",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-cluster-tests-1540600200",
+                        "uid": "7af94ebb-d9d7-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "260390",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-cluster-tests-1540600200-5nbr9",
+                "uid": "7afa93ee-d9d7-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-cluster-tests || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-cluster-tests",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-cluster-tests",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/k8s-cluster-tests.d",
+                                "name": "k8s-cluster-tests-volume"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-cluster-tests-token-wp4wk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-cluster-tests",
+                "serviceAccountName": "k8s-cluster-tests",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "k8s-cluster-tests"
+                        },
+                        "name": "k8s-cluster-tests-volume"
+                    },
+                    {
+                        "name": "k8s-cluster-tests-token-wp4wk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-cluster-tests-token-wp4wk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-27T11:00:13Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-28T15:56:08Z",
+                "generateName": "k8s-cluster-tests-1540686600-",
+                "labels": {
+                    "controller-uid": "fbc5d54d-dac9-11e8-9699-08002710109d",
+                    "job-name": "k8s-cluster-tests-1540686600"
+                },
+                "name": "k8s-cluster-tests-1540686600-t6bnk",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-cluster-tests-1540686600",
+                        "uid": "fbc5d54d-dac9-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "261557",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-cluster-tests-1540686600-t6bnk",
+                "uid": "fbc732e1-dac9-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-cluster-tests || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-cluster-tests",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-cluster-tests",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/k8s-cluster-tests.d",
+                                "name": "k8s-cluster-tests-volume"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-cluster-tests-token-wp4wk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-cluster-tests",
+                "serviceAccountName": "k8s-cluster-tests",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "k8s-cluster-tests"
+                        },
+                        "name": "k8s-cluster-tests-volume"
+                    },
+                    {
+                        "name": "k8s-cluster-tests-token-wp4wk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-cluster-tests-token-wp4wk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-28T15:56:08Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-29T00:30:06Z",
+                "generateName": "k8s-cluster-tests-1540773000-",
+                "labels": {
+                    "controller-uid": "c8907083-db11-11e8-9699-08002710109d",
+                    "job-name": "k8s-cluster-tests-1540773000"
+                },
+                "name": "k8s-cluster-tests-1540773000-pj9pm",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "batch/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Job",
+                        "name": "k8s-cluster-tests-1540773000",
+                        "uid": "c8907083-db11-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "264137",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-cluster-tests-1540773000-pj9pm",
+                "uid": "c8932570-db11-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/sh",
+                            "-c",
+                            "k8s-cluster-tests || true"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-cluster-tests",
+                        "imagePullPolicy": "Always",
+                        "name": "k8s-cluster-tests",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/k8s-cluster-tests.d",
+                                "name": "k8s-cluster-tests-volume"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-cluster-tests-token-wp4wk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Never",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-cluster-tests",
+                "serviceAccountName": "k8s-cluster-tests",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "k8s-cluster-tests"
+                        },
+                        "name": "k8s-cluster-tests-volume"
+                    },
+                    {
+                        "name": "k8s-cluster-tests-token-wp4wk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-cluster-tests-token-wp4wk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-29T00:30:06Z",
+                        "message": "0/1 nodes are available: 1 Insufficient memory.",
+                        "reason": "Unschedulable",
+                        "status": "False",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "phase": "Pending",
+                "qosClass": "Burstable"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-10-24T06:58:52Z",
+                "generateName": "k8s-cluster-tests-8695c7b5ff-",
+                "labels": {
+                    "app": "k8s-cluster-tests",
+                    "pod-template-hash": "4251736199"
+                },
+                "name": "k8s-cluster-tests-8695c7b5ff-ltb4b",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "k8s-cluster-tests-8695c7b5ff",
+                        "uid": "43d4d112-d75a-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "226881",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-cluster-tests-8695c7b5ff-ltb4b",
+                "uid": "43d8f8ef-d75a-11e8-9699-08002710109d"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-cluster-tests",
+                        "imagePullPolicy": "Always",
+                        "livenessProbe": {
+                            "exec": {
+                                "command": [
+                                    "date"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "k8s-cluster-tests",
+                        "readinessProbe": {
+                            "exec": {
+                                "command": [
+                                    "date"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 20,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/k8s-cluster-tests.d",
+                                "name": "k8s-cluster-tests-volume"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-cluster-tests-token-wp4wk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-cluster-tests",
+                "serviceAccountName": "k8s-cluster-tests",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "k8s-cluster-tests"
+                        },
+                        "name": "k8s-cluster-tests-volume"
+                    },
+                    {
+                        "name": "k8s-cluster-tests-token-wp4wk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-cluster-tests-token-wp4wk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-24T06:59:23Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-24T07:11:43Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-10-24T06:59:23Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://6c881fc2b088b7c95cb646970a1cf679c2c63d6cfb0aa20cd59aaaa3116363bf",
+                        "image": "gerald1248/k8s-cluster-tests:latest",
+                        "imageID": "docker-pullable://gerald1248/k8s-cluster-tests@sha256:852d0912ee6372681abae6221a551bb84d292d78798a45bd49f66ed14801af51",
+                        "lastState": {},
+                        "name": "k8s-cluster-tests",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "running": {
+                                "startedAt": "2018-10-24T07:11:14Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Running",
+                "podIP": "172.17.0.8",
+                "qosClass": "Burstable",
+                "startTime": "2018-10-24T06:59:23Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

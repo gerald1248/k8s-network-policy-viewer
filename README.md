@@ -1,2 +1,2 @@
-# k8s-network-policy-viewer
-WIP
+k8s-network-policy-viewer
+=========================
