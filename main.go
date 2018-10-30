@@ -40,7 +40,7 @@ func main() {
 			return
 		}
 
-		fmt.Println(Result.Namespace)
+		fmt.Println(Result.Buffer)
 		os.Exit(0)
 	}
 

@@ -8,8 +8,7 @@ import (
 
 //stub
 type Result struct {
-        Namespace string
-        Name      string
+        Buffer    string
 }
 //end stub
 

@@ -22,7 +22,9 @@ func processBytes(bytes []byte) (Result, error) {
 		return Result{}, err
 	}
 
-	return Result{}, nil
+	result := Result{string(bytes[:])}
+
+	return result, nil
 }
 
 func processFile(path string) (string, error) {
@@ -37,5 +39,5 @@ func processFile(path string) (string, error) {
 		return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))
 	}
 
-	return result.Namespace, nil
+	return result.Buffer, nil
 }
