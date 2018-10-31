@@ -25,7 +25,7 @@ func main() {
 	host := flag.String("n", "localhost", "hostname")
 	port := flag.Int("p", 8080, "listen on port")
 	selfsigned := flag.Bool("s", false, "Self-signed certificate")
-	//output := flag.String("o", "dot", "output format (dot, md)")
+	output := flag.String("o", "dot", "output format (dot, md, json, yaml)")
 
 	flag.Parse()
 	args := flag.Args()
@@ -34,7 +34,7 @@ func main() {
 	stdinFileInfo, _ := os.Stdin.Stat()
 	if stdinFileInfo.Mode()&os.ModeNamedPipe != 0 {
 		stdin, _ := ioutil.ReadAll(os.Stdin)
-		Result, err := processBytes(stdin)
+		Result, err := processBytes(stdin, output)
 
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
@@ -59,7 +59,7 @@ func main() {
 	// use case [C]: file input
 	for _, arg := range args {
 		start := time.Now()
-		buffer, err := processFile(arg)
+		buffer, err := processFile(arg, output)
 		secs := time.Since(start).Seconds()
 
 		if err != nil {

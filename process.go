@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 )
 
-func processBytes(byteArray []byte) (Result, error) {
+func processBytes(byteArray []byte, output *string) (Result, error) {
 
 	//preflight with optional conversion from YAMLs
 	err := preflightAsset(&byteArray)
@@ -37,33 +37,24 @@ func processBytes(byteArray []byte) (Result, error) {
 	}
 
 	var buffer bytes.Buffer
-	buffer.WriteString("digraph podNetwork {\n")
-	for k, v := range namespacePodMap {
-		buffer.WriteString("  subgraph cluster_")
-		buffer.WriteString(k)
-		buffer.WriteString(" {\n")
-		for _, s := range v {
-			buffer.WriteString("    \"")
-			buffer.WriteString(s)
-			buffer.WriteString("\";\n")
-		}
-		buffer.WriteString("  }\n")
+	switch *output {
+	case "dot":
+		writeDot(&namespacePodMap, &buffer)
 	}
-	buffer.WriteString("}\n")
 	return Result{buffer.String()}, nil
 }
 
-func processFile(path string) (string, error) {
-        byteArray, err := ioutil.ReadFile(path)
-        if err != nil {
-                return "", errors.New(fmt.Sprintf("can't read %s: %v", path, err))
-        }
+func processFile(path string, output *string) (string, error) {
+	byteArray, err := ioutil.ReadFile(path)
+	if err != nil {
+		return "", errors.New(fmt.Sprintf("can't read %s: %v", path, err))
+	}
 
-        result, err := processBytes(byteArray)
+	result, err := processBytes(byteArray, output)
 
-        if err != nil {
-                return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))
-        }
+	if err != nil {
+		return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))
+	}
 
-        return result.Buffer, nil
+	return result.Buffer, nil
 }

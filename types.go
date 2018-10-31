@@ -62,7 +62,7 @@ func (cs *CoerceString) UnmarshalJSON(value []byte) error {
 type ContainerSet []ContainerSpec
 
 type ContainerSpec struct {
-        Namespace string
-        Name      string
-        Container string
+	Namespace string
+	Name      string
+	Container string
 }
