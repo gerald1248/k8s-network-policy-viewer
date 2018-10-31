@@ -15,7 +15,7 @@ func serve(certificate string, key string, hostname string, selfsigned bool, por
 //Visulize Kubernetes NetworkPolicy objects
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [<JSON/YAML file> [<JSON/YAML file>]]\nAlternatively, pipe input to STDIN: oc export dc --raw -o json | %s\n", filepath.Base(os.Args[0]), filepath.Base(os.Args[0]))
+		fmt.Fprintf(os.Stderr, "Usage: %s [<JSON/YAML file> [<JSON/YAML file>]]\nAlternatively, pipe input to STDIN: kubectl get networkpolicy,po --all-namespaces -o json | %s\n", filepath.Base(os.Args[0]), filepath.Base(os.Args[0]))
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
@@ -25,6 +25,7 @@ func main() {
 	host := flag.String("n", "localhost", "hostname")
 	port := flag.Int("p", 8080, "listen on port")
 	selfsigned := flag.Bool("s", false, "Self-signed certificate")
+	//output := flag.String("o", "dot", "output format (dot, md)")
 
 	flag.Parse()
 	args := flag.Args()

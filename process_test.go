@@ -14,11 +14,11 @@ func TestProcessFileInvalidPath(t *testing.T) {
 }
 
 func TestProcessBytes(t *testing.T) {
-        //don't allow XML
-        xmlBuffer := []byte(`<?xml version="1.0" encoding="UTF-8" standalone="true"?><root/>`)
-        _, err := processBytes(xmlBuffer)
+	//don't allow XML
+	xmlBuffer := []byte(`<?xml version="1.0" encoding="UTF-8" standalone="true"?><root/>`)
+	_, err := processBytes(xmlBuffer)
 
-        if err == nil {
-                t.Errorf("Must reject XML input")
-        }
+	if err == nil {
+		t.Errorf("Must reject XML input")
+	}
 }
