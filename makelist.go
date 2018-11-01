@@ -19,11 +19,11 @@ func makeList(a *[]byte) error {
 	switch obj.Kind {
 	case "List", "Template":
 		return nil
-	case "BuildConfig", "DeploymentConfig", "Pod", "Route":
+	case "Pod", "NetworkPolicy", "Ingress":
 		slices := [][]byte{[]byte(`{"kind":"List","items":[`), *a, []byte(`]}`)}
 		b := bytes.Join(slices, []byte{})
 		*a = b
 		return nil
 	}
-	return errors.New(fmt.Sprintf("can't parse JSON: no configuration object found"))
+	return errors.New(fmt.Sprintf("can't parse JSON: no API objects found"))
 }

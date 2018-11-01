@@ -3,7 +3,7 @@ package main
 import "bytes"
 import "fmt"
 
-func writeDot(namespacePodMap *map[string][]string, buffer *bytes.Buffer) {
+func writeDot(namespacePodMap *map[string][]string, edgeMap *map[string][]string, buffer *bytes.Buffer) {
 	buffer.WriteString("digraph podNetwork {\n")
 	counter := 0
 	var allPods []string
@@ -23,10 +23,9 @@ func writeDot(namespacePodMap *map[string][]string, buffer *bytes.Buffer) {
 		buffer.WriteString("\"\n")
 		buffer.WriteString("  }\n")
 	}
-	// connect all for now
-	for _, outer := range allPods {
-		for _, inner := range allPods {
-			fmt.Fprintf(buffer, "  \"%s\" -> \"%s\";\n", outer, inner)
+	for k, v := range *edgeMap {
+		for _, s := range v {
+			fmt.Fprintf(buffer, "  \"%s\" -> \"%s\";\n", k, s)
 		}
 	}
 	buffer.WriteString("}\n")

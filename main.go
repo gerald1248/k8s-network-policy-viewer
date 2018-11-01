@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -10,9 +9,8 @@ import (
 	"time"
 )
 
-func serve(certificate string, key string, hostname string, selfsigned bool, port int) {}
-
-//Visulize Kubernetes NetworkPolicy objects
+// visualize Kubernetes NetworkPolicy objects
+// accept input from files, stdin, API calls
 func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s [<JSON/YAML file> [<JSON/YAML file>]]\nAlternatively, pipe input to STDIN: kubectl get networkpolicy,po --all-namespaces -o json | %s\n", filepath.Base(os.Args[0]), filepath.Base(os.Args[0]))
@@ -20,12 +18,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	certificate := flag.String("c", "cert.pem", "TLS server certificate")
-	key := flag.String("k", "key.pem", "TLS server key")
-	host := flag.String("n", "localhost", "hostname")
 	port := flag.Int("p", 8080, "listen on port")
-	selfsigned := flag.Bool("s", false, "Self-signed certificate")
-	output := flag.String("o", "dot", "output format (dot, md, json, yaml)")
+	output := flag.String("o", "dot", "output format (dot, json, yaml)")
 
 	flag.Parse()
 	args := flag.Args()
@@ -34,20 +28,20 @@ func main() {
 	stdinFileInfo, _ := os.Stdin.Stat()
 	if stdinFileInfo.Mode()&os.ModeNamedPipe != 0 {
 		stdin, _ := ioutil.ReadAll(os.Stdin)
-		Result, err := processBytes(stdin, output)
+		result, err := processBytes(stdin, output)
 
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 			return
 		}
 
-		fmt.Println(Result.Buffer)
+		fmt.Println(result)
 		os.Exit(0)
 	}
 
 	//use case [B]: server
 	if len(args) == 0 {
-		serve(*certificate, *key, *host, *selfsigned, *port)
+		serve(*port)
 		return
 	} else if len(args) == 1 {
 		switch args[0] {
