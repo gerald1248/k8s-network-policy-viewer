@@ -6,19 +6,19 @@ import (
 
 func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string) {
 	var allPods []string
-        for _, v := range *namespacePodMap {
-                for _, s := range v {
-                        allPods = append(allPods, s)
-                }
+	for _, v := range *namespacePodMap {
+		for _, s := range v {
+			allPods = append(allPods, s)
+		}
 	}
-        for _, outer := range allPods {
-                for _, inner := range allPods {
+	for _, outer := range allPods {
+		for _, inner := range allPods {
 			if inner == outer {
 				continue
 			}
 			(*edgeMap)[outer] = append((*edgeMap)[outer], inner)
-                }
-        }
+		}
+	}
 }
 
 func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject) {
@@ -50,7 +50,7 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 
 // TODO: apply filter only once when a namespace follows multiple network policies
 func filterIngress(podsSet *map[string]bool, edgeMap *map[string][]string) {
-	for k, v := range (*edgeMap) {
+	for k, v := range *edgeMap {
 		for i, pod := range v {
 			// fast lookup at the cost of a resource-intensive data structure
 			if (*podsSet)[pod] {
@@ -64,7 +64,7 @@ func filterIngress(podsSet *map[string]bool, edgeMap *map[string][]string) {
 // examine desired not necessarily actual state
 // TODO: as with ingress, apply filter only once
 func filterEgress(podsSet *map[string]bool, edgeMap *map[string][]string) {
-	for pod, _ := range (*podsSet) {
+	for pod, _ := range *podsSet {
 		(*edgeMap)[pod] = nil
 	}
 }
