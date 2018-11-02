@@ -29,17 +29,24 @@ func processBytes(byteArray []byte, output *string) (string, error) {
 	}
 
 	namespacePodMap := make(map[string][]string)
+	podLabelMap := make(map[string]map[string]string)
+	networkPolicies := []ApiObject{}
 	for _, apiObject := range apiObjectSet.ApiObjects {
-		if apiObject.Kind == "Pod" &&
-			len(apiObject.Status.ContainerStatuses) > 0 &&
-			apiObject.Status.ContainerStatuses[0].Ready == true {
-			namespacePodMap[apiObject.Metadata.Namespace] = append(namespacePodMap[apiObject.Metadata.Namespace], apiObject.Metadata.Name)
+		switch apiObject.Kind {
+		case "Pod":
+			if len(apiObject.Status.ContainerStatuses) > 0 &&
+				apiObject.Status.ContainerStatuses[0].Ready == true {
+				namespacePodMap[apiObject.Metadata.Namespace] = append(namespacePodMap[apiObject.Metadata.Namespace], apiObject.Metadata.Name)
+				podLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
+			}
+		case "NetworkPolicy":
+			networkPolicies = append(networkPolicies, *apiObject)
 		}
 	}
+
 	edgeMap := make(map[string][]string)
 	initializeEdgeMap(&edgeMap, &namespacePodMap)
-
-	//TODO: filter edge map
+	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies)
 
 	var buffer bytes.Buffer
 	switch *output {
