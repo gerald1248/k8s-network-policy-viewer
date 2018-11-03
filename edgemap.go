@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 )
 
 func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string) {
@@ -43,8 +42,7 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 			}
 		}
 		// 2. now deal with whitelisted pods
-		selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
-		fmt.Printf("%v", selectedPods) //TODO
+		//selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
 	}
 }
 
