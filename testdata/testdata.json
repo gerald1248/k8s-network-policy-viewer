@@ -5,15 +5,27 @@
             "apiVersion": "v1",
             "kind": "Pod",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:21Z",
+                "creationTimestamp": "2018-11-05T17:45:27Z",
+                "generateName": "httpd-79f9f6586f-",
                 "labels": {
-                    "app": "httpd"
+                    "app": "httpd",
+                    "pod-template-hash": "3595921429"
                 },
-                "name": "httpd",
+                "name": "httpd-79f9f6586f-rhtw9",
                 "namespace": "egress-isolated",
-                "resourceVersion": "420940",
-                "selfLink": "/api/v1/namespaces/egress-isolated/pods/httpd",
-                "uid": "7ad9b07f-defa-11e8-9699-08002710109d"
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "httpd-79f9f6586f",
+                        "uid": "94a7f1af-e122-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "439178",
+                "selfLink": "/api/v1/namespaces/egress-isolated/pods/httpd-79f9f6586f-rhtw9",
+                "uid": "94aa03c6-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "containers": [
@@ -21,19 +33,13 @@
                         "image": "centos/httpd-24-centos7",
                         "imagePullPolicy": "Always",
                         "name": "httpd",
-                        "ports": [
-                            {
-                                "containerPort": 8080,
-                                "protocol": "TCP"
-                            }
-                        ],
                         "resources": {},
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
                         "volumeMounts": [
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "default-token-tzxrr",
+                                "name": "default-token-7hq8g",
                                 "readOnly": true
                             }
                         ]
@@ -63,10 +69,10 @@
                 ],
                 "volumes": [
                     {
-                        "name": "default-token-tzxrr",
+                        "name": "default-token-7hq8g",
                         "secret": {
                             "defaultMode": 420,
-                            "secretName": "default-token-tzxrr"
+                            "secretName": "default-token-7hq8g"
                         }
                     }
                 ]
@@ -75,59 +81,71 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:27Z",
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
-                        "message": "containers with unready status: [httpd]",
-                        "reason": "ContainersNotReady",
-                        "status": "False",
+                        "lastTransitionTime": "2018-11-05T17:51:58Z",
+                        "status": "True",
                         "type": "Ready"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:27Z",
                         "status": "True",
                         "type": "PodScheduled"
                     }
                 ],
                 "containerStatuses": [
                     {
-                        "image": "centos/httpd-24-centos7",
-                        "imageID": "",
+                        "containerID": "docker://b556882fb6d6994653d587f332fd54c2a47825193abc5841d2077131a125f0b5",
+                        "image": "centos/httpd-24-centos7:latest",
+                        "imageID": "docker-pullable://centos/httpd-24-centos7@sha256:a67bb9760f6eb06b3a7f19a6908cc594830bc1a12360ddd0f14168ace689e1d6",
                         "lastState": {},
                         "name": "httpd",
-                        "ready": false,
+                        "ready": true,
                         "restartCount": 0,
                         "state": {
-                            "waiting": {
-                                "reason": "ContainerCreating"
+                            "running": {
+                                "startedAt": "2018-11-05T17:51:58Z"
                             }
                         }
                     }
                 ],
                 "hostIP": "10.0.2.15",
-                "phase": "Pending",
+                "phase": "Running",
+                "podIP": "172.17.0.11",
                 "qosClass": "BestEffort",
-                "startTime": "2018-11-02T23:53:21Z"
+                "startTime": "2018-11-05T17:45:27Z"
             }
         },
         {
             "apiVersion": "v1",
             "kind": "Pod",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:21Z",
+                "creationTimestamp": "2018-11-05T17:45:26Z",
+                "generateName": "httpd-79f9f6586f-",
                 "labels": {
-                    "app": "httpd"
+                    "app": "httpd",
+                    "pod-template-hash": "3595921429"
                 },
-                "name": "httpd",
+                "name": "httpd-79f9f6586f-v87xd",
                 "namespace": "global",
-                "resourceVersion": "420921",
-                "selfLink": "/api/v1/namespaces/global/pods/httpd",
-                "uid": "7a811fa4-defa-11e8-9699-08002710109d"
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "httpd-79f9f6586f",
+                        "uid": "94376d59-e122-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "439189",
+                "selfLink": "/api/v1/namespaces/global/pods/httpd-79f9f6586f-v87xd",
+                "uid": "943e054f-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "containers": [
@@ -135,19 +153,13 @@
                         "image": "centos/httpd-24-centos7",
                         "imagePullPolicy": "Always",
                         "name": "httpd",
-                        "ports": [
-                            {
-                                "containerPort": 8080,
-                                "protocol": "TCP"
-                            }
-                        ],
                         "resources": {},
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
                         "volumeMounts": [
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "default-token-sfjcj",
+                                "name": "default-token-wx45z",
                                 "readOnly": true
                             }
                         ]
@@ -177,10 +189,10 @@
                 ],
                 "volumes": [
                     {
-                        "name": "default-token-sfjcj",
+                        "name": "default-token-wx45z",
                         "secret": {
                             "defaultMode": 420,
-                            "secretName": "default-token-sfjcj"
+                            "secretName": "default-token-wx45z"
                         }
                     }
                 ]
@@ -189,59 +201,71 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:26Z",
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
-                        "message": "containers with unready status: [httpd]",
-                        "reason": "ContainersNotReady",
-                        "status": "False",
+                        "lastTransitionTime": "2018-11-05T17:52:05Z",
+                        "status": "True",
                         "type": "Ready"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:26Z",
                         "status": "True",
                         "type": "PodScheduled"
                     }
                 ],
                 "containerStatuses": [
                     {
-                        "image": "centos/httpd-24-centos7",
-                        "imageID": "",
+                        "containerID": "docker://871f85254679da1cb6a69ccac35c2dc3dfb57203118b05591529fe20de1d0603",
+                        "image": "centos/httpd-24-centos7:latest",
+                        "imageID": "docker-pullable://centos/httpd-24-centos7@sha256:a67bb9760f6eb06b3a7f19a6908cc594830bc1a12360ddd0f14168ace689e1d6",
                         "lastState": {},
                         "name": "httpd",
-                        "ready": false,
+                        "ready": true,
                         "restartCount": 0,
                         "state": {
-                            "waiting": {
-                                "reason": "ContainerCreating"
+                            "running": {
+                                "startedAt": "2018-11-05T17:52:04Z"
                             }
                         }
                     }
                 ],
                 "hostIP": "10.0.2.15",
-                "phase": "Pending",
+                "phase": "Running",
+                "podIP": "172.17.0.8",
                 "qosClass": "BestEffort",
-                "startTime": "2018-11-02T23:53:21Z"
+                "startTime": "2018-11-05T17:45:26Z"
             }
         },
         {
             "apiVersion": "v1",
             "kind": "Pod",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:21Z",
+                "creationTimestamp": "2018-11-05T17:45:27Z",
+                "generateName": "httpd-79f9f6586f-",
                 "labels": {
-                    "app": "httpd"
+                    "app": "httpd",
+                    "pod-template-hash": "3595921429"
                 },
-                "name": "httpd",
+                "name": "httpd-79f9f6586f-6kn7m",
                 "namespace": "ingress-isolated",
-                "resourceVersion": "420930",
-                "selfLink": "/api/v1/namespaces/ingress-isolated/pods/httpd",
-                "uid": "7aa9ebed-defa-11e8-9699-08002710109d"
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "httpd-79f9f6586f",
+                        "uid": "946db769-e122-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "439138",
+                "selfLink": "/api/v1/namespaces/ingress-isolated/pods/httpd-79f9f6586f-6kn7m",
+                "uid": "947b40af-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "containers": [
@@ -249,19 +273,13 @@
                         "image": "centos/httpd-24-centos7",
                         "imagePullPolicy": "Always",
                         "name": "httpd",
-                        "ports": [
-                            {
-                                "containerPort": 8080,
-                                "protocol": "TCP"
-                            }
-                        ],
                         "resources": {},
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
                         "volumeMounts": [
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "default-token-z2nrj",
+                                "name": "default-token-sdrmk",
                                 "readOnly": true
                             }
                         ]
@@ -291,10 +309,10 @@
                 ],
                 "volumes": [
                     {
-                        "name": "default-token-z2nrj",
+                        "name": "default-token-sdrmk",
                         "secret": {
                             "defaultMode": 420,
-                            "secretName": "default-token-z2nrj"
+                            "secretName": "default-token-sdrmk"
                         }
                     }
                 ]
@@ -303,59 +321,71 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:27Z",
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
-                        "message": "containers with unready status: [httpd]",
-                        "reason": "ContainersNotReady",
-                        "status": "False",
+                        "lastTransitionTime": "2018-11-05T17:51:29Z",
+                        "status": "True",
                         "type": "Ready"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:27Z",
                         "status": "True",
                         "type": "PodScheduled"
                     }
                 ],
                 "containerStatuses": [
                     {
-                        "image": "centos/httpd-24-centos7",
-                        "imageID": "",
+                        "containerID": "docker://c1833f540d3c6c55007f6089b831d9c340aea7d9c361e58c0c663ade44ad0fbc",
+                        "image": "centos/httpd-24-centos7:latest",
+                        "imageID": "docker-pullable://centos/httpd-24-centos7@sha256:a67bb9760f6eb06b3a7f19a6908cc594830bc1a12360ddd0f14168ace689e1d6",
                         "lastState": {},
                         "name": "httpd",
-                        "ready": false,
+                        "ready": true,
                         "restartCount": 0,
                         "state": {
-                            "waiting": {
-                                "reason": "ContainerCreating"
+                            "running": {
+                                "startedAt": "2018-11-05T17:51:29Z"
                             }
                         }
                     }
                 ],
                 "hostIP": "10.0.2.15",
-                "phase": "Pending",
+                "phase": "Running",
+                "podIP": "172.17.0.10",
                 "qosClass": "BestEffort",
-                "startTime": "2018-11-02T23:53:21Z"
+                "startTime": "2018-11-05T17:45:27Z"
             }
         },
         {
             "apiVersion": "v1",
             "kind": "Pod",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:21Z",
+                "creationTimestamp": "2018-11-05T17:45:26Z",
+                "generateName": "httpd-79f9f6586f-",
                 "labels": {
-                    "app": "httpd"
+                    "app": "httpd",
+                    "pod-template-hash": "3595921429"
                 },
-                "name": "httpd",
+                "name": "httpd-79f9f6586f-bmm4g",
                 "namespace": "isolated",
-                "resourceVersion": "420912",
-                "selfLink": "/api/v1/namespaces/isolated/pods/httpd",
-                "uid": "7a595aa6-defa-11e8-9699-08002710109d"
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "httpd-79f9f6586f",
+                        "uid": "940c8f72-e122-11e8-9699-08002710109d"
+                    }
+                ],
+                "resourceVersion": "438933",
+                "selfLink": "/api/v1/namespaces/isolated/pods/httpd-79f9f6586f-bmm4g",
+                "uid": "941160eb-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "containers": [
@@ -363,19 +393,13 @@
                         "image": "centos/httpd-24-centos7",
                         "imagePullPolicy": "Always",
                         "name": "httpd",
-                        "ports": [
-                            {
-                                "containerPort": 8080,
-                                "protocol": "TCP"
-                            }
-                        ],
                         "resources": {},
                         "terminationMessagePath": "/dev/termination-log",
                         "terminationMessagePolicy": "File",
                         "volumeMounts": [
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "default-token-sswfq",
+                                "name": "default-token-grkwt",
                                 "readOnly": true
                             }
                         ]
@@ -405,10 +429,10 @@
                 ],
                 "volumes": [
                     {
-                        "name": "default-token-sswfq",
+                        "name": "default-token-grkwt",
                         "secret": {
                             "defaultMode": 420,
-                            "secretName": "default-token-sswfq"
+                            "secretName": "default-token-grkwt"
                         }
                     }
                 ]
@@ -417,44 +441,44 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:26Z",
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
-                        "message": "containers with unready status: [httpd]",
-                        "reason": "ContainersNotReady",
-                        "status": "False",
+                        "lastTransitionTime": "2018-11-05T17:48:55Z",
+                        "status": "True",
                         "type": "Ready"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2018-11-02T23:53:21Z",
+                        "lastTransitionTime": "2018-11-05T17:45:26Z",
                         "status": "True",
                         "type": "PodScheduled"
                     }
                 ],
                 "containerStatuses": [
                     {
-                        "image": "centos/httpd-24-centos7",
-                        "imageID": "",
+                        "containerID": "docker://603adc627ba8b79fbbaeb2d31023990dbfd1c00d00713fd725f9d0b17cd89e2a",
+                        "image": "centos/httpd-24-centos7:latest",
+                        "imageID": "docker-pullable://centos/httpd-24-centos7@sha256:a67bb9760f6eb06b3a7f19a6908cc594830bc1a12360ddd0f14168ace689e1d6",
                         "lastState": {},
                         "name": "httpd",
-                        "ready": false,
+                        "ready": true,
                         "restartCount": 0,
                         "state": {
-                            "waiting": {
-                                "reason": "ContainerCreating"
+                            "running": {
+                                "startedAt": "2018-11-05T17:48:54Z"
                             }
                         }
                     }
                 ],
                 "hostIP": "10.0.2.15",
-                "phase": "Pending",
+                "phase": "Running",
+                "podIP": "172.17.0.7",
                 "qosClass": "BestEffort",
-                "startTime": "2018-11-02T23:53:21Z"
+                "startTime": "2018-11-05T17:45:26Z"
             }
         },
         {
@@ -2610,13 +2634,13 @@
             "apiVersion": "extensions/v1beta1",
             "kind": "NetworkPolicy",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:22Z",
+                "creationTimestamp": "2018-11-05T17:45:28Z",
                 "generation": 1,
                 "name": "egress-isolated",
                 "namespace": "egress-isolated",
-                "resourceVersion": "420945",
+                "resourceVersion": "438545",
                 "selfLink": "/apis/extensions/v1beta1/namespaces/egress-isolated/networkpolicies/egress-isolated",
-                "uid": "7b251d7b-defa-11e8-9699-08002710109d"
+                "uid": "951a0604-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "podSelector": {},
@@ -2629,13 +2653,13 @@
             "apiVersion": "extensions/v1beta1",
             "kind": "NetworkPolicy",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:22Z",
+                "creationTimestamp": "2018-11-05T17:45:27Z",
                 "generation": 1,
                 "name": "isolated",
                 "namespace": "ingress-isolated",
-                "resourceVersion": "420943",
+                "resourceVersion": "438543",
                 "selfLink": "/apis/extensions/v1beta1/namespaces/ingress-isolated/networkpolicies/isolated",
-                "uid": "7b0d1680-defa-11e8-9699-08002710109d"
+                "uid": "94f7d130-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "podSelector": {},
@@ -2648,13 +2672,13 @@
             "apiVersion": "extensions/v1beta1",
             "kind": "NetworkPolicy",
             "metadata": {
-                "creationTimestamp": "2018-11-02T23:53:22Z",
+                "creationTimestamp": "2018-11-05T17:45:27Z",
                 "generation": 1,
                 "name": "isolated",
                 "namespace": "isolated",
-                "resourceVersion": "420941",
+                "resourceVersion": "438536",
                 "selfLink": "/apis/extensions/v1beta1/namespaces/isolated/networkpolicies/isolated",
-                "uid": "7af5b26c-defa-11e8-9699-08002710109d"
+                "uid": "94d091b6-e122-11e8-9699-08002710109d"
             },
             "spec": {
                 "podSelector": {},

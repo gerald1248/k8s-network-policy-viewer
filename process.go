@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"strings"
 )
 
 func processBytes(byteArray []byte, output *string) (string, error) {
@@ -32,11 +33,17 @@ func processBytes(byteArray []byte, output *string) (string, error) {
 	podLabelMap := make(map[string]map[string]string)
 	networkPolicies := []ApiObject{}
 	for _, apiObject := range apiObjectSet.ApiObjects {
+		// TODO: white/blacklist mechanism
+		namespace := apiObject.Metadata.Namespace
+		if strings.HasPrefix(namespace, "kube-") {
+			continue
+		}
 		switch apiObject.Kind {
 		case "Pod":
+			// TODO: omitted skip condition: apiObject.Status.ContainerStatuses[0].Ready == true
 			if len(apiObject.Status.ContainerStatuses) > 0 &&
 				apiObject.Status.ContainerStatuses[0].Ready == true {
-				namespacePodMap[apiObject.Metadata.Namespace] = append(namespacePodMap[apiObject.Metadata.Namespace], apiObject.Metadata.Name)
+				namespacePodMap[namespace] = append(namespacePodMap[namespace], apiObject.Metadata.Name)
 				podLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
 			}
 		case "NetworkPolicy":

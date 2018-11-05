@@ -1,7 +1,6 @@
 package main
 
-import (
-)
+import ()
 
 func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string) {
 	var allPods []string
