@@ -46,15 +46,16 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 	}
 }
 
-// TODO: apply filter only once when a namespace follows multiple network policies
+// TODO: apply filter only once when multiple network policies apply to one namespace
 func filterIngress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
-	for k, v := range *edgeMap {
-		for i, pod := range v {
+	for fromString, toSlice := range *edgeMap {
+		for i, pod := range toSlice {
 			if _, ok := (*podsSet)[pod]; ok {
-				(*edgeMap)[k] = append((*edgeMap)[k][:i], (*edgeMap)[k][:i+1]...)
+				// pod in scope, so remove from edgeMap
+				toSlice = append(toSlice[:i], toSlice[i+1:]...)
+				(*edgeMap)[fromString] = toSlice
 			}
 		}
-		(*edgeMap)[k] = unique((*edgeMap)[k])
 	}
 }
 

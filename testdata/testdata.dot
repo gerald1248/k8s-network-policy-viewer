@@ -1,24 +1,22 @@
 digraph podNetwork {
   subgraph cluster_1 {
-    "httpd-79f9f6586f-v87xd";
-    label = "global"
-  }
-  subgraph cluster_2 {
-    "httpd-79f9f6586f-6kn7m";
-    label = "ingress-isolated"
-  }
-  subgraph cluster_3 {
-    "httpd-79f9f6586f-bmm4g";
-    label = "isolated"
-  }
-  subgraph cluster_4 {
     "httpd-79f9f6586f-rhtw9";
     label = "egress-isolated"
   }
+  subgraph cluster_2 {
+    "httpd-79f9f6586f-v87xd";
+    label = "global"
+  }
+  subgraph cluster_3 {
+    "httpd-79f9f6586f-6kn7m";
+    label = "ingress-isolated"
+  }
+  subgraph cluster_4 {
+    "httpd-79f9f6586f-bmm4g";
+    label = "isolated"
+  }
   "httpd-79f9f6586f-v87xd" -> "httpd-79f9f6586f-rhtw9";
-  "httpd-79f9f6586f-v87xd" -> "httpd-79f9f6586f-6kn7m";
-  "httpd-79f9f6586f-6kn7m" -> "httpd-79f9f6586f-rhtw9";
   "httpd-79f9f6586f-6kn7m" -> "httpd-79f9f6586f-v87xd";
-  "httpd-79f9f6586f-6kn7m" -> "httpd-79f9f6586f-bmm4g";
+  "httpd-79f9f6586f-6kn7m" -> "httpd-79f9f6586f-rhtw9";
 }
 
