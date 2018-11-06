@@ -1,6 +1,7 @@
 package main
 
-import ()
+import (
+)
 
 func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string) {
 	var allPods []string
@@ -21,10 +22,10 @@ func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string
 
 func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject) {
 	for _, o := range *networkPolicies {
-		podsSet := map[string]bool{}
+		podsSet := make(map[string]struct{})
 		namespace := o.Metadata.Namespace
 		for _, pod := range (*namespacePodMap)[namespace] {
-			podsSet[pod] = true
+			podsSet[pod] = struct{}{}
 		}
 		// 1. apply blanket ingress/egress policies
 		if len(o.Spec.PolicyTypes) == 0 {
@@ -46,22 +47,34 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 }
 
 // TODO: apply filter only once when a namespace follows multiple network policies
-func filterIngress(podsSet *map[string]bool, edgeMap *map[string][]string) {
+func filterIngress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
 	for k, v := range *edgeMap {
 		for i, pod := range v {
-			// fast lookup at the cost of a resource-intensive data structure
-			if (*podsSet)[pod] {
+			if _, ok := (*podsSet)[pod]; ok {
 				(*edgeMap)[k] = append((*edgeMap)[k][:i], (*edgeMap)[k][:i+1]...)
 			}
 		}
+		(*edgeMap)[k] = unique((*edgeMap)[k])
 	}
 }
 
 // support among SDN providers still patchy?
 // examine desired not necessarily actual state
 // TODO: as with ingress, apply filter only once
-func filterEgress(podsSet *map[string]bool, edgeMap *map[string][]string) {
+func filterEgress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
 	for pod, _ := range *podsSet {
 		(*edgeMap)[pod] = nil
 	}
+}
+
+func unique(slice []string) []string {
+	keys := make(map[string]struct{})
+	list := []string{}
+	for _, entry := range slice {
+		if _, ok := keys[entry]; !ok {
+			keys[entry] = struct{}{}
+			list = append(list, entry)
+		}
+	}
+	return list
 }
