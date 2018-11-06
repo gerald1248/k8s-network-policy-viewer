@@ -6,7 +6,7 @@ k8s-network-policy-viewer
 
 The network policy viewer visualizes the pod network. Most pieces are either unfinished or missing, but namespace-wide isolation rules can be represented in JSON, YAML or dot (Graphviz):
 
-<img src="testdata/testdata.svg" alt="Sample visualization"/>
+<img src="https://raw.githubusercontent.com/gerald1248/k8s-network-policy-viewer/master/testdata/testdata.svg" alt="Sample visualization"/>
 
 Build
 -----
