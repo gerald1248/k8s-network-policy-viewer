@@ -4,7 +4,6 @@ COPY * ./
 ENV CGO_ENABLED 0
 ENV GOOS linux
 ENV GO111MODULE on
-#RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on \
 RUN \
   go mod download && \
   go get && \
