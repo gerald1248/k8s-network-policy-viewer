@@ -21,6 +21,8 @@ digraph podNetwork {
     "httpd-79f9f6586f-ktqdf";
     label = "egress-isolated"
   }
+  "httpd-79f9f6586f-w87w6" -> "httpd-79f9f6586f-ktqdf";
+  "httpd-79f9f6586f-w87w6" -> "httpd-alice";
   "httpd-alice" -> "httpd-79f9f6586f-ktqdf";
   "httpd-alice" -> "httpd-79f9f6586f-w87w6";
   "httpd-79f9f6586f-dv59b" -> "httpd-79f9f6586f-ktqdf";
@@ -33,7 +35,5 @@ digraph podNetwork {
   "httpd-79f9f6586f-hw6fm" -> "httpd-79f9f6586f-ktqdf";
   "httpd-79f9f6586f-hw6fm" -> "httpd-79f9f6586f-w87w6";
   "httpd-79f9f6586f-hw6fm" -> "httpd-alice";
-  "httpd-79f9f6586f-w87w6" -> "httpd-79f9f6586f-ktqdf";
-  "httpd-79f9f6586f-w87w6" -> "httpd-alice";
 }
 
