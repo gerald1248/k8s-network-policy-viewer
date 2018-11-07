@@ -31,6 +31,7 @@ func processBytes(byteArray []byte, output *string) (string, error) {
 
 	namespacePodMap := make(map[string][]string)
 	podLabelMap := make(map[string]map[string]string)
+	networkPolicyNamespaces := make(map[string]struct{})
 	networkPolicies := []ApiObject{}
 	for _, apiObject := range apiObjectSet.ApiObjects {
 		// TODO: white/blacklist mechanism
@@ -48,12 +49,20 @@ func processBytes(byteArray []byte, output *string) (string, error) {
 			}
 		case "NetworkPolicy":
 			networkPolicies = append(networkPolicies, *apiObject)
+			networkPolicyNamespaces[namespace] = struct{}{}
+		}
+	}
+
+	globalNamespaces := []string{}
+	for podNamespace, _ := range namespacePodMap {
+		if _, ok := networkPolicyNamespaces[podNamespace]; !ok {
+			globalNamespaces = append(globalNamespaces, podNamespace)
 		}
 	}
 
 	edgeMap := make(map[string][]string)
 	initializeEdgeMap(&edgeMap, &namespacePodMap)
-	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies)
+	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces)
 
 	var buffer bytes.Buffer
 	switch *output {

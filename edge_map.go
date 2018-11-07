@@ -25,9 +25,16 @@ func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string
 	}
 }
 
-func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject) {
+func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject, globalNamespaces *[]string) {
 	ingressPods := []string{}
 	egressPods := []string{}
+
+	// handle global namespaces
+	for _, globalNamespace := range *globalNamespaces {
+		ingressPods = append(ingressPods, (*namespacePodMap)[globalNamespace]...)
+		egressPods = append(egressPods, (*namespacePodMap)[globalNamespace]...)
+	}
+
 	for _, o := range *networkPolicies {
 		var flags uint8
 		podsSet := make(map[string]struct{})
