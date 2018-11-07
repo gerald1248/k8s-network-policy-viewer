@@ -1,0 +1,17 @@
+apiVersion: v1
+items:
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    name: isolated
+  spec:
+    podSelector:
+      matchLabels:
+        app: httpd-bob
+    policyTypes:
+    - Ingress
+    ingress:
+    - {}
+kind: List
+metadata:
+  name: network-policy-ingress-isolated-whitelist

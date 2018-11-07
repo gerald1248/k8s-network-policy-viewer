@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for NAMESPACE in isolated global ingress-isolated egress-isolated; do
+for NAMESPACE in isolated global ingress-isolated egress-isolated ingress-isolated-whitelist; do
   kubectl delete namespace ${NAMESPACE} 
 done
 

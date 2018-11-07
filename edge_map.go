@@ -3,6 +3,11 @@ package main
 import (
 )
 
+const (
+	FilterIngress uint8 = 1 << iota
+	FilterEgress
+)
+
 func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string) {
 	var allPods []string
 	for _, v := range *namespacePodMap {
@@ -21,41 +26,73 @@ func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string
 }
 
 func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject) {
+	ingressPods := []string{}
+	egressPods := []string{}
 	for _, o := range *networkPolicies {
+		var flags uint8
 		podsSet := make(map[string]struct{})
 		namespace := o.Metadata.Namespace
 		for _, pod := range (*namespacePodMap)[namespace] {
 			podsSet[pod] = struct{}{}
 		}
 		// 1. apply blanket ingress/egress policies
+		flags = 0
 		if len(o.Spec.PolicyTypes) == 0 {
 			// if none specified, default to ingress policy
 			filterIngress(&podsSet, edgeMap)
+			flags |= FilterIngress
 		} else {
 			for _, policyType := range o.Spec.PolicyTypes {
 				switch policyType {
 				case "Ingress":
 					filterIngress(&podsSet, edgeMap)
+					flags |= FilterIngress
 				case "Egress":
 					filterEgress(&podsSet, edgeMap)
+					flags |= FilterEgress
 				}
 			}
 		}
+		// consider only namespace-wide filters for now
+		if flags&FilterIngress == 0 {
+			ingressPods = unique(append(ingressPods, (*namespacePodMap)[namespace]...))
+		}
+		if flags&FilterEgress == 0 {
+			egressPods = append(egressPods, (*namespacePodMap)[namespace]...)
+		}
+
 		// 2. now deal with whitelisted pods
-		//selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+			selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+			for _, pod := range selectedPods {
+				if len(o.Spec.Ingress) > 0 {
+					// empty ingress definition: all pods in all namespaces
+					if o.Spec.Ingress[0].From == nil {
+						for _, egressPod := range egressPods {
+							if egressPod == pod {
+								continue
+							}
+							slice := (*edgeMap)[egressPod]
+							slice = unique(append(slice, pod))
+							(*edgeMap)[egressPod] = slice
+						}
+					}
+					// TODO: ingress selector
+				}
+				// TODO: egress
+			}
 	}
 }
 
 // TODO: apply filter only once when multiple network policies apply to one namespace
 func filterIngress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
 	for fromString, toSlice := range *edgeMap {
-		for i, pod := range toSlice {
-			if _, ok := (*podsSet)[pod]; ok {
-				// pod in scope, so remove from edgeMap
-				toSlice = append(toSlice[:i], toSlice[i+1:]...)
-				(*edgeMap)[fromString] = toSlice
+		arr := []string{}
+		for _, pod := range toSlice {
+			if _, ok := (*podsSet)[pod]; !ok {
+				arr = append(arr, pod)
 			}
 		}
+		(*edgeMap)[fromString] = arr
 	}
 }
 
