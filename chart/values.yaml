@@ -1,0 +1,4 @@
+{
+  "name": "k8s-network-policy-viewer",
+  "namespace": "default"
+}

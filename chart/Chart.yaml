@@ -1,0 +1,14 @@
+apiVersion: v1
+name: k8s-network-policy-viewer
+version: 0.1.0
+description: "network policy viewer"
+icon: "https://docs.helm.sh/src/img/helm-logo.svg"
+keywords:
+  - kubernetes
+  - network-policy
+home: https://github.com/gerald1248/k8s-network-policy-viewer
+sources:
+  - https://github.com/gerald1248/k8s-network-policy-viewer
+maintainers:
+  - name: gerald1248
+    email: gerald1248@gmail.com
