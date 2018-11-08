@@ -1,7 +1,6 @@
 package main
 
-import (
-)
+import ()
 
 const (
 	FilterIngress uint8 = 1 << iota
@@ -35,6 +34,7 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 		egressPods = append(egressPods, (*namespacePodMap)[globalNamespace]...)
 	}
 
+	// first pass
 	for _, o := range *networkPolicies {
 		var flags uint8
 		podsSet := make(map[string]struct{})
@@ -60,33 +60,37 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 				}
 			}
 		}
-		// consider only namespace-wide filters for now
+		// consider only namespace-wide filters here
 		if flags&FilterIngress == 0 {
 			ingressPods = unique(append(ingressPods, (*namespacePodMap)[namespace]...))
 		}
 		if flags&FilterEgress == 0 {
 			egressPods = append(egressPods, (*namespacePodMap)[namespace]...)
 		}
+	}
 
-		// 2. now deal with whitelisted pods
-			selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
-			for _, pod := range selectedPods {
-				if len(o.Spec.Ingress) > 0 {
-					// empty ingress definition: all pods in all namespaces
-					if o.Spec.Ingress[0].From == nil {
-						for _, egressPod := range egressPods {
-							if egressPod == pod {
-								continue
-							}
-							slice := (*edgeMap)[egressPod]
-							slice = unique(append(slice, pod))
-							(*edgeMap)[egressPod] = slice
+	// second pass - now deal with whitelisted pods
+	for _, o := range *networkPolicies {
+		namespace := o.Metadata.Namespace
+		selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+		for _, pod := range selectedPods {
+			if len(o.Spec.Ingress) > 0 {
+				// empty ingress definition: all pods in all namespaces
+				if o.Spec.Ingress[0].From == nil {
+					for _, egressPod := range egressPods {
+						if egressPod == pod {
+							continue
 						}
+						slice := (*edgeMap)[egressPod]
+						slice = unique(append(slice, pod))
+						(*edgeMap)[egressPod] = slice
 					}
-					// TODO: ingress selector
+					ingressPods = unique(append(ingressPods, pod))
 				}
-				// TODO: egress
+				// TODO: ingress selector
 			}
+			// TODO: egress
+		}
 	}
 }
 

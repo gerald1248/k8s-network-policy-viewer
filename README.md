@@ -8,6 +8,12 @@ The network policy viewer visualizes the pod network. Most pieces are either unf
 
 <img src="testdata/testdata.svg" alt="Sample visualization"/>
 
+In this example, the names of the namespaces match their respective network policies, the exception being the `global` namespace which has none.
+
+The policies `isolated`, `egress-isolated`, `ingress-isolated` each apply to the namespace as a whole.
+
+`ingress-isolated-whitelist` whitelists `httpd-bob`, which is why `httpd-bob` can be reached from both `global` pods (including of course `httpd-alice`) and the `ingress-isolated` namespace.
+
 Build
 -----
 The build steps are the following:
@@ -27,4 +33,9 @@ $ make -C testdata init
 $ make -C testdata create
 ```
 
-Fuller coverage of pod selection, Helm chart, API and so on are all still in progress. 
+Custom inputs
+-------------
+The application is intended for in-cluster use (the Helm chart with appropriate cluster role is in preparation), but you can use the application today by piping or supplying the output of `kubectl get po,cluster-policy --all-namespaces -o json`. The application accepts JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`.
+
+
+Fuller coverage of pod selection, Helm chart, API and so on are all still in progress.

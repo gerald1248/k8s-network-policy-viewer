@@ -75,7 +75,7 @@ items:
 - apiVersion: extensions/v1beta1
   kind: NetworkPolicy
   metadata:
-    name: isolated
+    name: ingress-isolated-whitelist
   spec:
     podSelector:
       matchLabels:
@@ -95,7 +95,7 @@ items:
 - apiVersion: extensions/v1beta1
   kind: NetworkPolicy
   metadata:
-    name: isolated
+    name: ingress-isolated
   spec:
     podSelector: {}
     policyTypes:
