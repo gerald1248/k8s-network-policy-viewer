@@ -21,7 +21,7 @@ spec:
       serviceAccount: {{ .Values.name | quote }}
       containers:
       - name: {{ .Values.name | quote }}
-        image: gerald1248/k8s-network-policy-viewer
+        image: gerald1248/k8s-network-policy-viewer:feature_client-go
         resources:
           limits:
             cpu: 200m
