@@ -4,7 +4,7 @@ k8s-network-policy-viewer
 ![Docker Automated](https://img.shields.io/docker/automated/gerald1248/k8s-network-policy-viewer.svg)
 ![Docker Build](https://img.shields.io/docker/build/gerald1248/k8s-network-policy-viewer.svg)
 
-The network policy viewer visualizes the pod network. Many pieces are either unfinished or missing, but basic isolation rules can be represented in JSON, YAML or dot (Graphviz):
+The network policy viewer visualizes the pod network. **Many pieces are either unfinished or missing**, but basic isolation rules can be represented in JSON, YAML or dot (Graphviz):
 
 <img src="testdata/testdata.svg" alt="Sample visualization"/>
 
@@ -35,6 +35,4 @@ $ make -C testdata create
 
 Custom inputs
 -------------
-The application is intended for in-cluster use (the Helm chart with appropriate cluster role is in preparation), but you can use the application today by piping or supplying the output of `kubectl get po,cluster-policy --all-namespaces -o json`. The application accepts JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`.
-
-Fuller coverage of pod selection, Helm chart, API and so on are all still in progress.
+The application is intended for in-cluster use (the Helm chart with appropriate cluster role is in preparation), but you can use the application today by piping or supplying the output of `kubectl get pod,clusterpolicy --all-namespaces -o json`. The application accepts JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`. This will no longer be necessary when the Helm chart is ready and the application runs within your cluster.
