@@ -1,4 +1,6 @@
 {
   "name": "k8s-network-policy-viewer",
-  "namespace": "default"
+  "namespace": "default",
+  "port": "8080",
+  "host": "minikube.info"
 }
