@@ -14,7 +14,7 @@ type PostStruct struct {
 func serve(port int) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), mux))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", port), mux))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {

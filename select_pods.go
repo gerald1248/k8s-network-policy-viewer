@@ -1,8 +1,6 @@
 package main
 
-import (
-	"log"
-)
+import ()
 
 func selectPods(namespace string, selector *map[string]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string {
 	// special case: empty map selects all pods
@@ -16,13 +14,9 @@ func selectPods(namespace string, selector *map[string]string, namespacePodMap *
 		labels := (*podLabelMap)[pod]
 		for k, v := range *selector {
 			if len(k) > 0 && labels[k] == v {
-				log.Printf("%s => %s\n", k, v)
 				selectedPods = append(selectedPods, pod)
 			}
 		}
-	}
-	if len(selectedPods) > 0 {
-		log.Printf("Selected pods: %v\n", selectedPods)
 	}
 	return selectedPods
 }
