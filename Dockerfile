@@ -17,4 +17,4 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /app/
 USER 1000
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/
-CMD ["k8s-network-policy-viewer"]  
+CMD ["k8s-network-policy-viewer", "=p"]  
