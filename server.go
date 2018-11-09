@@ -14,7 +14,7 @@ type PostStruct struct {
 func serve(port int) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), mux))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), mux))
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +27,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGet(w *http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n", r)
+	var buffer string
+	listPods(&buffer)
+	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\n%s", r, buffer)
+
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {
