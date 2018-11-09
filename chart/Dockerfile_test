@@ -1,0 +1,27 @@
+#!/bin/sh
+
+TEST_IMAGE_NAME="k8s-network-policy-viewers-test"
+TEST_IMAGE_TAG="latest"
+
+test_Executables() {
+  for PRG in k8s-network-policy-viewer; do
+    OUTPUT=$(docker run ${TEST_IMAGE_NAME}:${TEST_IMAGE_TAG} ${PRG} -h)
+    assertNotEquals " can't run ${PRG};" "${OUTPUT}" ""
+  done
+}
+
+test_Cleanup() {
+  # cleanup
+  docker rmi -f ${TEST_IMAGE_NAME}:${TEST_IMAGE_TAG}
+}
+
+for DEPENDENCY in docker shunit2; do
+  if [ -z $(which ${DEPENDENCY}) ]; then
+    echo "Missing dependency '${DEPENDENCY}'"
+    exit 1
+  fi
+done
+
+docker build -t "${TEST_IMAGE_NAME}:${TEST_IMAGE_TAG}" .
+
+. shunit2
