@@ -20,11 +20,18 @@ func main() {
 
 	port := flag.Int("p", 8080, "listen on port")
 	output := flag.String("o", "dot", "output format (dot, json, yaml)")
+	server := flag.Bool("s", false, "launch server")
 
 	flag.Parse()
 	args := flag.Args()
 
-	//use case [A]: STDIN handling
+	//use case [A]: server
+	if *server == true {
+		serve(*port)
+		return
+	}
+
+	//use case [B]: STDIN handling
 	stdinFileInfo, _ := os.Stdin.Stat()
 	if stdinFileInfo.Mode()&os.ModeNamedPipe != 0 {
 		stdin, _ := ioutil.ReadAll(os.Stdin)
@@ -37,17 +44,6 @@ func main() {
 
 		fmt.Println(result)
 		os.Exit(0)
-	}
-
-	//use case [B]: server
-	if len(args) == 0 {
-		serve(*port)
-		return
-	} else if len(args) == 1 {
-		switch args[0] {
-		default:
-			break
-		}
 	}
 
 	// use case [C]: file input
