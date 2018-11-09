@@ -1,4 +1,4 @@
-FROM golang:1.11 as builder
+FROM golang:1.11.1 as builder
 WORKDIR /go/src/github.com/gerald1248/k8s-network-policy-viewer/
 COPY * ./
 ENV CGO_ENABLED 0

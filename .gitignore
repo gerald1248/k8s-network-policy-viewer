@@ -1,3 +1,4 @@
 **/k8s-network-policy-viewer
 **/.DS_Store
 **/ignore/
+go.sum
