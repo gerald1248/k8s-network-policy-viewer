@@ -21,7 +21,7 @@ spec:
       serviceAccount: {{ .Values.name | quote }}
       containers:
       - name: {{ .Values.name | quote }}
-        image: gerald1248/k8s-network-policy-viewer:feature_client-go
+        image: gerald1248/k8s-network-policy-viewer:latest
         resources:
           limits:
             cpu: 200m
@@ -44,28 +44,3 @@ spec:
         env:
         - name: POD_NAMESPACE
           value: {{ .Values.namespace | quote }}
-        - name: BACKUP_SECRETS
-          value: {{ .Values.backupSecrets | quote }}
-        - name: K8S_BACKUP_NAMESPACES
-          value: {{ .Values.backupNamespaces | quote }}
-        - name: K8S_BACKUP_ALL
-{{ if eq .Values.backupNamespaces "*" }}
-          value: "true"
-{{ else }}
-          value: "false"
-{{ end }}
-        - name: K8S_BACKUP_RETAIN_DAYS
-          value: {{ .Values.backupRetainDays | quote }}
-        volumeMounts:
-        - name: "{{ .Values.name }}-data"
-          mountPath: /k8s-backup
-{{ if .Values.backupEphemeral }}
-      volumes:
-      - name: "{{ .Values.name }}-data"
-        emptyDir: {}
-{{ else }}
-      volumes:
-      - name: "{{ .Values.name }}-data"
-        persistentVolumeClaim:
-          claimName: {{ .Values.name | quote }}
-{{ end }}
