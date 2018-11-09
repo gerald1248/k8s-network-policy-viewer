@@ -11,7 +11,7 @@ GROUP = $(shell jq -r .group values.yaml)
 # targets
 build:
 	make -C doc/
-	docker build -t $(NAME) .
+	docker build -t $(NAME) ..
 push:
 	docker tag $(NAME) $(GROUP)/$(NAME):latest
 	docker push $(GROUP)/$(NAME):latest
