@@ -20,4 +20,4 @@ install:
 delete:
 	helm delete --purge $(NAME)
 test:
-	./Dockerfile_test
+	../Dockerfile_test
