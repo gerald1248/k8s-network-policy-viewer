@@ -4,7 +4,6 @@ COPY * ./
 ENV CGO_ENABLED 0
 ENV GOOS linux
 ENV GO111MODULE on
-RUN apt install curl
 RUN \
   #go mod tidy && \
   go mod download && \
@@ -15,6 +14,7 @@ RUN \
 
 FROM ubuntu:18.10
 WORKDIR /app/
-USER 1000
+RUN apt install curl
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/
+USER 1000
 CMD ["k8s-network-policy-viewer", "-s=true"]  
