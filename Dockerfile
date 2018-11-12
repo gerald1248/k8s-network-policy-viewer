@@ -4,6 +4,7 @@ COPY * ./
 ENV CGO_ENABLED 0
 ENV GOOS linux
 ENV GO111MODULE on
+RUN apt install curl
 RUN \
   #go mod tidy && \
   go mod download && \
