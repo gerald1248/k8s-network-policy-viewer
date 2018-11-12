@@ -14,7 +14,9 @@ RUN \
 
 FROM ubuntu:18.10
 WORKDIR /app/
-RUN apt install curl
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get -qq install curl
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/
 USER 1000
 CMD ["k8s-network-policy-viewer", "-s=true"]  

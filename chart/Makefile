@@ -8,16 +8,7 @@ NAME = $(shell jq -r .name values.yaml)
 NAMESPACE = $(shell jq -r .namespace values.yaml)
 GROUP = $(shell jq -r .group values.yaml)
 
-# targets
-build:
-	make -C doc/
-	docker build -t $(NAME) ..
-push:
-	docker tag $(NAME) $(GROUP)/$(NAME):latest
-	docker push $(GROUP)/$(NAME):latest
 install:
 	helm install --namespace=$(NAMESPACE) --name=$(NAME) .
 delete:
 	helm delete --purge $(NAME)
-test:
-	../Dockerfile_test
