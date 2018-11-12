@@ -12,8 +12,7 @@ RUN \
   go test -v && \
   go build -o k8s-network-policy-viewer .
 
-FROM alpine:latest  
-RUN apk --no-cache add ca-certificates
+FROM ubuntu:18.10
 WORKDIR /app/
 USER 1000
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/
