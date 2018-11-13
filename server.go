@@ -28,7 +28,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func handleGet(w *http.ResponseWriter, r *http.Request) {
 	var buffer string
-	listPods(&buffer)
+	getJsonData(&buffer)
 	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\n%s", r, buffer)
 
 }
