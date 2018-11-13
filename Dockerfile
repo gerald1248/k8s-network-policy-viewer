@@ -14,6 +14,7 @@ RUN \
 
 FROM ubuntu:18.10
 WORKDIR /app/
+EXPOSE 8080
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get -qq install curl
