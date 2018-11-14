@@ -8,6 +8,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"log"
+	"strings"
 )
 
 // contain errors here
@@ -36,7 +37,8 @@ func getJsonData(buffer *string) {
 		log.Printf("API error: %s\n", err.Error())
 		return
 	}
-	podsJson, err := json.Marshal(pods)
+
+	podsJson, err := json.Marshal(pods.Items)
 	if err != nil {
 		log.Printf("Can't marshal pods: %s\n", err.Error())
 		return
@@ -51,11 +53,23 @@ func getJsonData(buffer *string) {
 		log.Printf("API error: %s\n", err.Error())
 		return
 	}
-	networkPoliciesJson, err := json.Marshal(networkPolicies)
+
+	networkPoliciesJson, err := json.Marshal(networkPolicies.Items)
 	if err != nil {
 		log.Printf("Can't marshal network policies: %s\n", err.Error())
 		return
 	}
 
-	*buffer = fmt.Sprintf("PODS:\n%s\nNETWORKPOLICIES:\n%s", string(podsJson), string(networkPoliciesJson))
+	podsJsonString := string(podsJson)
+	networkPoliciesJsonString := string(networkPoliciesJson)
+	trimBrackets(&podsJsonString)
+	trimBrackets(&networkPoliciesJsonString)
+
+	// TODO: switch to go templating
+
+	*buffer = fmt.Sprintf("{ \"kind\": \"List\", \"apiVersion\": \"v1\", \"Items\": [ %s , %s ] }", podsJsonString, networkPoliciesJsonString)
+}
+
+func trimBrackets(s *string) {
+	*s = strings.Trim(*s, "[]")
 }
