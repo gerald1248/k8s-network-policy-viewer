@@ -1,10 +1,13 @@
 package main
 
 import (
+        "bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+        "os/exec"
+        "strings"
 )
 
 type PostStruct struct {
@@ -38,7 +41,15 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		dot = err.Error()
 	}
 
-	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\nJSON data:\n%s\nDot:\n%s\n", r, buffer, dot)
+	cmd := exec.Command("dot", "-Tsvg")
+	cmd.Stdin = strings.NewReader(dot)
+	var svg bytes.Buffer
+	cmd.Stdout = &svg
+	err = cmd.Run()
+	if err != nil {
+		log.Printf("Graphviz conversion failed: %s\n", err)
+	}
+	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\nJSON data:\n%s\nDot:\n%s\nSVG:\n%s\n", r, buffer, dot, svg.String())
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {

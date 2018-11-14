@@ -17,7 +17,8 @@ WORKDIR /app/
 EXPOSE 8080
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get -qq install curl
+  DEBIAN_FRONTEND=noninteractive apt-get -qq install curl && \
+  apt-get --qq install graphviz
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/
 USER 1000
 CMD ["k8s-network-policy-viewer", "-s=true"]  
