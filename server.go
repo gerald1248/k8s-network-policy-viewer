@@ -27,10 +27,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGet(w *http.ResponseWriter, r *http.Request) {
-	var buffer string
-	getJsonData(&buffer)
-	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\n%s", r, buffer)
+	var buffer, dot, output string
 
+	getJsonData(&buffer)
+
+	output = "dot"
+
+	dot, err := processBytes([]byte(buffer), &output)
+	if err != nil {
+		dot = err.Error()
+	}
+
+	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\nJSON data:\n%s\nDot:\n%s\n", r, buffer, dot)
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {

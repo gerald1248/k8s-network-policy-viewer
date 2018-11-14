@@ -11,7 +11,8 @@ import (
 	"strings"
 )
 
-// contain errors here
+// don't allow errors to bubble up
+// TODO: switch to byte array as that's what is used in the end
 func getJsonData(buffer *string) {
 	*buffer = "{}"
 	config, err := rest.InClusterConfig()
@@ -38,6 +39,11 @@ func getJsonData(buffer *string) {
 		return
 	}
 
+	// TODO: is there an option to retain the "Kind" field on retrieval?
+	for index, _ := range pods.Items {
+		pods.Items[index].Kind = "Pod"
+	}
+
 	podsJson, err := json.Marshal(pods.Items)
 	if err != nil {
 		log.Printf("Can't marshal pods: %s\n", err.Error())
@@ -52,6 +58,10 @@ func getJsonData(buffer *string) {
 	} else if err != nil {
 		log.Printf("API error: %s\n", err.Error())
 		return
+	}
+
+	for index, _ := range networkPolicies.Items {
+		networkPolicies.Items[index].Kind = "NetworkPolicy"
 	}
 
 	networkPoliciesJson, err := json.Marshal(networkPolicies.Items)
