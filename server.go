@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -38,7 +39,8 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 
 	dot, percentage, err := processBytes([]byte(buffer), &output)
 	if err != nil {
-		dot = err.Error()
+		fmt.Fprintf(*w, "Can't process input data: %s\n", err)
+		return
 	}
 
 	cmd := exec.Command("dot", "-Tsvg")
@@ -47,7 +49,8 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 	cmd.Stdout = &svg
 	err = cmd.Run()
 	if err != nil {
-		log.Printf("Graphviz conversion failed: %s\n", err)
+		fmt.Fprintf(*w, "Graphviz conversion failed: %s\n", err)
+		return
 	}
 
 	isolatedPercentage := 100 - percentage
@@ -58,35 +61,18 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		colorClass = "progress-bar-warning"
 	}
 
-	// TODO: move to template
-	fmt.Fprintf(*w, `
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Network policy viewer</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Network policy viewer</h1>
-      <div>%s</div>
-      <div class="progress">
-        <div class="progress-bar %s" style="width: %d%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%% isolated</div>
-      </div>
-    </div>
-  </body>
-</html>`,
-		strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
-		colorClass,
-		isolatedPercentage,
-		isolatedPercentage,
-		isolatedPercentage)
+	fields := map[string]string{
+		"Svg": strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
+		"ColorClass": colorClass,
+		"Percentage": string(isolatedPercentage),
+	}
+
+	t := template.Must(template.New("index.tmpl").ParseFiles("tmpl/index.tmpl"))
+	err = t.Execute(*w, fields)
+	if err != nil {
+		fmt.Fprintf(*w, "Can't apply template: %s\n", err)
+		return
+	}
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {
@@ -95,5 +81,11 @@ func handlePost(w *http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(*w, "Can't read POST request body '%s': %s", body, err)
 		return
+	}
+}
+
+func check(err error) {
+	if err != nil {
+		log.Printf("%s", err)
 	}
 }
