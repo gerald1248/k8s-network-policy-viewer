@@ -22,7 +22,7 @@ $ make -C chart install
 ```
 Point your browser to the URL given in `values.yaml` (e.g. `http://minikube.info/`):
 
-<img src="images/network-policy-viewer.png" alt="network policy viewer screenshot"/>
+<img src="images/network-policy-viewer-screenshot.png" alt="network policy viewer screenshot"/>
 
 Build
 -----
