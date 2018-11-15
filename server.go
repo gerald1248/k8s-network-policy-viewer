@@ -36,7 +36,7 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 
 	output = "dot"
 
-	dot, err := processBytes([]byte(buffer), &output)
+	dot, percentage, err := processBytes([]byte(buffer), &output)
 	if err != nil {
 		dot = err.Error()
 	}
@@ -49,6 +49,8 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Graphviz conversion failed: %s\n", err)
 	}
+
+	// TODO: move to template
 	fmt.Fprintf(*w, `
 <!DOCTYPE html>
 <html>
@@ -63,8 +65,13 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
       <h1>Network policy viewer</h1>
       <div>%s</div>
     </div>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%% isolated</div>
+    </div>
   </body>
-</html>`, svg.String())
+</html>`,
+	strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
+	100-percentage)
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {

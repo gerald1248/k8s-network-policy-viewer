@@ -9,24 +9,24 @@ import (
 	"strings"
 )
 
-func processBytes(byteArray []byte, output *string) (string, error) {
+func processBytes(byteArray []byte, output *string) (string, int, error) {
 
 	//preflight with optional conversion from YAMLs
 	err := preflightAsset(&byteArray)
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("input failed preflight check: %v", err))
+		return "", 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
 	}
 
 	//make sure config objects are presented as a list
 	err = makeList(&byteArray)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	var apiObjectSet ApiObjectSet
 
 	if err = json.Unmarshal(byteArray, &apiObjectSet); err != nil {
-		return "", errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
+		return "", 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
 	}
 
 	namespacePodMap := make(map[string][]string)
@@ -62,7 +62,9 @@ func processBytes(byteArray []byte, output *string) (string, error) {
 
 	edgeMap := make(map[string][]string)
 	initializeEdgeMap(&edgeMap, &namespacePodMap)
+	allEdgesCount := countEdges(&edgeMap)
 	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces)
+	filteredEdgesCount := countEdges(&edgeMap)
 
 	var buffer bytes.Buffer
 	switch *output {
@@ -73,7 +75,10 @@ func processBytes(byteArray []byte, output *string) (string, error) {
 	case "yaml":
 		writeYaml(&namespacePodMap, &buffer)
 	}
-	return buffer.String(), nil
+	var percentage float64
+	percentage = (float64(filteredEdgesCount)/float64(allEdgesCount)) * 100.0
+	percentageInt := int(percentage + 0.5)
+	return buffer.String(), percentageInt, nil
 }
 
 func processFile(path string, output *string) (string, error) {
@@ -82,11 +87,21 @@ func processFile(path string, output *string) (string, error) {
 		return "", errors.New(fmt.Sprintf("can't read %s: %v", path, err))
 	}
 
-	result, err := processBytes(byteArray, output)
+	result, _, err := processBytes(byteArray, output)
 
 	if err != nil {
 		return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))
 	}
 
 	return result, nil
+}
+
+func countEdges(edgeMap *map[string][]string) int {
+	count := 0
+	for _, v := range (*edgeMap) {
+		for _, _ = range v {
+			count++
+		}
+	}
+	return count
 }

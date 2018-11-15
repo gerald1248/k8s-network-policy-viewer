@@ -77,7 +77,7 @@ func getJsonData(buffer *string) {
 
 	// TODO: switch to go templating
 
-	*buffer = fmt.Sprintf("{ \"kind\": \"List\", \"apiVersion\": \"v1\", \"Items\": [ %s , %s ] }", podsJsonString, networkPoliciesJsonString)
+	*buffer = fmt.Sprintf("{\"kind\":\"List\",\"apiVersion\":\"v1\",\"Items\":[%s,%s]}", podsJsonString, networkPoliciesJsonString)
 }
 
 func trimBrackets(s *string) {

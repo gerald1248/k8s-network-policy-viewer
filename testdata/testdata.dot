@@ -1,42 +1,7 @@
 digraph podNetwork {
   subgraph cluster_1 {
-    "httpd-79f9f6586f-6nclc";
-    "httpd-bob";
-    label = "ingress-isolated-whitelist"
+    "k8s-network-policy-viewer-74fb569d6b-gffll";
+    label = "network-policy"
   }
-  subgraph cluster_2 {
-    "httpd-79f9f6586f-ppsc2";
-    label = "ingress-isolated"
-  }
-  subgraph cluster_3 {
-    "httpd-79f9f6586f-wpn9n";
-    label = "isolated"
-  }
-  subgraph cluster_4 {
-    "httpd-79f9f6586f-5hztn";
-    label = "egress-isolated"
-  }
-  subgraph cluster_5 {
-    "httpd-79f9f6586f-zght2";
-    "httpd-alice";
-    label = "global"
-  }
-  "httpd-79f9f6586f-6nclc" -> "httpd-79f9f6586f-5hztn";
-  "httpd-79f9f6586f-6nclc" -> "httpd-79f9f6586f-zght2";
-  "httpd-79f9f6586f-6nclc" -> "httpd-alice";
-  "httpd-79f9f6586f-6nclc" -> "httpd-bob";
-  "httpd-bob" -> "httpd-79f9f6586f-5hztn";
-  "httpd-bob" -> "httpd-79f9f6586f-zght2";
-  "httpd-bob" -> "httpd-alice";
-  "httpd-79f9f6586f-ppsc2" -> "httpd-79f9f6586f-5hztn";
-  "httpd-79f9f6586f-ppsc2" -> "httpd-79f9f6586f-zght2";
-  "httpd-79f9f6586f-ppsc2" -> "httpd-alice";
-  "httpd-79f9f6586f-ppsc2" -> "httpd-bob";
-  "httpd-79f9f6586f-zght2" -> "httpd-79f9f6586f-5hztn";
-  "httpd-79f9f6586f-zght2" -> "httpd-alice";
-  "httpd-79f9f6586f-zght2" -> "httpd-bob";
-  "httpd-alice" -> "httpd-79f9f6586f-5hztn";
-  "httpd-alice" -> "httpd-79f9f6586f-zght2";
-  "httpd-alice" -> "httpd-bob";
 }
 
