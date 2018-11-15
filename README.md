@@ -4,7 +4,7 @@ k8s-network-policy-viewer
 ![Docker Automated](https://img.shields.io/docker/automated/gerald1248/k8s-network-policy-viewer.svg)
 ![Docker Build](https://img.shields.io/docker/build/gerald1248/k8s-network-policy-viewer.svg)
 
-The network policy viewer visualizes the pod network. **Many pieces are either unfinished or missing**, but basic isolation rules can be represented in JSON, YAML or dot (Graphviz):
+The network policy viewer visualizes the pod network. It is far from complete, but basic isolation rules can be represented in JSON, YAML or dot (Graphviz).
 
 <img src="testdata/testdata.svg" alt="Sample visualization"/>
 
@@ -13,6 +13,14 @@ In this example, the names of the namespaces match their respective network poli
 The policies `isolated`, `egress-isolated`, `ingress-isolated` each apply to the namespace as a whole.
 
 `ingress-isolated-whitelist` whitelists `httpd-bob`, which is why `httpd-bob` can be reached from both `global` pods (including of course `httpd-alice`) and the `ingress-isolated` namespace.
+
+Deployment
+----------
+Install the helm chart defined in the folder [chart](./chart):
+```
+$ make -C chart install
+```
+Point your browser to the URL given in `values.yaml` (e.g. `http://minikube.info/`).
 
 Build
 -----
@@ -24,6 +32,9 @@ $ go vet
 $ go test -v
 $ go build -o k8s-network-policy-viewer .
 ```
+`make build` will run these steps in a two-stage docker build process.
+
+Alternatively, you can use the default image [k8s-network-policy-viewer](https://hub.docker.com/r/gerald1248/k8s-network-policy-viewer). This is also the image referenced in the helm chart..
 
 Testdata
 --------

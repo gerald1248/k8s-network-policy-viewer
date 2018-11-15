@@ -1,13 +1,13 @@
 package main
 
 import (
-        "bytes"
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-        "os/exec"
-        "strings"
+	"os/exec"
+	"strings"
 )
 
 type PostStruct struct {
@@ -49,7 +49,22 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Graphviz conversion failed: %s\n", err)
 	}
-	fmt.Fprintf(*w, "GET request\nRequest struct = %v\n\nJSON data:\n%s\nDot:\n%s\nSVG:\n%s\n", r, buffer, dot, svg.String())
+	fmt.Fprintf(*w, `
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Network policy viewer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Network policy viewer</h1>
+      <div>%s</div>
+    </div>
+  </body>
+</html>`, svg.String())
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {
