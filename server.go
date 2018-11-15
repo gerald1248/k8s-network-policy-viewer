@@ -50,7 +50,7 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		log.Printf("Graphviz conversion failed: %s\n", err)
 	}
 
-	isolatedPercentage := 100-percentage
+	isolatedPercentage := 100 - percentage
 	colorClass := "bg-success"
 	if isolatedPercentage < 50 {
 		colorClass = "bg-danger"
@@ -82,11 +82,11 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
     </div>
   </body>
 </html>`,
-	strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
-	colorClass,
-	isolatedPercentage,
-	isolatedPercentage,
-	isolatedPercentage)
+		strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
+		colorClass,
+		isolatedPercentage,
+		isolatedPercentage,
+		isolatedPercentage)
 }
 
 func handlePost(w *http.ResponseWriter, r *http.Request) {

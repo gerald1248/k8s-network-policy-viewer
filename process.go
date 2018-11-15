@@ -76,7 +76,7 @@ func processBytes(byteArray []byte, output *string) (string, int, error) {
 		writeYaml(&namespacePodMap, &buffer)
 	}
 	var percentage float64
-	percentage = (float64(filteredEdgesCount)/float64(allEdgesCount)) * 100.0
+	percentage = (float64(filteredEdgesCount) / float64(allEdgesCount)) * 100.0
 	percentageInt := int(percentage + 0.5)
 	return buffer.String(), percentageInt, nil
 }
@@ -98,7 +98,7 @@ func processFile(path string, output *string) (string, error) {
 
 func countEdges(edgeMap *map[string][]string) int {
 	count := 0
-	for _, v := range (*edgeMap) {
+	for _, v := range *edgeMap {
 		for _, _ = range v {
 			count++
 		}
