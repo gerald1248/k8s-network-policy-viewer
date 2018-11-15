@@ -20,7 +20,9 @@ Install the helm chart defined in the folder [chart](./chart):
 ```
 $ make -C chart install
 ```
-Point your browser to the URL given in `values.yaml` (e.g. `http://minikube.info/`).
+Point your browser to the URL given in `values.yaml` (e.g. `http://minikube.info/`):
+
+<img src="images/network-policy-viewer.png" alt="network policy viewer screenshot"/>
 
 Build
 -----

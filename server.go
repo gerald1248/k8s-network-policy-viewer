@@ -51,11 +51,11 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 	}
 
 	isolatedPercentage := 100 - percentage
-	colorClass := "bg-success"
+	colorClass := "progress-bar-success"
 	if isolatedPercentage < 50 {
-		colorClass = "bg-danger"
+		colorClass = "progress-bar-danger"
 	} else if isolatedPercentage < 75 {
-		colorClass = "bg-warning"
+		colorClass = "progress-bar-warning"
 	}
 
 	// TODO: move to template
