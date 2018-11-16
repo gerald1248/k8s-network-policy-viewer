@@ -35,6 +35,8 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 	}
 
 	// first pass
+	// TODO: empty podSelector only - policy type alone
+	// does not signify isolation
 	for _, o := range *networkPolicies {
 		var flags uint8
 		podsSet := make(map[string]struct{})
@@ -73,6 +75,7 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 	for _, o := range *networkPolicies {
 		namespace := o.Metadata.Namespace
 		selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+		// TODO: skip empty selectors already considered
 		for _, pod := range selectedPods {
 			if len(o.Spec.Ingress) > 0 {
 				// empty ingress definition: all pods in all namespaces
