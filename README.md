@@ -24,6 +24,15 @@ Point your browser to the URL given in `values.yaml` (e.g. `http://minikube.info
 
 <img src="images/network-policy-viewer-screenshot.png" alt="network policy viewer screenshot"/>
 
+The available endpoints are:
+
+| Endpoint        | Description     |
+| --------------- | --------------- |
+| /               | Show graph      |
+| /health         | Health endpoint |
+| /api/v1         | API overview    |
+| /api/v1/metrics | Show metrics    |
+
 Build
 -----
 The build steps are the following:

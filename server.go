@@ -19,7 +19,7 @@ func serve(port int) {
 	mux.HandleFunc("/", handler)
 	mux.HandleFunc("/api/", apiHandler)
 	mux.HandleFunc("/api/v1/", apiHandler)
-	mux.HandleFunc("/health", healthHandler)
+	mux.HandleFunc("/health/", healthHandler)
 	mux.HandleFunc("/api/v1/metrics/", metricsHandler)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), mux))
 }
@@ -73,7 +73,7 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "{\"percentage\":\"%d\"}", percentage)
+	fmt.Fprintf(w, "{\"percentage\":\"%d\"}", 100-percentage)
 }
 
 func handleGet(w *http.ResponseWriter, r *http.Request) {
