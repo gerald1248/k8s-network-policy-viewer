@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: NetworkPolicy
+metadata:
+  name: ingress-whitelist
+spec:
+  podSelector:
+    matchLabels:
+      app: httpd-bob
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: httpd-alice

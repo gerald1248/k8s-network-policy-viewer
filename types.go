@@ -38,27 +38,33 @@ type ContainerStatus struct {
 // the Spec struct is where the union of various 'kinds' of API object
 // is most apparent; Ingress features most prominently
 type Spec struct {
-	PodSelector *Selector  `json:"podSelector"`
-	PolicyTypes []string   `json:"policyTypes"`
-	Ingress     []*Ingress `json:"ingress"`
-	Egress      []*Egress  `json:"egress"`
+	PodSelector *Selector      `json:"podSelector"`
+	PolicyTypes []string       `json:"policyTypes"`
+	Ingress     []*IngressItem `json:"ingress"`
+	Egress      []*EgressItem  `json:"egress"`
 }
 
 type Selector struct {
-	MatchLabels map[string]string `json:"matchLabels"`
+	MatchLabels      map[string]string `json:"matchLabels"`
+	MatchExpressions []interface{}     `json:"matchExpressions"`
 }
 
-type Ingress struct {
+type IngressItem struct {
 	From []*SelectorCollection `json:"from"`
 }
 
-type Egress struct {
+type EgressItem struct {
 	To []*SelectorCollection `json:"to"`
 }
 
 type SelectorCollection struct {
-	NamespaceSelector *Selector `json:"namespaceSelector"`
 	PodSelector       *Selector `json:"podSelector"`
+	NamespaceSelector *Selector `json:"namespaceSelector"`
+}
+
+type Port struct {
+	Port     int    `json:"port"`
+	Protocol string `json:"protocol"`
 }
 
 type MinimalObject struct {

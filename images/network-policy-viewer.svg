@@ -1,0 +1,139 @@
+<svg width="1009pt" height="348pt" viewBox="0.00 0.00 1009.04 348.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 344)">
+<title>podNetwork</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-344 1005.0408,-344 1005.0408,4 -4,4"></polygon>
+<g id="clust1" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#000000" points="52.0408,-8 52.0408,-83 312.0408,-83 312.0408,-8 52.0408,-8"></polygon>
+<text text-anchor="middle" x="182.0408" y="-67.8" font-family="sans-serif" font-size="14.00" fill="#000000">egress-isolated</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_2</title>
+<polygon fill="none" stroke="#000000" points="202.0408,-91 202.0408,-166 462.0408,-166 462.0408,-91 202.0408,-91"></polygon>
+<text text-anchor="middle" x="332.0408" y="-150.8" font-family="sans-serif" font-size="14.00" fill="#000000">global</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_3</title>
+<polygon fill="none" stroke="#000000" points="333.0408,-174 333.0408,-332 729.0408,-332 729.0408,-174 333.0408,-174"></polygon>
+<text text-anchor="middle" x="531.0408" y="-316.8" font-family="sans-serif" font-size="14.00" fill="#000000">ingress-isolated-whitelist</text>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_4</title>
+<polygon fill="none" stroke="#000000" points="67.0408,-174 67.0408,-249 325.0408,-249 325.0408,-174 67.0408,-174"></polygon>
+<text text-anchor="middle" x="196.0408" y="-233.8" font-family="sans-serif" font-size="14.00" fill="#000000">ingress-isolated</text>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_5</title>
+<polygon fill="none" stroke="#000000" points="737.0408,-257 737.0408,-332 993.0408,-332 993.0408,-257 737.0408,-257"></polygon>
+<text text-anchor="middle" x="865.0408" y="-316.8" font-family="sans-serif" font-size="14.00" fill="#000000">isolated</text>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;b9w8t -->
+<g id="node1" class="node">
+<title>httpd-79f9f6586f-b9w8t</title>
+<ellipse fill="none" stroke="#000000" cx="182.0408" cy="-34" rx="122.3786" ry="18"></ellipse>
+<text text-anchor="middle" x="182.0408" y="-30.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-79f9f6586f-b9w8t</text>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;cph44 -->
+<g id="node2" class="node">
+<title>httpd-79f9f6586f-cph44</title>
+<ellipse fill="none" stroke="#000000" cx="332.0408" cy="-117" rx="121.5784" ry="18"></ellipse>
+<text text-anchor="middle" x="332.0408" y="-113.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-79f9f6586f-cph44</text>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;cph44&#45;&gt;httpd&#45;79f9f6586f&#45;b9w8t -->
+<g id="edge8" class="edge">
+<title>httpd-79f9f6586f-cph44-&gt;httpd-79f9f6586f-b9w8t</title>
+<path fill="none" stroke="#000000" d="M300.5959,-99.6005C277.9716,-87.0817 247.2552,-70.0853 222.7571,-56.5297"></path>
+<polygon fill="#000000" stroke="#000000" points="224.1467,-53.2985 213.7023,-51.5194 220.7575,-59.4234 224.1467,-53.2985"></polygon>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;8sxv7 -->
+<g id="node3" class="node">
+<title>httpd-79f9f6586f-8sxv7</title>
+<ellipse fill="none" stroke="#000000" cx="461.0408" cy="-283" rx="120.4791" ry="18"></ellipse>
+<text text-anchor="middle" x="461.0408" y="-279.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-79f9f6586f-8sxv7</text>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;8sxv7&#45;&gt;httpd&#45;79f9f6586f&#45;b9w8t -->
+<g id="edge10" class="edge">
+<title>httpd-79f9f6586f-8sxv7-&gt;httpd-79f9f6586f-b9w8t</title>
+<path fill="none" stroke="#000000" d="M345.9236,-277.6876C222.7863,-271.4327 43.6068,-260.4386 33.0408,-249 -14.6072,-197.4168 -6.7666,-148.8492 33.0408,-91 42.7222,-76.9308 77.655,-63.1887 111.2631,-52.7237"></path>
+<polygon fill="#000000" stroke="#000000" points="112.5985,-55.9762 121.1514,-49.7233 110.566,-49.2778 112.5985,-55.9762"></polygon>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;8sxv7&#45;&gt;httpd&#45;79f9f6586f&#45;cph44 -->
+<g id="edge9" class="edge">
+<title>httpd-79f9f6586f-8sxv7-&gt;httpd-79f9f6586f-cph44</title>
+<path fill="none" stroke="#000000" d="M403.8572,-267.149C394.3241,-262.5093 385.2183,-256.5719 378.0408,-249 350.8298,-220.2938 339.6216,-174.6357 335.0692,-145.2464"></path>
+<polygon fill="#000000" stroke="#000000" points="338.5186,-144.6396 333.6758,-135.2163 331.5852,-145.6028 338.5186,-144.6396"></polygon>
+</g>
+<!-- httpd&#45;bob -->
+<g id="node5" class="node">
+<title>httpd-bob</title>
+<ellipse fill="none" stroke="#000000" cx="480.0408" cy="-200" rx="55.7903" ry="18"></ellipse>
+<text text-anchor="middle" x="480.0408" y="-196.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-bob</text>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;8sxv7&#45;&gt;httpd&#45;bob -->
+<g id="edge11" class="edge">
+<title>httpd-79f9f6586f-8sxv7-&gt;httpd-bob</title>
+<path fill="none" stroke="#000000" d="M465.1635,-264.9902C467.6533,-254.1138 470.8779,-240.0276 473.6882,-227.7511"></path>
+<polygon fill="#000000" stroke="#000000" points="477.1064,-228.5035 475.9261,-217.9746 470.2829,-226.9414 477.1064,-228.5035"></polygon>
+</g>
+<!-- httpd&#45;alice -->
+<g id="node4" class="node">
+<title>httpd-alice</title>
+<ellipse fill="none" stroke="#000000" cx="660.0408" cy="-283" rx="61.1893" ry="18"></ellipse>
+<text text-anchor="middle" x="660.0408" y="-279.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-alice</text>
+</g>
+<!-- httpd&#45;alice&#45;&gt;httpd&#45;79f9f6586f&#45;b9w8t -->
+<g id="edge2" class="edge">
+<title>httpd-alice-&gt;httpd-79f9f6586f-b9w8t</title>
+<path fill="none" stroke="#000000" d="M626.5238,-267.9152C615.1747,-263.5241 602.2729,-259.2943 590.0408,-257 575.6512,-254.3011 73.3144,-259.4307 63.0408,-249 6.3492,-191.4413 98.6455,-101.3917 150.5311,-58.4153"></path>
+<polygon fill="#000000" stroke="#000000" points="152.9425,-60.9652 158.4825,-51.9342 148.5198,-55.5393 152.9425,-60.9652"></polygon>
+</g>
+<!-- httpd&#45;alice&#45;&gt;httpd&#45;79f9f6586f&#45;cph44 -->
+<g id="edge1" class="edge">
+<title>httpd-alice-&gt;httpd-79f9f6586f-cph44</title>
+<path fill="none" stroke="#000000" d="M626.1259,-267.9967C614.8607,-263.6681 602.1095,-259.4547 590.0408,-257 570.9666,-253.1204 431.6044,-259.2236 415.0408,-249 382.5308,-228.9337 393.5612,-206.2253 373.0408,-174 366.524,-163.766 358.877,-152.8736 351.9637,-143.3819"></path>
+<polygon fill="#000000" stroke="#000000" points="354.6242,-141.0922 345.8745,-135.1177 348.9887,-145.2446 354.6242,-141.0922"></polygon>
+</g>
+<!-- httpd&#45;alice&#45;&gt;httpd&#45;bob -->
+<g id="edge3" class="edge">
+<title>httpd-alice-&gt;httpd-bob</title>
+<path fill="none" stroke="#000000" d="M627.026,-267.7765C597.2814,-254.0609 553.4296,-233.8404 521.3663,-219.0556"></path>
+<polygon fill="#000000" stroke="#000000" points="522.7874,-215.8568 512.2407,-214.8477 519.8561,-222.2135 522.7874,-215.8568"></polygon>
+</g>
+<!-- httpd&#45;bob&#45;&gt;httpd&#45;79f9f6586f&#45;b9w8t -->
+<g id="edge5" class="edge">
+<title>httpd-bob-&gt;httpd-79f9f6586f-b9w8t</title>
+<path fill="none" stroke="#000000" d="M483.5011,-181.9158C486.9671,-157.8721 488.9354,-115.5642 466.0408,-91 443.2116,-66.5059 367.2882,-52.0711 299.6839,-43.8581"></path>
+<polygon fill="#000000" stroke="#000000" points="299.6871,-40.3344 289.3466,-42.6419 298.8692,-47.2864 299.6871,-40.3344"></polygon>
+</g>
+<!-- httpd&#45;bob&#45;&gt;httpd&#45;79f9f6586f&#45;cph44 -->
+<g id="edge4" class="edge">
+<title>httpd-bob-&gt;httpd-79f9f6586f-cph44</title>
+<path fill="none" stroke="#000000" d="M452.2031,-184.3883C429.6066,-171.716 397.4487,-153.6814 372.0857,-139.4576"></path>
+<polygon fill="#000000" stroke="#000000" points="373.5132,-136.2454 363.0791,-134.4066 370.0892,-142.3508 373.5132,-136.2454"></polygon>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;2xgpx -->
+<g id="node6" class="node">
+<title>httpd-79f9f6586f-2xgpx</title>
+<ellipse fill="none" stroke="#000000" cx="196.0408" cy="-200" rx="120.7786" ry="18"></ellipse>
+<text text-anchor="middle" x="196.0408" y="-196.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-79f9f6586f-2xgpx</text>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;2xgpx&#45;&gt;httpd&#45;79f9f6586f&#45;b9w8t -->
+<g id="edge7" class="edge">
+<title>httpd-79f9f6586f-2xgpx-&gt;httpd-79f9f6586f-b9w8t</title>
+<path fill="none" stroke="#000000" d="M194.5159,-181.9191C192.0859,-153.1059 187.3155,-96.5425 184.4293,-62.321"></path>
+<polygon fill="#000000" stroke="#000000" points="187.8919,-61.7291 183.5638,-52.0586 180.9167,-62.3174 187.8919,-61.7291"></polygon>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;2xgpx&#45;&gt;httpd&#45;79f9f6586f&#45;cph44 -->
+<g id="edge6" class="edge">
+<title>httpd-79f9f6586f-2xgpx-&gt;httpd-79f9f6586f-cph44</title>
+<path fill="none" stroke="#000000" d="M224.8829,-182.3978C245.1678,-170.0181 272.5048,-153.3344 294.4902,-139.9169"></path>
+<polygon fill="#000000" stroke="#000000" points="296.5277,-142.7738 303.2403,-134.5768 292.881,-136.7987 296.5277,-142.7738"></polygon>
+</g>
+<!-- httpd&#45;79f9f6586f&#45;4f84q -->
+<g id="node7" class="node">
+<title>httpd-79f9f6586f-4f84q</title>
+<ellipse fill="none" stroke="#000000" cx="865.0408" cy="-283" rx="119.6788" ry="18"></ellipse>
+<text text-anchor="middle" x="865.0408" y="-279.3" font-family="sans-serif" font-size="14.00" fill="#000000">httpd-79f9f6586f-4f84q</text>
+</g>
+</g>
+</svg>

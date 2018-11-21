@@ -18,7 +18,7 @@ func TestProcessBytes(t *testing.T) {
 	//don't allow XML
 	xmlBuffer := []byte(`<?xml version="1.0" encoding="UTF-8" standalone="true"?><root/>`)
 	output := "dot"
-	_, _, err := processBytes(xmlBuffer, &output)
+	_, _, _, err := processBytes(xmlBuffer, &output)
 
 	if err == nil {
 		t.Errorf("Must reject XML input")

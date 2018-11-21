@@ -6,7 +6,7 @@ k8s-network-policy-viewer
 
 The network policy viewer visualizes the pod network. It is far from complete, but basic isolation rules can be represented in JSON, YAML or dot (Graphviz).
 
-<img src="testdata/testdata.svg" alt="Sample visualization"/>
+<img src="images/network-policy-viewer.svg" alt="Sample visualization"/>
 
 In this example, the names of the namespaces match their respective network policies, the exception being the `global` namespace which has none.
 
@@ -30,7 +30,6 @@ The available endpoints are:
 | --------------- | --------------- |
 | /               | Show graph      |
 | /health         | Health endpoint |
-| /api/v1         | API overview    |
 | /api/v1/metrics | Show metrics    |
 
 Build

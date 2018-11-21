@@ -36,20 +36,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func apiHandler(w http.ResponseWriter, r *http.Request) {
 	buffer := fmt.Sprintf(`
 <div class="row">
-  <div class="col-sm-6"><a href="/">/</a></div>
-  <div class="col-sm-6">show graph</div>
+  <div class="col-sm-2"><a href="/">/</a></div>
+  <div class="col-sm-10">show graph</div>
 </div>
 <div class="row">
-  <div class="col-sm-6"><a href="/health/">/health/</a></div>
-  <div class="col-sm-6">health endpoint</div>
+  <div class="col-sm-2"><a href="/health/">/health/</a></div>
+  <div class="col-sm-10">health endpoint</div>
 </div>
 <div class="row">
-  <div class="col-sm-6"><a href="/api/v1/">/api/v1/</a></div>
-  <div class="col-sm-6">show this page</div>
-</div>
-<div class="row">
-  <div class="col-sm-6"><a href="/api/v1/metrics/">/api/v1/metrics/</a></div>
-  <div class="col-sm-6">metrics endpoint</div>
+  <div class="col-sm-2"><a href="/api/v1/metrics/">/api/v1/metrics/</a></div>
+  <div class="col-sm-10">metrics endpoint</div>
 </div>`)
 	fmt.Fprintf(w, page(buffer))
 	return
@@ -66,14 +62,14 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 
 	output = "dot"
 
-	_, percentage, err := processBytes([]byte(buffer), &output)
+	_, percentageIsolated, percentageNamespaceCoverage, err := processBytes([]byte(buffer), &output)
 	if err != nil {
 		sData := fmt.Sprintf("<p>Can't process input data: %s</p>", err)
 		fmt.Fprintf(w, page(sData))
 		return
 	}
 
-	fmt.Fprintf(w, "{\"percentage\":\"%d\"}", 100-percentage)
+	fmt.Fprintf(w, "{\"percentageIsolated\":%d,\"percentageNamespaceCoverage\":%d}", percentageIsolated, percentageNamespaceCoverage)
 }
 
 func handleGet(w *http.ResponseWriter, r *http.Request) {
@@ -83,7 +79,7 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 
 	output = "dot"
 
-	dot, percentage, err := processBytes([]byte(buffer), &output)
+	dot, percentageIsolated, percentageCovered, err := processBytes([]byte(buffer), &output)
 	if err != nil {
 		sData := fmt.Sprintf("<p>Can't process input data: %s</p>", err)
 		fmt.Fprintf(*w, page(sData))
@@ -101,24 +97,37 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	isolatedPercentage := 100 - percentage
-	colorClass := "progress-bar-success"
-	if isolatedPercentage < 50 {
-		colorClass = "progress-bar-danger"
-	} else if isolatedPercentage < 75 {
-		colorClass = "progress-bar-warning"
+	colorClassIsolation := "progress-bar-success"
+	if percentageIsolated < 50 {
+		colorClassIsolation = "progress-bar-danger"
+	} else if percentageIsolated < 75 {
+		colorClassIsolation = "progress-bar-warning"
+	}
+
+	colorClassCoverage := "progress-bar-success"
+	if percentageCovered < 50 {
+		colorClassCoverage = "progress-bar-danger"
+	} else if percentageCovered < 75 {
+		colorClassCoverage = "progress-bar-warning"
 	}
 
 	buffer = fmt.Sprintf(`
 <div>%s</div>
 <div class="progress">
-  <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% isolated</div>
+  <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% isolation</div>
+</div>
+<div class="progress">
+  <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% namespace coverage</div>
 </div>`,
 		strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
-		colorClass,
-		isolatedPercentage,
-		isolatedPercentage,
-		isolatedPercentage)
+		colorClassIsolation,
+		percentageIsolated,
+		percentageIsolated,
+		percentageIsolated,
+		colorClassCoverage,
+		percentageCovered,
+		percentageCovered,
+		percentageCovered)
 	fmt.Fprintf(*w, page(buffer))
 }
 

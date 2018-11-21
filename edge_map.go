@@ -1,10 +1,16 @@
 package main
 
-import ()
+import (
+)
 
 const (
 	FilterIngress uint8 = 1 << iota
 	FilterEgress
+)
+
+const (
+	FilterIsolation int = 0
+	FilterWhitelist     = 1
 )
 
 func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string) {
@@ -24,75 +30,84 @@ func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string
 	}
 }
 
-func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject, globalNamespaces *[]string) {
-	ingressPods := []string{}
-	egressPods := []string{}
-
-	// handle global namespaces
-	for _, globalNamespace := range *globalNamespaces {
-		ingressPods = append(ingressPods, (*namespacePodMap)[globalNamespace]...)
-		egressPods = append(egressPods, (*namespacePodMap)[globalNamespace]...)
-	}
-
-	// first pass
-	// TODO: empty podSelector only - policy type alone
-	// does not signify isolation
+// filterEdgeMap is called twice: isolation 1st, whitelisting 2nd
+// see central switch
+func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject, globalNamespaces *[]string, mode int) {
 	for _, o := range *networkPolicies {
-		var flags uint8
-		podsSet := make(map[string]struct{})
 		namespace := o.Metadata.Namespace
-		for _, pod := range (*namespacePodMap)[namespace] {
-			podsSet[pod] = struct{}{}
-		}
-		// 1. apply blanket ingress/egress policies
-		flags = 0
+
+		// set policy state
+		var flags uint8
 		if len(o.Spec.PolicyTypes) == 0 {
-			// if none specified, default to ingress policy
-			filterIngress(&podsSet, edgeMap)
 			flags |= FilterIngress
 		} else {
 			for _, policyType := range o.Spec.PolicyTypes {
 				switch policyType {
 				case "Ingress":
-					filterIngress(&podsSet, edgeMap)
 					flags |= FilterIngress
 				case "Egress":
-					filterEgress(&podsSet, edgeMap)
 					flags |= FilterEgress
 				}
 			}
 		}
-		// consider only namespace-wide filters here
-		if flags&FilterIngress == 0 {
-			ingressPods = unique(append(ingressPods, (*namespacePodMap)[namespace]...))
-		}
-		if flags&FilterEgress == 0 {
-			egressPods = append(egressPods, (*namespacePodMap)[namespace]...)
-		}
-	}
 
-	// second pass - now deal with whitelisted pods
-	for _, o := range *networkPolicies {
-		namespace := o.Metadata.Namespace
-		selectedPods := selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
-		// TODO: skip empty selectors already considered
+		// destination pods in current namespace
+		// .spec.podSelector is mandatory, so assume it's present
+		var selectedPods []string
+		if len(o.Spec.PodSelector.MatchLabels) == 0 && len(o.Spec.PodSelector.MatchExpressions) == 0 {
+			selectedPods = (*namespacePodMap)[namespace]
+		} else if len(o.Spec.PodSelector.MatchExpressions) > 0 {
+			// TODO: matchExpressions
+			// TODO: IP range
+		} else if len(o.Spec.PodSelector.MatchLabels) > 0 {
+			selectedPods = selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+		}
+
+		// source pods for ingress (.spec.from)
+
+		// prepare set
+		podsSet := make(map[string]struct{})
 		for _, pod := range selectedPods {
-			if len(o.Spec.Ingress) > 0 {
-				// empty ingress definition: all pods in all namespaces
-				if o.Spec.Ingress[0].From == nil {
-					for _, egressPod := range egressPods {
-						if egressPod == pod {
-							continue
-						}
-						slice := (*edgeMap)[egressPod]
-						slice = unique(append(slice, pod))
-						(*edgeMap)[egressPod] = slice
-					}
-					ingressPods = unique(append(ingressPods, pod))
+			podsSet[pod] = struct{}{}
+		}
+
+		switch mode {
+		case FilterIsolation: //first pass: isolation
+			if flags&FilterIngress != 0 {
+				isolated := len(o.Spec.Ingress) == 0 ||
+					o.Spec.Ingress == nil
+				// TODO: check for nested empty arrays
+				if isolated {
+					filterIngress(&podsSet, edgeMap)
 				}
-				// TODO: ingress selector
 			}
-			// TODO: egress
+			if flags&FilterEgress != 0 {
+				isolated := len(o.Spec.Egress) == 0 ||
+					o.Spec.Egress == nil
+				if isolated {
+					filterEgress(&podsSet, edgeMap)
+				}
+			}
+		case FilterWhitelist: //second pass: whitelisting
+			if flags&FilterIngress != 0 {
+				for _, _ = range o.Spec.Ingress {
+					// TODO: assume current namespace for now
+					// TODO: ignore ports for now
+
+					// special case: empty struct
+					namespacePods := (*namespacePodMap)[namespace]
+					for _, namespacePod := range namespacePods {
+						for _, selectedPod := range selectedPods {
+							if namespacePod == selectedPod {
+								continue
+							}
+							(*edgeMap)[namespacePod] = append((*edgeMap)[namespacePod], selectedPod)
+						}
+						(*edgeMap)[namespacePod] = unique((*edgeMap)[namespacePod])
+					}
+				}
+			}
+			// TODO: egress whitelist
 		}
 	}
 }

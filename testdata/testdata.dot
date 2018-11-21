@@ -1,37 +1,36 @@
 digraph podNetwork {
   subgraph cluster_1 {
-    "httpd-79f9f6586f-dxgpt";
-    label = "egress-isolated"
-  }
-  subgraph cluster_2 {
-    "httpd-79f9f6586f-px6s5";
-    label = "global"
-  }
-  subgraph cluster_3 {
-    "httpd-79f9f6586f-rkrkt";
+    "httpd-79f9f6586f-8sxv7";
+    "httpd-alice";
+    "httpd-bob";
     label = "ingress-isolated-whitelist"
   }
-  subgraph cluster_4 {
-    "httpd-79f9f6586f-tt22q";
+  subgraph cluster_2 {
+    "httpd-79f9f6586f-2xgpx";
     label = "ingress-isolated"
   }
-  subgraph cluster_5 {
-    "httpd-79f9f6586f-8w9wx";
+  subgraph cluster_3 {
+    "httpd-79f9f6586f-4f84q";
     label = "isolated"
   }
-  subgraph cluster_6 {
-    "k8s-network-policy-viewer-74fb569d6b-gvsdq";
-    label = "network-policy"
+  subgraph cluster_4 {
+    "httpd-79f9f6586f-b9w8t";
+    label = "egress-isolated"
   }
-  "httpd-79f9f6586f-px6s5" -> "httpd-79f9f6586f-dxgpt";
-  "httpd-79f9f6586f-px6s5" -> "k8s-network-policy-viewer-74fb569d6b-gvsdq";
-  "httpd-79f9f6586f-rkrkt" -> "httpd-79f9f6586f-dxgpt";
-  "httpd-79f9f6586f-rkrkt" -> "httpd-79f9f6586f-px6s5";
-  "httpd-79f9f6586f-rkrkt" -> "k8s-network-policy-viewer-74fb569d6b-gvsdq";
-  "httpd-79f9f6586f-tt22q" -> "httpd-79f9f6586f-dxgpt";
-  "httpd-79f9f6586f-tt22q" -> "httpd-79f9f6586f-px6s5";
-  "httpd-79f9f6586f-tt22q" -> "k8s-network-policy-viewer-74fb569d6b-gvsdq";
-  "k8s-network-policy-viewer-74fb569d6b-gvsdq" -> "httpd-79f9f6586f-dxgpt";
-  "k8s-network-policy-viewer-74fb569d6b-gvsdq" -> "httpd-79f9f6586f-px6s5";
+  subgraph cluster_5 {
+    "httpd-79f9f6586f-cph44";
+    label = "global"
+  }
+  "httpd-79f9f6586f-8sxv7" -> "httpd-79f9f6586f-b9w8t";
+  "httpd-79f9f6586f-8sxv7" -> "httpd-79f9f6586f-cph44";
+  "httpd-79f9f6586f-8sxv7" -> "httpd-bob";
+  "httpd-alice" -> "httpd-79f9f6586f-b9w8t";
+  "httpd-alice" -> "httpd-79f9f6586f-cph44";
+  "httpd-alice" -> "httpd-bob";
+  "httpd-bob" -> "httpd-79f9f6586f-b9w8t";
+  "httpd-bob" -> "httpd-79f9f6586f-cph44";
+  "httpd-79f9f6586f-2xgpx" -> "httpd-79f9f6586f-b9w8t";
+  "httpd-79f9f6586f-2xgpx" -> "httpd-79f9f6586f-cph44";
+  "httpd-79f9f6586f-cph44" -> "httpd-79f9f6586f-b9w8t";
 }
 

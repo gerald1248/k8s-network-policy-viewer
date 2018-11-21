@@ -53,72 +53,59 @@ spec:
 EOF
 
 cat << EOF >network-policy-isolated.yaml
-apiVersion: v1
-items:
-- apiVersion: extensions/v1beta1
-  kind: NetworkPolicy
-  metadata:
-    name: isolated
-  spec:
-    podSelector: {}
-    policyTypes:
-    - Ingress
-    - Egress
-kind: List
+apiVersion: extensions/v1beta1
+kind: NetworkPolicy
 metadata:
-  name: network-policy-isolated
+  name: isolated
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress: []
+  egress: []
 EOF
 
-cat << EOF >network-policy-ingress-isolated-whitelist.yaml
-apiVersion: v1
-items:
-- apiVersion: extensions/v1beta1
-  kind: NetworkPolicy
-  metadata:
-    name: ingress-isolated-whitelist
-  spec:
-    podSelector:
-      matchLabels:
-        app: httpd-bob
-    policyTypes:
-    - Ingress
-    ingress:
-    - {}
-kind: List
+cat << EOF >network-policy-ingress-whitelist.yaml
+apiVersion: extensions/v1beta1
+kind: NetworkPolicy
 metadata:
-  name: network-policy-ingress-isolated-whitelist
+  name: ingress-whitelist
+spec:
+  podSelector:
+    matchLabels:
+      app: httpd-bob
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: httpd-alice
 EOF
 
 cat << EOF >network-policy-ingress-isolated.yaml
-apiVersion: v1
-items:
-- apiVersion: extensions/v1beta1
-  kind: NetworkPolicy
-  metadata:
-    name: ingress-isolated
-  spec:
-    podSelector: {}
-    policyTypes:
-    - Ingress
-kind: List
+apiVersion: extensions/v1beta1
+kind: NetworkPolicy
 metadata:
-  name: network-policy-ingress-isolated
+  name: ingress-isolated
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress: []
 EOF
 
 cat << EOF >network-policy-egress-isolated.yaml
-apiVersion: v1
-items:
-- apiVersion: extensions/v1beta1
-  kind: NetworkPolicy
-  metadata:
-    name: egress-isolated
-  spec:
-    podSelector: {}
-    policyTypes:
-    - Egress
-kind: List
+apiVersion: extensions/v1beta1
+kind: NetworkPolicy
 metadata:
-  name: network-policy-egress-isolated
+  name: egress-isolated
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress: []
 EOF
 
 for NAMESPACE in isolated global ingress-isolated egress-isolated ingress-isolated-whitelist; do
@@ -127,10 +114,10 @@ for NAMESPACE in isolated global ingress-isolated egress-isolated ingress-isolat
 done
 
 kubectl create -f pod-bob.yaml -n ingress-isolated-whitelist
-kubectl create -f pod-alice.yaml -n global
+kubectl create -f pod-alice.yaml -n ingress-isolated-whitelist
 
 kubectl create -f network-policy-isolated.yaml -n isolated
 kubectl create -f network-policy-ingress-isolated.yaml -n ingress-isolated
 kubectl create -f network-policy-egress-isolated.yaml -n egress-isolated
-kubectl create -f network-policy-ingress-isolated-whitelist.yaml -n ingress-isolated-whitelist
-
+kubectl create -f network-policy-ingress-isolated.yaml -n ingress-isolated-whitelist
+kubectl create -f network-policy-ingress-whitelist.yaml -n ingress-isolated-whitelist

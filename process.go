@@ -9,24 +9,24 @@ import (
 	"strings"
 )
 
-func processBytes(byteArray []byte, output *string) (string, int, error) {
+func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 
 	//preflight with optional conversion from YAMLs
 	err := preflightAsset(&byteArray)
 	if err != nil {
-		return "", 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
+		return "", 0, 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
 	}
 
 	//make sure config objects are presented as a list
 	err = makeList(&byteArray)
 	if err != nil {
-		return "", 0, err
+		return "", 0, 0, err
 	}
 
 	var apiObjectSet ApiObjectSet
 
 	if err = json.Unmarshal(byteArray, &apiObjectSet); err != nil {
-		return "", 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
+		return "", 0, 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
 	}
 
 	namespacePodMap := make(map[string][]string)
@@ -36,7 +36,8 @@ func processBytes(byteArray []byte, output *string) (string, int, error) {
 	for _, apiObject := range apiObjectSet.ApiObjects {
 		// TODO: white/blacklist mechanism
 		namespace := apiObject.Metadata.Namespace
-		if strings.HasPrefix(namespace, "kube-") {
+		// skip kube-* and default for now
+		if strings.HasPrefix(namespace, "kube-") || strings.HasPrefix(namespace, "default") {
 			continue
 		}
 		switch apiObject.Kind {
@@ -63,7 +64,10 @@ func processBytes(byteArray []byte, output *string) (string, int, error) {
 	edgeMap := make(map[string][]string)
 	initializeEdgeMap(&edgeMap, &namespacePodMap)
 	allEdgesCount := countEdges(&edgeMap)
-	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces)
+
+	// two passes req'd: isolation, then whitelisting
+	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces, FilterIsolation)
+	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces, FilterWhitelist)
 	filteredEdgesCount := countEdges(&edgeMap)
 
 	var buffer bytes.Buffer
@@ -75,10 +79,17 @@ func processBytes(byteArray []byte, output *string) (string, int, error) {
 	case "yaml":
 		writeYaml(&namespacePodMap, &buffer)
 	}
-	var percentage float64
-	percentage = (float64(filteredEdgesCount) / float64(allEdgesCount)) * 100.0
-	percentageInt := int(percentage + 0.5)
-	return buffer.String(), percentageInt, nil
+
+	// metric percentage isolated
+	var percentageIsolated float64
+	percentageIsolated = 100.0 - (float64(filteredEdgesCount) / float64(allEdgesCount)) * 100.0
+	percentageIsolatedInt := int(percentageIsolated + 0.5)
+
+	// metric percentage namespace policy coverage
+	var percentageNamespaceCoverage float64
+	percentageNamespaceCoverage = (float64(len(networkPolicyNamespaces)) / float64(len(namespacePodMap))) * 100.0
+	percentageNamespaceCoverageInt := int(percentageNamespaceCoverage + 0.5)
+	return buffer.String(), percentageIsolatedInt, percentageNamespaceCoverageInt, nil
 }
 
 func processFile(path string, output *string) (string, error) {
@@ -87,7 +98,7 @@ func processFile(path string, output *string) (string, error) {
 		return "", errors.New(fmt.Sprintf("can't read %s: %v", path, err))
 	}
 
-	result, _, err := processBytes(byteArray, output)
+	result, _, _, err := processBytes(byteArray, output)
 
 	if err != nil {
 		return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))

@@ -35,7 +35,7 @@ func main() {
 	stdinFileInfo, _ := os.Stdin.Stat()
 	if stdinFileInfo.Mode()&os.ModeNamedPipe != 0 {
 		stdin, _ := ioutil.ReadAll(os.Stdin)
-		result, _, err := processBytes(stdin, output)
+		result, _, _, err := processBytes(stdin, output)
 
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
