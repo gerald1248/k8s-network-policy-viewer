@@ -8,11 +8,11 @@ The network policy viewer visualizes the pod network. It is far from complete, b
 
 <img src="images/network-policy-viewer.svg" alt="Sample visualization"/>
 
-In this example, the names of the namespaces match their respective network policies, the exception being the `global` namespace which has none.
+In this example, the names of the namespaces match their respective network policies, the exception being the `global` namespace (which has none) and `ingress-isolated-whitelist` (which has two).
 
 The policies `isolated`, `egress-isolated`, `ingress-isolated` each apply to the namespace as a whole.
 
-`ingress-isolated-whitelist` whitelists `httpd-bob`, which is why `httpd-bob` can be reached from both `global` pods (including of course `httpd-alice`) and the `ingress-isolated` namespace.
+`ingress-isolated-whitelist` whitelists `httpd-bob`, which is why `httpd-bob` can be reached from `httpd-alice` and the generic httpd pod in the namespace.
 
 Deployment
 ----------
@@ -44,7 +44,7 @@ $ go build -o k8s-network-policy-viewer .
 ```
 `make build` will run these steps in a two-stage docker build process.
 
-Alternatively, you can use the default image [k8s-network-policy-viewer](https://hub.docker.com/r/gerald1248/k8s-network-policy-viewer). This is also the image referenced in the helm chart..
+Alternatively, you can use the default image [k8s-network-policy-viewer](https://hub.docker.com/r/gerald1248/k8s-network-policy-viewer). This is also the image referenced in the helm chart.
 
 Testdata
 --------
@@ -56,4 +56,4 @@ $ make -C testdata create
 
 Custom inputs
 -------------
-The application is intended for in-cluster use (the Helm chart with appropriate cluster role is in preparation), but you can use the application today by piping or supplying the output of `kubectl get pod,clusterpolicy --all-namespaces -o json`. The application accepts JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`. This will no longer be necessary when the Helm chart is ready and the application runs within your cluster.
+The application is intended for in-cluster use -- in which case it fetches the required API resources from the cluster -- but you can supply arbitrary input by piping the output of `kubectl get pod,clusterpolicy --all-namespaces -o json` to it. The application accepts both JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`.
