@@ -1,8 +1,5 @@
 package main
 
-import (
-)
-
 const (
 	FilterIngress uint8 = 1 << iota
 	FilterEgress
@@ -54,11 +51,9 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 		// destination pods in current namespace
 		// .spec.podSelector is mandatory, so assume it's present
 		var selectedPods []string
-		if len(o.Spec.PodSelector.MatchLabels) == 0 && len(o.Spec.PodSelector.MatchExpressions) == 0 {
+		// TODO: parse matchExpressions
+		if len(o.Spec.PodSelector.MatchLabels) == 0 {
 			selectedPods = (*namespacePodMap)[namespace]
-		} else if len(o.Spec.PodSelector.MatchExpressions) > 0 {
-			// TODO: matchExpressions
-			// TODO: IP range
 		} else if len(o.Spec.PodSelector.MatchLabels) > 0 {
 			selectedPods = selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
 		}
@@ -74,41 +69,59 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 		switch mode {
 		case FilterIsolation: //first pass: isolation
 			if flags&FilterIngress != 0 {
-				isolated := len(o.Spec.Ingress) == 0 ||
-					o.Spec.Ingress == nil
+				isolated := o.Spec.Ingress == nil ||
+					len(o.Spec.Ingress) == 0
 				// TODO: check for nested empty arrays
 				if isolated {
 					filterIngress(&podsSet, edgeMap)
 				}
 			}
 			if flags&FilterEgress != 0 {
-				isolated := len(o.Spec.Egress) == 0 ||
-					o.Spec.Egress == nil
+				isolated := o.Spec.Egress == nil ||
+					len(o.Spec.Egress) == 0
 				if isolated {
 					filterEgress(&podsSet, edgeMap)
 				}
 			}
 		case FilterWhitelist: //second pass: whitelisting
+			// TODO: assume current namespace for now
+			// TODO: ignore ports for now
 			if flags&FilterIngress != 0 {
-				for _, _ = range o.Spec.Ingress {
-					// TODO: assume current namespace for now
-					// TODO: ignore ports for now
-
-					// special case: empty struct
-					namespacePods := (*namespacePodMap)[namespace]
-					for _, namespacePod := range namespacePods {
-						for _, selectedPod := range selectedPods {
-							if namespacePod == selectedPod {
-								continue
+				if o.Spec.Ingress != nil && len(o.Spec.Ingress) > 0 {
+					for _, rule := range o.Spec.Ingress {
+						if len(rule.From) == 0 {
+							// TODO: assume current namespace for now
+							namespacePods := (*namespacePodMap)[namespace]
+							for _, namespacePod := range namespacePods {
+								for _, selectedPod := range selectedPods {
+									if namespacePod == selectedPod {
+										continue
+									}
+									(*edgeMap)[namespacePod] = append((*edgeMap)[namespacePod], selectedPod)
+								}
+								(*edgeMap)[namespacePod] = unique((*edgeMap)[namespacePod])
 							}
-							(*edgeMap)[namespacePod] = append((*edgeMap)[namespacePod], selectedPod)
+						} else {
+							// identify source pods
+							for _, peer := range rule.From {
+								fromPods := selectPods(namespace, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+								for _, fromPod := range fromPods {
+									for _, selectedPod := range selectedPods {
+										if fromPod == selectedPod {
+											continue
+										}
+										(*edgeMap)[fromPod] = append((*edgeMap)[fromPod], selectedPod)
+									}
+									(*edgeMap)[fromPod] = unique((*edgeMap)[fromPod])
+								}
+							}
 						}
-						(*edgeMap)[namespacePod] = unique((*edgeMap)[namespacePod])
 					}
+					// TODO: non-empty rules
 				}
 			}
-			// TODO: egress whitelist
 		}
+		// TODO: egress whitelist
 	}
 }
 
