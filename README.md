@@ -26,11 +26,11 @@ Point your browser to the URL given in `values.yaml` (e.g. `http://minikube.info
 
 The available endpoints are:
 
-| Endpoint        | Description     |
-| --------------- | --------------- |
-| /               | Show graph      |
-| /health         | Health endpoint |
-| /api/v1/metrics | Show metrics    |
+| Endpoint        | Description      |
+| --------------- | ---------------- |
+| /               | Show graph       |
+| /health         | Health endpoint  |
+| /api/v1/metrics | Metrics endpoint |
 
 Build
 -----
@@ -56,4 +56,4 @@ $ make -C testdata create
 
 Custom inputs
 -------------
-The application is intended for in-cluster use -- in which case it fetches the required API resources from the cluster -- but you can supply arbitrary input by piping the output of `kubectl get pod,clusterpolicy --all-namespaces -o json` to it. The application accepts both JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`.
+The application is intended for in-cluster use -- in which case it fetches the required API resources from the cluster -- but you can supply arbitrary input by piping the output of `kubectl get pod,namespace,networkpolicy --all-namespaces -o json` to it. The application accepts both JSON and YAML, but you may wish to work with JSON so you can filter the input with `jq`.
