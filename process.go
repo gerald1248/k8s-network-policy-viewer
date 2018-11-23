@@ -17,7 +17,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		return "", 0, 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
 	}
 
-	//make sure config objects are presented as a list
+	// make sure config objects are presented as a list
 	err = makeList(&byteArray)
 	if err != nil {
 		return "", 0, 0, err
@@ -29,7 +29,9 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		return "", 0, 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
 	}
 
+	// extract compact datastructures
 	namespacePodMap := make(map[string][]string)
+	namespaceLabelMap := make(map[string]map[string]string)
 	podLabelMap := make(map[string]map[string]string)
 	networkPolicyNamespaces := make(map[string]struct{})
 	networkPolicies := []ApiObject{}
@@ -42,22 +44,16 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		}
 		switch apiObject.Kind {
 		case "Pod":
-			// TODO: omitted skip condition: apiObject.Status.ContainerStatuses[0].Ready == true
 			if len(apiObject.Status.ContainerStatuses) > 0 &&
 				apiObject.Status.ContainerStatuses[0].Ready == true {
 				namespacePodMap[namespace] = append(namespacePodMap[namespace], apiObject.Metadata.Name)
 				podLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
 			}
+		case "Namespace":
+			namespaceLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
 		case "NetworkPolicy":
 			networkPolicies = append(networkPolicies, *apiObject)
 			networkPolicyNamespaces[namespace] = struct{}{}
-		}
-	}
-
-	globalNamespaces := []string{}
-	for podNamespace, _ := range namespacePodMap {
-		if _, ok := networkPolicyNamespaces[podNamespace]; !ok {
-			globalNamespaces = append(globalNamespaces, podNamespace)
 		}
 	}
 
@@ -66,8 +62,8 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 	allEdgesCount := countEdges(&edgeMap)
 
 	// two passes req'd: isolation, then whitelisting
-	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces, FilterIsolation)
-	filterEdgeMap(&edgeMap, &namespacePodMap, &podLabelMap, &networkPolicies, &globalNamespaces, FilterWhitelist)
+	filterEdgeMap(&edgeMap, &namespacePodMap, &namespaceLabelMap, &podLabelMap, &networkPolicies, FilterIsolation)
+	filterEdgeMap(&edgeMap, &namespacePodMap, &namespaceLabelMap, &podLabelMap, &networkPolicies, FilterWhitelist)
 	filteredEdgesCount := countEdges(&edgeMap)
 
 	var buffer bytes.Buffer
@@ -82,7 +78,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 
 	// metric percentage isolated
 	var percentageIsolated float64
-	percentageIsolated = 100.0 - (float64(filteredEdgesCount) / float64(allEdgesCount)) * 100.0
+	percentageIsolated = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
 	percentageIsolatedInt := int(percentageIsolated + 0.5)
 
 	// metric percentage namespace policy coverage

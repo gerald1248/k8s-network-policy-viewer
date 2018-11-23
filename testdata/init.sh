@@ -1,5 +1,67 @@
 #!/bin/bash
 
+# namespaces
+cat << EOF >namespace-isolated.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: isolated
+  labels:
+    app: isolated
+spec:
+  finalizers:
+  - kubernetes
+EOF
+
+cat << EOF >namespace-global.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: global
+  labels:
+    app: global
+spec:
+  finalizers:
+  - kubernetes
+EOF
+
+cat << EOF >namespace-ingress-isolated.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ingress-isolated
+  labels:
+    app: ingress-isolated
+spec:
+  finalizers:
+  - kubernetes
+EOF
+
+cat << EOF >namespace-egress-isolated.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: egress-isolated
+  labels:
+    app: egress-isolated
+spec:
+  finalizers:
+  - kubernetes
+EOF
+
+cat << EOF >namespace-ingress-isolated-whitelist.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ingress-isolated-whitelist
+  labels:
+    app: ingress-isolated-whitelist
+spec:
+  finalizers:
+  - kubernetes
+EOF
+
+# deployments 
 cat << EOF >deployment.yaml
 kind: Deployment
 apiVersion: apps/v1
@@ -109,7 +171,7 @@ spec:
 EOF
 
 for NAMESPACE in isolated global ingress-isolated egress-isolated ingress-isolated-whitelist; do
-  kubectl create namespace ${NAMESPACE} 
+  kubectl create -f namespace-${NAMESPACE}.yaml
   kubectl create -f deployment.yaml -n ${NAMESPACE}
 done
 

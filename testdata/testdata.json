@@ -5,6 +5,165 @@
             "apiVersion": "v1",
             "kind": "Pod",
             "metadata": {
+                "creationTimestamp": "2018-11-21T01:44:54Z",
+                "generateName": "k8s-network-policy-viewer-7c84f94f5d-",
+                "labels": {
+                    "app": "k8s-network-policy-viewer",
+                    "pod-template-hash": "3740950918"
+                },
+                "name": "k8s-network-policy-viewer-7c84f94f5d-bddwf",
+                "namespace": "default",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "k8s-network-policy-viewer-7c84f94f5d",
+                        "uid": "98e8074f-ed2c-11e8-95b7-080027d9d9c6"
+                    }
+                ],
+                "resourceVersion": "37059",
+                "selfLink": "/api/v1/namespaces/default/pods/k8s-network-policy-viewer-7c84f94f5d-bddwf",
+                "uid": "0b5fed5c-ed2f-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "POD_NAMESPACE",
+                                "value": "default"
+                            }
+                        ],
+                        "image": "gerald1248/k8s-network-policy-viewer:latest",
+                        "imagePullPolicy": "Always",
+                        "livenessProbe": {
+                            "exec": {
+                                "command": [
+                                    "date"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "k8s-network-policy-viewer",
+                        "readinessProbe": {
+                            "exec": {
+                                "command": [
+                                    "date"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 20,
+                            "periodSeconds": 20,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "1Gi"
+                            },
+                            "requests": {
+                                "cpu": "100m",
+                                "memory": "512Mi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "k8s-network-policy-viewer-token-64sfw",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "k8s-network-policy-viewer",
+                "serviceAccountName": "k8s-network-policy-viewer",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "k8s-network-policy-viewer-token-64sfw",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "k8s-network-policy-viewer-token-64sfw"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-11-21T01:44:54Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-11-21T01:45:32Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-11-21T01:44:54Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://4ece6a5ce28d3a8cc662faf14b3f9b63d5dddf14bc8e857a409f029b82425bd9",
+                        "image": "gerald1248/k8s-network-policy-viewer:latest",
+                        "imageID": "docker-pullable://gerald1248/k8s-network-policy-viewer@sha256:97e36848412b498dcb6c99c26f788d5fb41040cbcf300df03d8710dde1842684",
+                        "lastState": {},
+                        "name": "k8s-network-policy-viewer",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "running": {
+                                "startedAt": "2018-11-21T01:45:01Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Running",
+                "podIP": "172.17.0.14",
+                "qosClass": "Burstable",
+                "startTime": "2018-11-21T01:44:54Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
                 "creationTimestamp": "2018-11-21T01:04:05Z",
                 "generateName": "httpd-79f9f6586f-",
                 "labels": {
@@ -2711,6 +2870,174 @@
             }
         },
         {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2018-11-21T01:26:33Z",
+                "generateName": "tiller-deploy-6fd8d857bc-",
+                "labels": {
+                    "app": "helm",
+                    "name": "tiller",
+                    "pod-template-hash": "2984841367"
+                },
+                "name": "tiller-deploy-6fd8d857bc-lccvn",
+                "namespace": "kube-system",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "extensions/v1beta1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "tiller-deploy-6fd8d857bc",
+                        "uid": "7b58923c-ed2c-11e8-95b7-080027d9d9c6"
+                    }
+                ],
+                "resourceVersion": "35603",
+                "selfLink": "/api/v1/namespaces/kube-system/pods/tiller-deploy-6fd8d857bc-lccvn",
+                "uid": "7b5f9066-ed2c-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "automountServiceAccountToken": true,
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "TILLER_NAMESPACE",
+                                "value": "kube-system"
+                            },
+                            {
+                                "name": "TILLER_HISTORY_MAX",
+                                "value": "0"
+                            }
+                        ],
+                        "image": "gcr.io/kubernetes-helm/tiller:v2.11.0",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/liveness",
+                                "port": 44135,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 1,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "tiller",
+                        "ports": [
+                            {
+                                "containerPort": 44134,
+                                "name": "tiller",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 44135,
+                                "name": "http",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/readiness",
+                                "port": 44135,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 1,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-qn7lr",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "nodeName": "minikube",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "default-token-qn7lr",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-qn7lr"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-11-21T01:26:33Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-11-21T01:26:44Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2018-11-21T01:26:33Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://3b61d7af7316063defb5521d45cfa203779cd62bbebdd3977f9154480ed353f2",
+                        "image": "gcr.io/kubernetes-helm/tiller:v2.11.0",
+                        "imageID": "docker-pullable://gcr.io/kubernetes-helm/tiller@sha256:f6d8f4ab9ba993b5f5b60a6edafe86352eabe474ffeb84cb6c79b8866dce45d1",
+                        "lastState": {},
+                        "name": "tiller",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "running": {
+                                "startedAt": "2018-11-21T01:26:40Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.2.15",
+                "phase": "Running",
+                "podIP": "172.17.0.13",
+                "qosClass": "BestEffort",
+                "startTime": "2018-11-21T01:26:33Z"
+            }
+        },
+        {
             "apiVersion": "extensions/v1beta1",
             "kind": "NetworkPolicy",
             "metadata": {
@@ -2821,6 +3148,161 @@
                     "Ingress",
                     "Egress"
                 ]
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-20T02:06:57Z",
+                "name": "default",
+                "resourceVersion": "5",
+                "selfLink": "/api/v1/namespaces/default",
+                "uid": "f566f352-ec68-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-21T01:04:05Z",
+                "name": "egress-isolated",
+                "resourceVersion": "33809",
+                "selfLink": "/api/v1/namespaces/egress-isolated",
+                "uid": "57cc8895-ed29-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-21T01:04:05Z",
+                "name": "global",
+                "resourceVersion": "33773",
+                "selfLink": "/api/v1/namespaces/global",
+                "uid": "577e36c6-ed29-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-21T01:04:05Z",
+                "name": "ingress-isolated",
+                "resourceVersion": "33790",
+                "selfLink": "/api/v1/namespaces/ingress-isolated",
+                "uid": "57a40d45-ed29-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-21T01:04:06Z",
+                "name": "ingress-isolated-whitelist",
+                "resourceVersion": "33829",
+                "selfLink": "/api/v1/namespaces/ingress-isolated-whitelist",
+                "uid": "57fa0356-ed29-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-21T01:04:04Z",
+                "name": "isolated",
+                "resourceVersion": "33756",
+                "selfLink": "/api/v1/namespaces/isolated",
+                "uid": "57558788-ed29-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2018-11-20T02:07:01Z",
+                "name": "kube-public",
+                "resourceVersion": "42",
+                "selfLink": "/api/v1/namespaces/kube-public",
+                "uid": "f7cd3c90-ec68-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"name\":\"kube-system\",\"namespace\":\"\"}}\n"
+                },
+                "creationTimestamp": "2018-11-20T02:06:58Z",
+                "name": "kube-system",
+                "resourceVersion": "331",
+                "selfLink": "/api/v1/namespaces/kube-system",
+                "uid": "f5e86a8c-ec68-11e8-95b7-080027d9d9c6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
             }
         }
     ],

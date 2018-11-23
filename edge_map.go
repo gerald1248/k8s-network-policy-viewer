@@ -29,7 +29,13 @@ func initializeEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string
 
 // filterEdgeMap is called twice: isolation 1st, whitelisting 2nd
 // see central switch
-func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string, networkPolicies *[]ApiObject, globalNamespaces *[]string, mode int) {
+func filterEdgeMap(
+	edgeMap *map[string][]string,
+	namespacePodMap *map[string][]string,
+	namespaceLabelMap *map[string]map[string]string,
+	podLabelMap *map[string]map[string]string,
+	networkPolicies *[]ApiObject,
+	mode int) {
 	for _, o := range *networkPolicies {
 		namespace := o.Metadata.Namespace
 
@@ -104,7 +110,13 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 						} else {
 							// identify source pods
 							for _, peer := range rule.From {
-								fromPods := selectPods(namespace, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+								var namespaces []string
+								if peer.NamespaceSelector == nil || peer.NamespaceSelector.MatchLabels == nil {
+									namespaces = append(namespaces, namespace)
+								} else {
+									namespaces = selectNamespaces(&peer.NamespaceSelector.MatchLabels, namespacePodMap, namespaceLabelMap)
+								}
+								fromPods := selectPodsAcrossNamespaces(&namespaces, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
 								for _, fromPod := range fromPods {
 									for _, selectedPod := range selectedPods {
 										if fromPod == selectedPod {
@@ -117,7 +129,6 @@ func filterEdgeMap(edgeMap *map[string][]string, namespacePodMap *map[string][]s
 							}
 						}
 					}
-					// TODO: non-empty rules
 				}
 			}
 		}

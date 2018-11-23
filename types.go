@@ -58,14 +58,14 @@ type NetworkPolicyEgressRule struct {
 }
 
 type NetworkPolicyPeer struct {
-	PodSelector *Selector `json:"podSelector"`
-	// TODO: NamespaceSelector
+	PodSelector       *Selector `json:"podSelector"`
+	NamespaceSelector *Selector `json:"namespaceSelector"`
 	// TODO: IPBlock
 }
 
 type Selector struct {
 	MatchLabels      map[string]string `json:"matchLabels"`
-	MatchExpressions interface{} //TODO
+	MatchExpressions interface{}       //TODO
 }
 
 type Port struct {

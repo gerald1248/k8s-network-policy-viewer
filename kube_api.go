@@ -27,6 +27,7 @@ func getJsonData(buffer *string) {
 		return
 	}
 
+	// pods
 	pods, err := clientset.CoreV1().Pods("").List(metav1.ListOptions{})
 	if errors.IsNotFound(err) {
 		log.Printf("Pods not found\n")
@@ -39,7 +40,6 @@ func getJsonData(buffer *string) {
 		return
 	}
 
-	// TODO: is there an option to retain the "Kind" field on retrieval?
 	for index, _ := range pods.Items {
 		pods.Items[index].Kind = "Pod"
 	}
@@ -50,6 +50,30 @@ func getJsonData(buffer *string) {
 		return
 	}
 
+	// namespaces
+	namespaces, err := clientset.CoreV1().Namespaces().List(metav1.ListOptions{})
+	if errors.IsNotFound(err) {
+		log.Printf("Namespaces not found\n")
+		return
+	} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
+		log.Printf("Error listing namespaces %v\n", statusError.ErrStatus.Message)
+		return
+	} else if err != nil {
+		log.Printf("API error: %s\n", err.Error())
+		return
+	}
+
+	for index, _ := range namespaces.Items {
+		pods.Items[index].Kind = "Namespace"
+	}
+
+	namespacesJson, err := json.Marshal(pods.Items)
+	if err != nil {
+		log.Printf("Can't marshal namespaces: %s\n", err.Error())
+		return
+	}
+
+	// network policies
 	networkPolicies, err := clientset.NetworkingV1().NetworkPolicies("").List(metav1.ListOptions{})
 	if errors.IsNotFound(err) {
 		log.Printf("Network policies not found\n")
@@ -70,14 +94,16 @@ func getJsonData(buffer *string) {
 		return
 	}
 
+	// stringify, trim, assemble
 	podsJsonString := string(podsJson)
+	namespacesJsonString := string(namespacesJson)
 	networkPoliciesJsonString := string(networkPoliciesJson)
+
 	trimBrackets(&podsJsonString)
+	trimBrackets(&namespacesJsonString)
 	trimBrackets(&networkPoliciesJsonString)
 
-	// TODO: switch to go templating
-
-	*buffer = fmt.Sprintf("{\"kind\":\"List\",\"apiVersion\":\"v1\",\"Items\":[%s,%s]}", podsJsonString, networkPoliciesJsonString)
+	*buffer = fmt.Sprintf("{\"kind\":\"List\",\"apiVersion\":\"v1\",\"Items\":[%s,%s,%s]}", podsJsonString, namespacesJsonString, networkPoliciesJsonString)
 }
 
 func trimBrackets(s *string) {
