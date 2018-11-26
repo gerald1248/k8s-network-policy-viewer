@@ -61,6 +61,18 @@ spec:
   - kubernetes
 EOF
 
+cat << EOF >namespace-eve.yaml
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: eve
+  labels:
+    app: eve
+spec:
+  finalizers:
+  - kubernetes
+EOF
+
 # deployments 
 cat << EOF >deployment.yaml
 kind: Deployment
@@ -114,8 +126,23 @@ spec:
     - containerPort: 8080
 EOF
 
+cat << EOF >pod-eve.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd-eve
+  labels:
+    app: httpd-eve
+spec:
+  containers:
+  - name: httpd
+    image: centos/httpd-24-centos7
+    ports:
+    - containerPort: 8080
+EOF
+
 cat << EOF >network-policy-isolated.yaml
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: isolated
@@ -128,11 +155,11 @@ spec:
   egress: []
 EOF
 
-cat << EOF >network-policy-ingress-whitelist.yaml
-apiVersion: extensions/v1beta1
+cat << EOF >network-policy-ingress-whitelist-pod.yaml
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: ingress-whitelist
+  name: ingress-whitelist-pod
 spec:
   podSelector:
     matchLabels:
@@ -146,8 +173,26 @@ spec:
           app: httpd-alice
 EOF
 
+cat << EOF >network-policy-ingress-whitelist-namespace.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-whitelist-namespace
+spec:
+  podSelector:
+    matchLabels:
+      app: httpd-bob
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app: eve
+EOF
+
 cat << EOF >network-policy-ingress-isolated.yaml
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: ingress-isolated
@@ -159,7 +204,7 @@ spec:
 EOF
 
 cat << EOF >network-policy-egress-isolated.yaml
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: egress-isolated
@@ -170,7 +215,7 @@ spec:
   egress: []
 EOF
 
-for NAMESPACE in isolated global ingress-isolated egress-isolated ingress-isolated-whitelist; do
+for NAMESPACE in isolated global ingress-isolated egress-isolated ingress-isolated-whitelist eve; do
   kubectl create -f namespace-${NAMESPACE}.yaml
   kubectl create -f deployment.yaml -n ${NAMESPACE}
 done
@@ -178,8 +223,12 @@ done
 kubectl create -f pod-bob.yaml -n ingress-isolated-whitelist
 kubectl create -f pod-alice.yaml -n ingress-isolated-whitelist
 
+kubectl create -f network-policy-isolated.yaml -n eve
+kubectl create -f pod-eve.yaml -n eve
+
 kubectl create -f network-policy-isolated.yaml -n isolated
 kubectl create -f network-policy-ingress-isolated.yaml -n ingress-isolated
 kubectl create -f network-policy-egress-isolated.yaml -n egress-isolated
 kubectl create -f network-policy-ingress-isolated.yaml -n ingress-isolated-whitelist
-kubectl create -f network-policy-ingress-whitelist.yaml -n ingress-isolated-whitelist
+kubectl create -f network-policy-ingress-whitelist-pod.yaml -n ingress-isolated-whitelist
+kubectl create -f network-policy-ingress-whitelist-namespace.yaml -n ingress-isolated-whitelist

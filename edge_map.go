@@ -1,5 +1,8 @@
 package main
 
+import (
+)
+
 const (
 	FilterIngress uint8 = 1 << iota
 	FilterEgress
@@ -110,13 +113,13 @@ func filterEdgeMap(
 						} else {
 							// identify source pods
 							for _, peer := range rule.From {
-								var namespaces []string
+								var fromPods []string
 								if peer.NamespaceSelector == nil || peer.NamespaceSelector.MatchLabels == nil {
-									namespaces = append(namespaces, namespace)
+									fromPods = selectPods(namespace, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
 								} else {
-									namespaces = selectNamespaces(&peer.NamespaceSelector.MatchLabels, namespacePodMap, namespaceLabelMap)
+									namespaces := selectNamespaces(&peer.NamespaceSelector.MatchLabels, namespacePodMap, namespaceLabelMap)
+									fromPods = selectPodsAcrossNamespaces(&namespaces, &peer.NamespaceSelector.MatchLabels, namespacePodMap, podLabelMap)
 								}
-								fromPods := selectPodsAcrossNamespaces(&namespaces, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
 								for _, fromPod := range fromPods {
 									for _, selectedPod := range selectedPods {
 										if fromPod == selectedPod {

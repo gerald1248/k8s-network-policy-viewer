@@ -2,7 +2,7 @@ package main
 
 func selectPods(namespace string, selector *map[string]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string {
 	// special case: empty map selects all pods
-	if len(*selector) == 0 {
+	if *selector == nil || len(*selector) == 0 {
 		return (*namespacePodMap)[namespace]
 	}
 
@@ -22,7 +22,8 @@ func selectPods(namespace string, selector *map[string]string, namespacePodMap *
 func selectPodsAcrossNamespaces(namespaces *[]string, selector *map[string]string, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string {
 	var allPods []string
 	for _, namespace := range *namespaces {
-		allPods = append(allPods, selectPods(namespace, selector, namespacePodMap, podLabelMap)...)
+		selectedPods := selectPods(namespace, selector, namespacePodMap, podLabelMap)
+		allPods = append(allPods, selectedPods...)
 	}
 	return allPods
 }

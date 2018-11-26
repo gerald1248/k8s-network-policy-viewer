@@ -1,0 +1,9 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ingress-isolated
+  labels:
+    app: ingress-isolated
+spec:
+  finalizers:
+  - kubernetes
