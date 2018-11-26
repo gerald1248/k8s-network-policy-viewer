@@ -1,6 +1,7 @@
 package main
 
-import ()
+import (
+)
 
 func selectNamespaces(selector *map[string]string, namespacePodMap *map[string][]string, namespaceLabelMap *map[string]map[string]string) []string {
 	var namespaces []string
@@ -23,5 +24,5 @@ func selectNamespaces(selector *map[string]string, namespacePodMap *map[string][
 		}
 	}
 
-	return namespaces
+	return selectedNamespaces
 }

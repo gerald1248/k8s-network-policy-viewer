@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 )
 
 const (
@@ -116,9 +117,14 @@ func filterEdgeMap(
 								var fromPods []string
 								if peer.NamespaceSelector == nil || peer.NamespaceSelector.MatchLabels == nil {
 									fromPods = selectPods(namespace, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+									log.Printf("no namespace selector: %s/%v\n", namespace, fromPods);
 								} else {
 									namespaces := selectNamespaces(&peer.NamespaceSelector.MatchLabels, namespacePodMap, namespaceLabelMap)
-									fromPods = selectPodsAcrossNamespaces(&namespaces, &peer.NamespaceSelector.MatchLabels, namespacePodMap, podLabelMap)
+									// v1.10 does not support mixed namespace/pod selection
+									// TODO: don't use pointer; pass in selector
+									var selectorStub map[string]string
+									fromPods = selectPodsAcrossNamespaces(&namespaces, &selectorStub, namespacePodMap, podLabelMap)
+									log.Printf("Namespace selector: %v/%v\n", namespaces, fromPods);
 								}
 								for _, fromPod := range fromPods {
 									for _, selectedPod := range selectedPods {
