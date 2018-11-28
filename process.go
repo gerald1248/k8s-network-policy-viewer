@@ -46,8 +46,10 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		case "Pod":
 			if len(apiObject.Status.ContainerStatuses) > 0 &&
 				apiObject.Status.ContainerStatuses[0].Ready == true {
-				namespacePodMap[namespace] = append(namespacePodMap[namespace], apiObject.Metadata.Name)
-				podLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
+				slice := []string{namespace, apiObject.Metadata.Name}
+				qualifiedPodName := strings.Join(slice, ":")
+				namespacePodMap[namespace] = append(namespacePodMap[namespace], qualifiedPodName)
+				podLabelMap[qualifiedPodName] = apiObject.Metadata.Labels
 			}
 		case "Namespace":
 			namespaceLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels

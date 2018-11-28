@@ -1,7 +1,6 @@
 package main
 
-import (
-)
+import ()
 
 const (
 	FilterIngress uint8 = 1 << iota
