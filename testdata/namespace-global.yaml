@@ -1,9 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: global
-  labels:
-    app: global
-spec:
-  finalizers:
-  - kubernetes

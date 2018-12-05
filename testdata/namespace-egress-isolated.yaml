@@ -1,9 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: egress-isolated
-  labels:
-    app: egress-isolated
-spec:
-  finalizers:
-  - kubernetes

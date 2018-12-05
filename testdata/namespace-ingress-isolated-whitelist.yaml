@@ -1,9 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: ingress-isolated-whitelist
-  labels:
-    app: ingress-isolated-whitelist
-spec:
-  finalizers:
-  - kubernetes

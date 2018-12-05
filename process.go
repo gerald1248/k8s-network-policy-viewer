@@ -44,7 +44,8 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		}
 		switch apiObject.Kind {
 		case "Pod":
-			if len(apiObject.Status.ContainerStatuses) > 0 &&
+			if apiObject.Status != nil &&
+				len(apiObject.Status.ContainerStatuses) > 0 &&
 				apiObject.Status.ContainerStatuses[0].Ready == true {
 				namespacePodMap[namespace] = append(namespacePodMap[namespace], apiObject.Metadata.Name)
 				podLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels

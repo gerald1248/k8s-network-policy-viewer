@@ -1,9 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: isolated
-  labels:
-    app: isolated
-spec:
-  finalizers:
-  - kubernetes
