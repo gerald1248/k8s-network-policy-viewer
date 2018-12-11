@@ -64,8 +64,14 @@ type NetworkPolicyPeer struct {
 }
 
 type Selector struct {
-	MatchLabels      map[string]string `json:"matchLabels"`
-	MatchExpressions interface{}       //TODO
+	MatchLabels      map[string]string           `json:"matchLabels"`
+	MatchExpressions []*LabelSelectorRequirement `json:"matchExpressions"`
+}
+
+type LabelSelectorRequirement struct {
+	Key      string   `json:"key"`
+	Operator string   `json:"operator"`
+	Values   []string `json:"values"`
 }
 
 type Port struct {

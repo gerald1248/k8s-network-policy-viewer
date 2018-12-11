@@ -1,7 +1,5 @@
 package main
 
-import ()
-
 const (
 	FilterIngress uint8 = 1 << iota
 	FilterEgress
@@ -63,7 +61,7 @@ func filterEdgeMap(
 		if len(o.Spec.PodSelector.MatchLabels) == 0 {
 			selectedPods = (*namespacePodMap)[namespace]
 		} else if len(o.Spec.PodSelector.MatchLabels) > 0 {
-			selectedPods = selectPods(namespace, &o.Spec.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+			selectedPods = selectPods(namespace, o.Spec.PodSelector, namespacePodMap, podLabelMap)
 		}
 
 		// source pods for ingress (.spec.from)
@@ -114,12 +112,12 @@ func filterEdgeMap(
 							for _, peer := range rule.From {
 								var fromPods []string
 								if peer.NamespaceSelector == nil || peer.NamespaceSelector.MatchLabels == nil {
-									fromPods = selectPods(namespace, &peer.PodSelector.MatchLabels, namespacePodMap, podLabelMap)
+									fromPods = selectPods(namespace, peer.PodSelector, namespacePodMap, podLabelMap)
 								} else {
 									namespaces := selectNamespaces(&peer.NamespaceSelector.MatchLabels, namespacePodMap, namespaceLabelMap)
 									// v1.10 does not support mixed namespace/pod selection
 									// TODO: don't use pointer; pass in selector
-									var selectorStub map[string]string
+									var selectorStub Selector
 									fromPods = selectPodsAcrossNamespaces(&namespaces, &selectorStub, namespacePodMap, podLabelMap)
 								}
 								for _, fromPod := range fromPods {
