@@ -182,7 +182,7 @@ func TestSelectPodsMatchExpressionsNotExists(t *testing.T) {
 
 	pods := selectPods(namespace, &selector, &namespacePodMap, &podLabelMap)
 
-	if len(pods) != 3 {
+	if len(pods) != 2 {
 		t.Errorf("DoesNotExist: must find two matching pods - got array=%v", pods)
 	}
 }
