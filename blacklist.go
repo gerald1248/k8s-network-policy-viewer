@@ -13,7 +13,7 @@ func onBlacklist(namespace string) bool {
 }
 
 func onBlacklistNoEnv(namespace string, blacklist string) bool {
-	if len(namespace) == 0 {
+	if strings.TrimSpace(namespace) == "" || strings.TrimSpace(blacklist) == "" {
 		return false
 	}
 
