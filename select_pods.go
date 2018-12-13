@@ -3,7 +3,10 @@ package main
 func selectPods(namespace string, selector *Selector, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string {
 	// special case: empty map selects all pods
 	if selectorIsEmpty(selector) {
+		//fmt.Printf("Selector empty: %v\n", *selector)
 		return (*namespacePodMap)[namespace]
+	} else {
+		//fmt.Printf("Selector not empty: %v\n", *selector)
 	}
 
 	var selectedPods []string
@@ -87,7 +90,7 @@ func selectPodsAcrossNamespaces(namespaces *[]string, selector *Selector, namesp
 }
 
 func selectorIsEmpty(selector *Selector) bool {
-	return ((*selector).MatchLabels == nil ||
-		len((*selector).MatchLabels) == 0) &&
-		(*selector).MatchExpressions == nil
+	matchLabelsEmpty := (*selector).MatchLabels == nil && len((*selector).MatchLabels) == 0
+	matchExpressionsEmpty := len((*selector).MatchExpressions) == 0
+	return matchLabelsEmpty && matchExpressionsEmpty
 }

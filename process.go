@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"strings"
 )
 
@@ -36,13 +37,14 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 	networkPolicyNamespaces := make(map[string]struct{})
 	networkPolicies := []ApiObject{}
 	for _, apiObject := range apiObjectSet.ApiObjects {
-		// TODO: white/blacklist mechanism
 		namespace := apiObject.Metadata.Namespace
-		if onBlacklist(namespace) {
-			continue
-		}
 		switch apiObject.Kind {
+
 		case "Pod":
+			if onBlacklist(namespace) {
+				continue
+			}
+
 			if apiObject.Status != nil &&
 				len(apiObject.Status.ContainerStatuses) > 0 &&
 				apiObject.Status.ContainerStatuses[0].Ready == true {
@@ -51,11 +53,16 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 				namespacePodMap[namespace] = append(namespacePodMap[namespace], qualifiedPodName)
 				podLabelMap[qualifiedPodName] = apiObject.Metadata.Labels
 			}
-		case "Namespace":
-			namespaceLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
+
 		case "NetworkPolicy":
+			if onBlacklist(namespace) {
+				continue
+			}
 			networkPolicies = append(networkPolicies, *apiObject)
 			networkPolicyNamespaces[namespace] = struct{}{}
+
+		case "Namespace":
+			namespaceLabelMap[apiObject.Metadata.Name] = apiObject.Metadata.Labels
 		}
 	}
 
@@ -79,14 +86,22 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 	}
 
 	// metric percentage isolated
-	var percentageIsolated float64
-	percentageIsolated = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
-	percentageIsolatedInt := int(percentageIsolated + 0.5)
+	var percentageIsolatedInt int
+	percentageIsolatedInt = 100
+	if allEdgesCount != 0 {
+		var percentageIsolated float64
+		percentageIsolated = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
+		percentageIsolatedInt = int(math.Floor(percentageIsolated + 0.5))
+	}
 
 	// metric percentage namespace policy coverage
-	var percentageNamespaceCoverage float64
-	percentageNamespaceCoverage = (float64(len(networkPolicyNamespaces)) / float64(len(namespacePodMap))) * 100.0
-	percentageNamespaceCoverageInt := int(percentageNamespaceCoverage + 0.5)
+	var percentageNamespaceCoverageInt int
+	percentageNamespaceCoverageInt = 100
+	if len(namespacePodMap) != 0 {
+		var percentageNamespaceCoverage float64
+		percentageNamespaceCoverage = (float64(len(networkPolicyNamespaces)) / float64(len(namespacePodMap))) * 100.0
+		percentageNamespaceCoverageInt = int(math.Floor(percentageNamespaceCoverage + 0.5))
+	}
 	return buffer.String(), percentageIsolatedInt, percentageNamespaceCoverageInt, nil
 }
 

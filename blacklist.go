@@ -8,11 +8,17 @@ import (
 const blacklistEnv = "NETWORK_POLICY_VIEWER_BLACKLIST"
 
 func onBlacklist(namespace string) bool {
+	blacklist := os.Getenv(blacklistEnv)
+	return onBlacklistNoEnv(namespace, blacklist)
+}
+
+func onBlacklistNoEnv(namespace string, blacklist string) bool {
 	if len(namespace) == 0 {
 		return false
 	}
 
-	items := strings.Split(os.Getenv(blacklistEnv), ",")
+	items := strings.Split(blacklist, ",")
+
 	for _, item := range items {
 		if strings.Contains(namespace, item) {
 			return true
