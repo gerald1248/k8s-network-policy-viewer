@@ -90,7 +90,7 @@ func selectPodsAcrossNamespaces(namespaces *[]string, selector *Selector, namesp
 }
 
 func selectorIsEmpty(selector *Selector) bool {
-	matchLabelsEmpty := (*selector).MatchLabels == nil && len((*selector).MatchLabels) == 0
-	matchExpressionsEmpty := len((*selector).MatchExpressions) == 0
+	matchLabelsEmpty := (*selector).MatchLabels == nil || len((*selector).MatchLabels) == 0
+	matchExpressionsEmpty := (*selector).MatchExpressions == nil || len((*selector).MatchExpressions) == 0
 	return matchLabelsEmpty && matchExpressionsEmpty
 }
