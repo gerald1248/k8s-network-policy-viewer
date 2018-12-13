@@ -1,42 +1,42 @@
 digraph podNetwork {
   subgraph cluster_1 {
-    "httpd-79f9f6586f-q49dc";
-    label = "global"
-  }
-  subgraph cluster_2 {
-    "httpd-79f9f6586f-4vb5c";
+    "httpd-79f9f6586f-tk74g";
     "httpd-alice";
     "httpd-bob";
     label = "ingress-isolated-whitelist"
   }
-  subgraph cluster_3 {
-    "httpd-79f9f6586f-fp9mc";
+  subgraph cluster_2 {
+    "httpd-79f9f6586f-4f4df";
     label = "ingress-isolated"
   }
-  subgraph cluster_4 {
-    "httpd-79f9f6586f-wfkz4";
+  subgraph cluster_3 {
+    "httpd-79f9f6586f-kd2kj";
     label = "isolated"
   }
-  subgraph cluster_5 {
-    "httpd-79f9f6586f-wrf5x";
+  subgraph cluster_4 {
+    "httpd-79f9f6586f-m4j6f";
     label = "egress-isolated"
   }
-  subgraph cluster_6 {
-    "httpd-79f9f6586f-mftvp";
+  subgraph cluster_5 {
+    "httpd-79f9f6586f-k2km2";
     "httpd-eve";
     label = "eve"
   }
-  "httpd-79f9f6586f-mftvp" -> "httpd-bob";
+  subgraph cluster_6 {
+    "httpd-79f9f6586f-msbjh";
+    label = "global"
+  }
   "httpd-eve" -> "httpd-bob";
-  "httpd-79f9f6586f-q49dc" -> "httpd-79f9f6586f-wrf5x";
-  "httpd-bob" -> "httpd-79f9f6586f-wrf5x";
-  "httpd-bob" -> "httpd-79f9f6586f-q49dc";
-  "httpd-79f9f6586f-fp9mc" -> "httpd-79f9f6586f-wrf5x";
-  "httpd-79f9f6586f-fp9mc" -> "httpd-79f9f6586f-q49dc";
-  "httpd-alice" -> "httpd-79f9f6586f-wrf5x";
-  "httpd-alice" -> "httpd-79f9f6586f-q49dc";
+  "httpd-alice" -> "httpd-79f9f6586f-msbjh";
+  "httpd-alice" -> "httpd-79f9f6586f-m4j6f";
   "httpd-alice" -> "httpd-bob";
-  "httpd-79f9f6586f-4vb5c" -> "httpd-79f9f6586f-wrf5x";
-  "httpd-79f9f6586f-4vb5c" -> "httpd-79f9f6586f-q49dc";
+  "httpd-bob" -> "httpd-79f9f6586f-msbjh";
+  "httpd-bob" -> "httpd-79f9f6586f-m4j6f";
+  "httpd-79f9f6586f-4f4df" -> "httpd-79f9f6586f-msbjh";
+  "httpd-79f9f6586f-4f4df" -> "httpd-79f9f6586f-m4j6f";
+  "httpd-79f9f6586f-k2km2" -> "httpd-bob";
+  "httpd-79f9f6586f-msbjh" -> "httpd-79f9f6586f-m4j6f";
+  "httpd-79f9f6586f-tk74g" -> "httpd-79f9f6586f-msbjh";
+  "httpd-79f9f6586f-tk74g" -> "httpd-79f9f6586f-m4j6f";
 }
 

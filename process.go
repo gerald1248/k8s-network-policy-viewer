@@ -38,8 +38,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 	for _, apiObject := range apiObjectSet.ApiObjects {
 		// TODO: white/blacklist mechanism
 		namespace := apiObject.Metadata.Namespace
-		// skip kube-* and default for now
-		if strings.HasPrefix(namespace, "kube-") || strings.HasPrefix(namespace, "default") {
+		if onBlacklist(namespace) {
 			continue
 		}
 		switch apiObject.Kind {

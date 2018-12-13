@@ -13,7 +13,13 @@ import (
 // accept input from files, stdin, API calls
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [<JSON/YAML file> [<JSON/YAML file>]]\nAlternatively, pipe input to STDIN: kubectl get networkpolicy,po --all-namespaces -o json | %s\n", filepath.Base(os.Args[0]), filepath.Base(os.Args[0]))
+		fmt.Fprintf(os.Stderr, `
+Usage: %s [<JSON/YAML file> [<JSON/YAML file>]]
+
+Set blacklist by exporting NETWORK_POLICY_VIEWER_BLACKLIST containing a comma-separated list of namespaces
+
+Alternatively, pipe input to STDIN: kubectl get networkpolicy,po --all-namespaces -o json | %s
+`, filepath.Base(os.Args[0]), filepath.Base(os.Args[0]))
 		flag.PrintDefaults()
 		os.Exit(0)
 	}

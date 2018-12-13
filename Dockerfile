@@ -14,6 +14,7 @@ RUN \
 FROM ubuntu:18.10
 WORKDIR /app/
 EXPOSE 8080
+ENV NETWORK_POLICY_VIEWER_BLACKLIST default,kube,flux
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get -qq install curl graphviz
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/

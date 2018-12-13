@@ -147,7 +147,7 @@ func TestSelectPodsMatchExpressionsExists(t *testing.T) {
 	}
 }
 
-func TestSelectPodsMatchExpressionsNotExists(t *testing.T) {
+func TestSelectPodsMatchExpressionsDoesNotExist(t *testing.T) {
 	// signature: func selectPods(namespace string, selector *Selector, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string
 
 	namespace := "default"

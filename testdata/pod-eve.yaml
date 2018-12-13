@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd-eve
+  labels:
+    app: httpd-eve
+spec:
+  containers:
+  - name: httpd
+    image: centos/httpd-24-centos7
+    ports:
+    - containerPort: 8080

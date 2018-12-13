@@ -1,0 +1,9 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: eve
+  labels:
+    app: eve
+spec:
+  finalizers:
+  - kubernetes
