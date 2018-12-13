@@ -152,6 +152,14 @@ func filterIngress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
 	}
 }
 
+// brute force deduplication
+// TODO: refactor
+func deduplicateEdgeMap(edgeMap *map[string][]string) {
+	for k, v := range (*edgeMap) {
+		(*edgeMap)[k] = unique(v)
+	}
+}
+
 // support among SDN providers still patchy?
 // examine desired not necessarily actual state
 // TODO: as with ingress, apply filter only once

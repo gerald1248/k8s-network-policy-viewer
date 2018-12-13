@@ -77,7 +77,7 @@ func selectPods(namespace string, selector *Selector, namespacePodMap *map[strin
 		}
 	}
 
-	return selectedPods
+	return unique(selectedPods)
 }
 
 func selectPodsAcrossNamespaces(namespaces *[]string, selector *Selector, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string {
@@ -86,7 +86,7 @@ func selectPodsAcrossNamespaces(namespaces *[]string, selector *Selector, namesp
 		selectedPods := selectPods(namespace, selector, namespacePodMap, podLabelMap)
 		allPods = append(allPods, selectedPods...)
 	}
-	return allPods
+	return unique(allPods)
 }
 
 func selectorIsEmpty(selector *Selector) bool {
