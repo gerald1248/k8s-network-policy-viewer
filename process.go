@@ -68,9 +68,8 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 
 	edgeMap := make(map[string][]string)
 	initializeEdgeMap(&edgeMap, &namespacePodMap)
-	allEdgesCount := countEdges(&edgeMap)
-
 	deduplicateEdgeMap(&edgeMap)
+	allEdgesCount := countEdges(&edgeMap)
 
 	// two passes req'd: isolation, then whitelisting
 	filterEdgeMap(&edgeMap, &namespacePodMap, &namespaceLabelMap, &podLabelMap, &networkPolicies, FilterIsolation)
