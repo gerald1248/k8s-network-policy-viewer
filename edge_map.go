@@ -75,12 +75,15 @@ func filterEdgeMap(
 		switch mode {
 		case FilterIsolation: //first pass: isolation
 			if flags&FilterIngress != 0 {
-				isolated := o.Spec.Ingress == nil ||
-					len(o.Spec.Ingress) == 0
-				// TODO: check for nested empty arrays
-				if isolated {
-					filterIngress(&podsSet, edgeMap)
-				}
+
+				// TODO: check full isolation by default is correct
+				// isolated := o.Spec.Ingress == nil ||
+				// 	len(o.Spec.Ingress) == 0
+				// // TODO: check for nested empty arrays
+				// if isolated {
+				// 	filterIngress(&podsSet, edgeMap)
+				// }
+				filterIngress(&podsSet, edgeMap)
 			}
 			if flags&FilterEgress != 0 {
 				isolated := o.Spec.Egress == nil ||
@@ -155,7 +158,7 @@ func filterIngress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
 // brute force deduplication
 // TODO: refactor
 func deduplicateEdgeMap(edgeMap *map[string][]string) {
-	for k, v := range (*edgeMap) {
+	for k, v := range *edgeMap {
 		(*edgeMap)[k] = unique(v)
 	}
 }
