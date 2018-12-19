@@ -1,11 +1,15 @@
 package main
 
-import "bytes"
-import "fmt"
-import "github.com/ghodss/yaml"
+import (
+	"bytes"
+	"fmt"
 
-func writeYaml(namespacePodMap *map[string][]string, buffer *bytes.Buffer) {
-	yaml, err := yaml.Marshal(namespacePodMap)
+	"github.com/ghodss/yaml"
+)
+
+func writeYaml(percentageIsolatedInt int, percentageNamespaceCoverageInt int, buffer *bytes.Buffer) {
+	result := Result{percentageIsolatedInt, percentageNamespaceCoverageInt}
+	yaml, err := yaml.Marshal(&result)
 	if err != nil {
 		fmt.Printf("Can't encode as YAML: %s", err)
 		return

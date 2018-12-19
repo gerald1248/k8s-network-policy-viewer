@@ -109,11 +109,7 @@ func (cs *CoerceString) UnmarshalJSON(value []byte) error {
 	return err
 }
 
-// TODO: remove?
-type ContainerSet []ContainerSpec
-
-type ContainerSpec struct {
-	Namespace string
-	Name      string
-	Container string
+type Result struct {
+	PercentageIsolated          int `json:"percentageIsolated"`
+	PercentageNamespaceCoverage int `json:"percentageNamespaceCoverage"`
 }

@@ -8,7 +8,7 @@ RUN \
   go mod download && \
   go get && \
   go vet && \
-  go test -v && \
+  go test -v -cover && \
   go build -o k8s-network-policy-viewer .
 
 FROM ubuntu:18.10
@@ -19,4 +19,4 @@ RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get -qq install curl graphviz
 COPY --from=builder /go/src/github.com/gerald1248/k8s-network-policy-viewer/k8s-network-policy-viewer /usr/bin/
 USER 1000
-CMD ["k8s-network-policy-viewer", "-s=true"]  
+CMD ["k8s-network-policy-viewer", "-s=true"]

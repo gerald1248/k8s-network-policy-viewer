@@ -4,8 +4,9 @@ import "bytes"
 import "encoding/json"
 import "fmt"
 
-func writeJson(namespacePodMap *map[string][]string, buffer *bytes.Buffer) {
-	json, err := json.Marshal(namespacePodMap)
+func writeJson(percentageIsolatedInt int, percentageNamespaceCoverageInt int, buffer *bytes.Buffer) {
+	result := Result{percentageIsolatedInt, percentageNamespaceCoverageInt}
+	json, err := json.Marshal(&result)
 	if err != nil {
 		fmt.Printf("Can't encode as JSON: %s", err)
 		return

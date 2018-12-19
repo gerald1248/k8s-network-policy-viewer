@@ -76,16 +76,6 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 	filterEdgeMap(&edgeMap, &namespacePodMap, &namespaceLabelMap, &podLabelMap, &networkPolicies, FilterWhitelist)
 	filteredEdgesCount := countEdges(&edgeMap)
 
-	var buffer bytes.Buffer
-	switch *output {
-	case "dot":
-		writeDot(&namespacePodMap, &edgeMap, &buffer)
-	case "json":
-		writeJson(&namespacePodMap, &buffer)
-	case "yaml":
-		writeYaml(&namespacePodMap, &buffer)
-	}
-
 	// metric percentage isolated
 	var percentageIsolatedInt int
 	percentageIsolatedInt = 100
@@ -103,6 +93,19 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		percentageNamespaceCoverage = (float64(len(networkPolicyNamespaces)) / float64(len(namespacePodMap))) * 100.0
 		percentageNamespaceCoverageInt = int(math.Floor(percentageNamespaceCoverage + 0.5))
 	}
+
+	var buffer bytes.Buffer
+	switch *output {
+	case "dot":
+		writeDot(&namespacePodMap, &edgeMap, &buffer)
+	case "json":
+		writeJson(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
+	case "yaml":
+		writeYaml(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
+	case "markdown":
+		writeMarkdown(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
+	}
+
 	return buffer.String(), percentageIsolatedInt, percentageNamespaceCoverageInt, nil
 }
 

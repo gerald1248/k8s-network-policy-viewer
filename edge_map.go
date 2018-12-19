@@ -74,26 +74,14 @@ func filterEdgeMap(
 
 		switch mode {
 		case FilterIsolation: //first pass: isolation
+			// TODO: check if policyTypes property always up-to-date
 			if flags&FilterIngress != 0 {
-
-				// TODO: check full isolation by default is correct
-				// isolated := o.Spec.Ingress == nil ||
-				// 	len(o.Spec.Ingress) == 0
-				// // TODO: check for nested empty arrays
-				// if isolated {
-				// 	filterIngress(&podsSet, edgeMap)
-				// }
 				filterIngress(&podsSet, edgeMap)
 			}
 			if flags&FilterEgress != 0 {
-				isolated := o.Spec.Egress == nil ||
-					len(o.Spec.Egress) == 0
-				if isolated {
-					filterEgress(&podsSet, edgeMap)
-				}
+				filterEgress(&podsSet, edgeMap)
 			}
 		case FilterWhitelist: //second pass: whitelisting
-			// TODO: assume current namespace for now
 			// TODO: ignore ports for now
 			if flags&FilterIngress != 0 {
 				if o.Spec.Ingress != nil && len(o.Spec.Ingress) > 0 {

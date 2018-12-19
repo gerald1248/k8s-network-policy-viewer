@@ -5,7 +5,6 @@ import (
 )
 
 func TestMatchingNamespace(t *testing.T) {
-	// signature: selectNamespaces(selector *map[string]string, namespacePodMap *map[string][]string, namespaceLabelMap *map[string]map[string]string) []string
 	selector := map[string]string{}
 	selector["app"] = "alice"
 	namespacePodMap := map[string][]string{}

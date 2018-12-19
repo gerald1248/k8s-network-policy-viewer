@@ -1,6 +1,23 @@
 package main
 
-import "bytes"
+import (
+	"bytes"
+	"fmt"
+)
+
+func writeMarkdown(percentageIsolatedInt int, percentageNamespaceCoverageInt int, b *bytes.Buffer) {
+	heading("Network policy viewer", 1, b)
+
+	rows := make([][]string, 3) //set length plus header row
+	rows[0] = append(rows[0], "Field")
+	rows[0] = append(rows[0], "Value")
+	rows[1] = append(rows[1], "percentageIsolated")
+	rows[1] = append(rows[1], fmt.Sprintf("%d", percentageIsolatedInt))
+	rows[2] = append(rows[2], "percentageNamespaceCoverage")
+	rows[2] = append(rows[2], fmt.Sprintf("%d", percentageNamespaceCoverageInt))
+
+	b.WriteString(markdownTable(&rows))
+}
 
 func heading(s string, level int, b *bytes.Buffer) {
 	if level < 3 {
@@ -19,27 +36,4 @@ func heading(s string, level int, b *bytes.Buffer) {
 		b.WriteString(" " + s)
 	}
 	b.WriteString("\n\n")
-}
-
-func table(s ContainerSet, b *bytes.Buffer) {
-	//alloc string table
-	count := len(s)
-	rows := make([][]string, count+1) //set length plus header row
-
-	//header row
-	rows[0] = []string{"Namespace", "Name", "Container"}
-
-	//special case: one empty spec
-	if count == 1 && s[0].Namespace == "" && s[0].Name == "" && s[0].Container == "" {
-		//exit without writing to buffer
-		return
-	}
-
-	//content rows
-	for i := 0; i < count; i++ {
-		spec := s[i]
-		rows[i+1] = []string{spec.Namespace, spec.Name, spec.Container}
-	}
-
-	b.WriteString(markdownTable(&rows))
 }
