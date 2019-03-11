@@ -110,6 +110,7 @@ func (cs *CoerceString) UnmarshalJSON(value []byte) error {
 }
 
 type Result struct {
-	PercentageIsolated          int `json:"percentageIsolated"`
-	PercentageNamespaceCoverage int `json:"percentageNamespaceCoverage"`
+	PercentageIsolated                     int `json:"percentageIsolated"`
+	PercentageIsolatedNamespaceToNamespace int `json:"percentageIsolatedNamespaceToNamespace"`
+	PercentageNamespaceCoverage            int `json:"percentageNamespaceCoverage"`
 }

@@ -94,14 +94,26 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		percentageNamespaceCoverageInt = int(math.Floor(percentageNamespaceCoverage + 0.5))
 	}
 
+	// metric percentage isolated - ignoring intra-namespace connections
+	var percentageIsolatedNamespaceToNamespaceInt int
+	percentageIsolatedNamespaceToNamespaceInt = 100
+	if allEdgesCount != 0 {
+		allEdgesCount = countEdges(&edgeMap)
+		filterIntraNamespace(&edgeMap, &namespacePodMap)
+		filteredEdgesCount = countEdges(&edgeMap)
+		var percentageIsolated float64
+		percentageIsolated = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
+		percentageIsolatedNamespaceToNamespaceInt = int(math.Floor(percentageIsolated + 0.5))
+	}
+
 	var buffer bytes.Buffer
 	switch *output {
 	case "dot":
 		writeDot(&namespacePodMap, &edgeMap, &buffer)
 	case "json":
-		writeJson(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
+		writeJson(percentageIsolatedInt, percentageIsolatedNamespaceToNamespaceInt, percentageNamespaceCoverageInt, &buffer)
 	case "yaml":
-		writeYaml(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
+		writeYaml(percentageIsolatedInt, percentageIsolatedNamespaceToNamespaceInt, percentageNamespaceCoverageInt, &buffer)
 	case "markdown":
 		writeMarkdown(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
 	}

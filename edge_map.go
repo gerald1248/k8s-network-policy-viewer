@@ -1,5 +1,7 @@
 package main
 
+import "strings"
+
 const (
 	FilterIngress uint8 = 1 << iota
 	FilterEgress
@@ -148,6 +150,27 @@ func filterIngress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
 func deduplicateEdgeMap(edgeMap *map[string][]string) {
 	for k, v := range *edgeMap {
 		(*edgeMap)[k] = unique(v)
+	}
+}
+
+func filterIntraNamespace(
+	edgeMap *map[string][]string,
+	namespacePodMap *map[string][]string) {
+	var namespaceFrom, namespaceTo string
+	var aFrom, aTo, aNew []string
+	for k, v := range *edgeMap {
+		aFrom = strings.Split(k, ":")
+		namespaceFrom = aFrom[0]
+		for _, item := range (*edgeMap)[k] {
+			aTo = strings.Split(item, ":")
+			namespaceTo = aTo[0]
+			if namespaceFrom != namespaceTo {
+				aNew = append(aNew, item)
+			}
+		}
+		if len(aNew) != len(v) {
+			(*edgeMap)[k] = aNew
+		}
 	}
 }
 

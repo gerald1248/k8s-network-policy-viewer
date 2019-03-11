@@ -7,8 +7,8 @@ import (
 	"github.com/ghodss/yaml"
 )
 
-func writeYaml(percentageIsolatedInt int, percentageNamespaceCoverageInt int, buffer *bytes.Buffer) {
-	result := Result{percentageIsolatedInt, percentageNamespaceCoverageInt}
+func writeYaml(percentageIsolated int, percentageIsolatedNamespaceToNamespace int, percentageNamespaceCoverage int, buffer *bytes.Buffer) {
+	result := Result{percentageIsolated, percentageIsolatedNamespaceToNamespace, percentageNamespaceCoverage}
 	yaml, err := yaml.Marshal(&result)
 	if err != nil {
 		fmt.Printf("Can't encode as YAML: %s", err)
