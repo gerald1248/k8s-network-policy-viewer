@@ -10,24 +10,28 @@ import (
 	"strings"
 )
 
-func processBytes(byteArray []byte, output *string) (string, int, int, error) {
+func namespaceSeparator() string {
+	return ":"
+}
+
+func processBytes(byteArray []byte, output *string) (string, int, int, int, error) {
 
 	//preflight with optional conversion from YAMLs
 	err := preflightAsset(&byteArray)
 	if err != nil {
-		return "", 0, 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
+		return "", 0, 0, 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
 	}
 
 	// make sure config objects are presented as a list
 	err = makeList(&byteArray)
 	if err != nil {
-		return "", 0, 0, err
+		return "", 0, 0, 0, err
 	}
 
 	var apiObjectSet ApiObjectSet
 
 	if err = json.Unmarshal(byteArray, &apiObjectSet); err != nil {
-		return "", 0, 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
+		return "", 0, 0, 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
 	}
 
 	// extract compact datastructures
@@ -49,7 +53,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 				len(apiObject.Status.ContainerStatuses) > 0 &&
 				apiObject.Status.ContainerStatuses[0].Ready == true {
 				slice := []string{namespace, apiObject.Metadata.Name}
-				qualifiedPodName := strings.Join(slice, ":")
+				qualifiedPodName := strings.Join(slice, namespaceSeparator())
 				namespacePodMap[namespace] = append(namespacePodMap[namespace], qualifiedPodName)
 				podLabelMap[qualifiedPodName] = apiObject.Metadata.Labels
 			}
@@ -101,9 +105,9 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		allEdgesCount = countEdges(&edgeMap)
 		filterIntraNamespace(&edgeMap, &namespacePodMap)
 		filteredEdgesCount = countEdges(&edgeMap)
-		var percentageIsolated float64
-		percentageIsolated = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
-		percentageIsolatedNamespaceToNamespaceInt = int(math.Floor(percentageIsolated + 0.5))
+		var percentageIsolatedNamespaceToNamespace float64
+		percentageIsolatedNamespaceToNamespace = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
+		percentageIsolatedNamespaceToNamespaceInt = int(math.Floor(percentageIsolatedNamespaceToNamespace + 0.5))
 	}
 
 	var buffer bytes.Buffer
@@ -118,7 +122,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, error) {
 		writeMarkdown(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
 	}
 
-	return buffer.String(), percentageIsolatedInt, percentageNamespaceCoverageInt, nil
+	return buffer.String(), percentageIsolatedInt, percentageIsolatedNamespaceToNamespaceInt, percentageNamespaceCoverageInt, nil
 }
 
 func processFile(path string, output *string) (string, error) {
@@ -127,7 +131,7 @@ func processFile(path string, output *string) (string, error) {
 		return "", errors.New(fmt.Sprintf("can't read %s: %v", path, err))
 	}
 
-	result, _, _, err := processBytes(byteArray, output)
+	result, _, _, _, err := processBytes(byteArray, output)
 
 	if err != nil {
 		return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))
@@ -139,7 +143,7 @@ func processFile(path string, output *string) (string, error) {
 func countEdges(edgeMap *map[string][]string) int {
 	count := 0
 	for _, v := range *edgeMap {
-		for _, _ = range v {
+		for range v {
 			count++
 		}
 	}

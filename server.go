@@ -62,14 +62,14 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 
 	output = "dot"
 
-	_, percentageIsolated, percentageNamespaceCoverage, err := processBytes([]byte(buffer), &output)
+	_, percentageIsolated, percentageIsolatedNamespaceToNamespace, percentageNamespaceCoverage, err := processBytes([]byte(buffer), &output)
 	if err != nil {
 		sData := fmt.Sprintf("<p>Can't process input data: %s</p>", err)
 		fmt.Fprintf(w, page(sData))
 		return
 	}
 
-	fmt.Fprintf(w, "{\"percentageIsolated\":%d,\"percentageNamespaceCoverage\":%d}", percentageIsolated, percentageNamespaceCoverage)
+	fmt.Fprintf(w, "{\"percentageIsolated\":%d,\"percentageIsolatedNamespaceToNamespace\":%d,\"percentageNamespaceCoverage\":%d}", percentageIsolated, percentageIsolatedNamespaceToNamespace, percentageNamespaceCoverage)
 }
 
 func handleGet(w *http.ResponseWriter, r *http.Request) {
@@ -79,7 +79,7 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 
 	output = "dot"
 
-	dot, percentageIsolated, percentageCovered, err := processBytes([]byte(buffer), &output)
+	dot, percentageIsolated, percentageIsolatedNamespaceToNamespace, percentageCovered, err := processBytes([]byte(buffer), &output)
 	if err != nil {
 		sData := fmt.Sprintf("<p>Can't process input data: %s</p>", err)
 		fmt.Fprintf(*w, page(sData))
@@ -104,6 +104,13 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		colorClassIsolation = "progress-bar-warning"
 	}
 
+	colorClassIsolationNamespaceToNamespace := "progress-bar-success"
+	if percentageIsolated < 50 {
+		colorClassIsolationNamespaceToNamespace = "progress-bar-danger"
+	} else if percentageIsolated < 75 {
+		colorClassIsolationNamespaceToNamespace = "progress-bar-warning"
+	}
+
 	colorClassCoverage := "progress-bar-success"
 	if percentageCovered < 50 {
 		colorClassCoverage = "progress-bar-danger"
@@ -117,6 +124,9 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
   <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% isolation</div>
 </div>
 <div class="progress">
+  <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% isolation (namespace-to-namespace)</div>
+</div>
+<div class="progress">
   <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% namespace coverage</div>
 </div>`,
 		strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
@@ -124,6 +134,10 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		percentageIsolated,
 		percentageIsolated,
 		percentageIsolated,
+		colorClassIsolationNamespaceToNamespace,
+		percentageIsolatedNamespaceToNamespace,
+		percentageIsolatedNamespaceToNamespace,
+		percentageIsolatedNamespaceToNamespace,
 		colorClassCoverage,
 		percentageCovered,
 		percentageCovered,

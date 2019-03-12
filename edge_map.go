@@ -1,6 +1,8 @@
 package main
 
-import "strings"
+import (
+	"strings"
+)
 
 const (
 	FilterIngress uint8 = 1 << iota
@@ -157,12 +159,13 @@ func filterIntraNamespace(
 	edgeMap *map[string][]string,
 	namespacePodMap *map[string][]string) {
 	var namespaceFrom, namespaceTo string
-	var aFrom, aTo, aNew []string
+	var aFrom, aTo []string
 	for k, v := range *edgeMap {
-		aFrom = strings.Split(k, ":")
+		var aNew []string
+		aFrom = strings.Split(k, namespaceSeparator())
 		namespaceFrom = aFrom[0]
 		for _, item := range (*edgeMap)[k] {
-			aTo = strings.Split(item, ":")
+			aTo = strings.Split(item, namespaceSeparator())
 			namespaceTo = aTo[0]
 			if namespaceFrom != namespaceTo {
 				aNew = append(aNew, item)

@@ -18,7 +18,7 @@ func TestProcessBytes(t *testing.T) {
 	//don't allow XML
 	xmlBuffer := []byte(`<?xml version="1.0" encoding="UTF-8" standalone="true"?><root/>`)
 	output := "dot"
-	_, _, _, err := processBytes(xmlBuffer, &output)
+	_, _, _, _, err := processBytes(xmlBuffer, &output)
 
 	if err == nil {
 		t.Errorf("Must reject XML input")
@@ -120,7 +120,7 @@ items:
     egress: []
 `)
 	output := "dot"
-	_, isolation, coverage, err := processBytes(inputYaml, &output)
+	_, isolation, _, coverage, err := processBytes(inputYaml, &output)
 
 	if err != nil {
 		t.Errorf("Must accept input YAML")
@@ -189,7 +189,7 @@ items:
     - ready: true
 `)
 	output := "dot"
-	_, isolation, coverage, err := processBytes(inputYaml, &output)
+	_, isolation, _, coverage, err := processBytes(inputYaml, &output)
 
 	if err != nil {
 		t.Errorf("Must accept input YAML")
@@ -301,7 +301,7 @@ items:
             app: alice
   `)
 	output := "dot"
-	_, isolation, coverage, err := processBytes(inputYaml, &output)
+	_, isolation, _, coverage, err := processBytes(inputYaml, &output)
 
 	if err != nil {
 		t.Errorf("Must accept input YAML")
@@ -413,7 +413,7 @@ items:
             app: ingress
   `)
 	output := "dot"
-	_, isolation, coverage, err := processBytes(inputYaml, &output)
+	_, isolation, _, coverage, err := processBytes(inputYaml, &output)
 
 	if err != nil {
 		t.Errorf("Must accept input YAML")
