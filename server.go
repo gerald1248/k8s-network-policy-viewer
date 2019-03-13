@@ -120,8 +120,16 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 	}
 
 	svgString := string(svg.Bytes())
-	pattern := regexp.MustCompile(`svg width.*viewBox`)
-	svgString = pattern.ReplaceAllLiteralString(svgString, "svg viewBox")
+
+	fmt.Printf("***BEFORE***\n%s", svgString)
+
+	patternW := regexp.MustCompile(`width=[^ ]+`)
+	svgString = patternW.ReplaceAllLiteralString(svgString, "")
+	patternH := regexp.MustCompile(`height=[^ ]+`)
+	svgString = patternH.ReplaceAllLiteralString(svgString, "")
+	svgString = strings.Replace(svgString, "Times,serif", "sans-serif", -1)
+
+	fmt.Printf("***AFTER***\n%s", svgString)
 
 	buffer = fmt.Sprintf(`
 <div>%s</div>
@@ -134,7 +142,7 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 <div class="progress">
   <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% namespace coverage</div>
 </div>`,
-		strings.Replace(svg.String(), "Times,serif", "sans-serif", -1),
+		svgString,
 		colorClassIsolation,
 		percentageIsolated,
 		percentageIsolated,

@@ -109,8 +109,9 @@ func (cs *CoerceString) UnmarshalJSON(value []byte) error {
 	return err
 }
 
+// Result captures the metrics output of the policy scan
 type Result struct {
-	PercentageIsolated                     int `json:"percentageIsolated"`
-	PercentageIsolatedNamespaceToNamespace int `json:"percentageIsolatedNamespaceToNamespace"`
-	PercentageNamespaceCoverage            int `json:"percentageNamespaceCoverage"`
+	PercentageIsolated          int `json:"percentageIsolated"`
+	PercentageNamespaceIsolated int `json:"percentageNamespaceIsolated"`
+	PercentageNamespaceCoverage int `json:"percentageNamespaceCoverage"`
 }

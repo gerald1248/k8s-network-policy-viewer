@@ -7,10 +7,7 @@ import (
 )
 
 func writeDot(namespacePodMap *map[string][]string, edgeMap *map[string][]string, buffer *bytes.Buffer) {
-	buffer.WriteString(`digraph podNetwork {
-  color=white
-  bgcolor=black
-`)
+	buffer.WriteString("digraph podNetwork {\n")
 
 	counter := 0
 	var allPods []string

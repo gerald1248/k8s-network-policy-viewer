@@ -75,6 +75,10 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 	deduplicateEdgeMap(&edgeMap)
 	allEdgesCount := countEdges(&edgeMap)
 
+	namespaceEdgeMap := edgeMap
+	filterIntraNamespace(&namespaceEdgeMap)
+	allNamespaceEdgesCount := countEdges(&namespaceEdgeMap)
+
 	// two passes req'd: isolation, then whitelisting
 	filterEdgeMap(&edgeMap, &namespacePodMap, &namespaceLabelMap, &podLabelMap, &networkPolicies, FilterIsolation)
 	filterEdgeMap(&edgeMap, &namespacePodMap, &namespaceLabelMap, &podLabelMap, &networkPolicies, FilterWhitelist)
@@ -99,15 +103,14 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 	}
 
 	// metric percentage isolated - ignoring intra-namespace connections
-	var percentageIsolatedNamespaceToNamespaceInt int
-	percentageIsolatedNamespaceToNamespaceInt = 100
+	var percentageIsolatedNamespaceInt int
+	percentageIsolatedNamespaceInt = 100
 	if allEdgesCount != 0 {
-		allEdgesCount = countEdges(&edgeMap)
-		filterIntraNamespace(&edgeMap, &namespacePodMap)
+		filterIntraNamespace(&edgeMap)
 		filteredEdgesCount = countEdges(&edgeMap)
-		var percentageIsolatedNamespaceToNamespace float64
-		percentageIsolatedNamespaceToNamespace = 100.0 - (float64(filteredEdgesCount)/float64(allEdgesCount))*100.0
-		percentageIsolatedNamespaceToNamespaceInt = int(math.Floor(percentageIsolatedNamespaceToNamespace + 0.5))
+		var percentageIsolatedNamespace float64
+		percentageIsolatedNamespace = 100.0 - (float64(filteredEdgesCount)/float64(allNamespaceEdgesCount))*100.0
+		percentageIsolatedNamespaceInt = int(math.Floor(percentageIsolatedNamespace + 0.5))
 	}
 
 	var buffer bytes.Buffer
@@ -115,14 +118,14 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 	case "dot":
 		writeDot(&namespacePodMap, &edgeMap, &buffer)
 	case "json":
-		writeJson(percentageIsolatedInt, percentageIsolatedNamespaceToNamespaceInt, percentageNamespaceCoverageInt, &buffer)
+		writeJson(percentageIsolatedInt, percentageIsolatedNamespaceInt, percentageNamespaceCoverageInt, &buffer)
 	case "yaml":
-		writeYaml(percentageIsolatedInt, percentageIsolatedNamespaceToNamespaceInt, percentageNamespaceCoverageInt, &buffer)
+		writeYaml(percentageIsolatedInt, percentageIsolatedNamespaceInt, percentageNamespaceCoverageInt, &buffer)
 	case "markdown":
 		writeMarkdown(percentageIsolatedInt, percentageNamespaceCoverageInt, &buffer)
 	}
 
-	return buffer.String(), percentageIsolatedInt, percentageIsolatedNamespaceToNamespaceInt, percentageNamespaceCoverageInt, nil
+	return buffer.String(), percentageIsolatedInt, percentageIsolatedNamespaceInt, percentageNamespaceCoverageInt, nil
 }
 
 func processFile(path string, output *string) (string, error) {

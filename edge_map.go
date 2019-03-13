@@ -4,11 +4,13 @@ import (
 	"strings"
 )
 
+// enum for ingress/egress policy
 const (
 	FilterIngress uint8 = 1 << iota
 	FilterEgress
 )
 
+// enum for black-/whitelisting
 const (
 	FilterIsolation int = 0
 	FilterWhitelist     = 1
@@ -155,9 +157,7 @@ func deduplicateEdgeMap(edgeMap *map[string][]string) {
 	}
 }
 
-func filterIntraNamespace(
-	edgeMap *map[string][]string,
-	namespacePodMap *map[string][]string) {
+func filterIntraNamespace(edgeMap *map[string][]string) {
 	var namespaceFrom, namespaceTo string
 	var aFrom, aTo []string
 	for k, v := range *edgeMap {
@@ -181,7 +181,7 @@ func filterIntraNamespace(
 // examine desired not necessarily actual state
 // TODO: as with ingress, apply filter only once
 func filterEgress(podsSet *map[string]struct{}, edgeMap *map[string][]string) {
-	for pod, _ := range *podsSet {
+	for pod := range *podsSet {
 		(*edgeMap)[pod] = nil
 	}
 }
