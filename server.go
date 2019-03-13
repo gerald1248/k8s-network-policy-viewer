@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"regexp"
 	"strings"
 )
 
@@ -104,11 +105,11 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		colorClassIsolation = "progress-bar-warning"
 	}
 
-	colorClassIsolationNamespaceToNamespace := "progress-bar-success"
-	if percentageIsolated < 50 {
-		colorClassIsolationNamespaceToNamespace = "progress-bar-danger"
-	} else if percentageIsolated < 75 {
-		colorClassIsolationNamespaceToNamespace = "progress-bar-warning"
+	colorClassNamespaceIsolation := "progress-bar-success"
+	if percentageIsolatedNamespaceToNamespace < 50 {
+		colorClassNamespaceIsolation = "progress-bar-danger"
+	} else if percentageIsolatedNamespaceToNamespace < 75 {
+		colorClassNamespaceIsolation = "progress-bar-warning"
 	}
 
 	colorClassCoverage := "progress-bar-success"
@@ -118,13 +119,17 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		colorClassCoverage = "progress-bar-warning"
 	}
 
+	svgString := string(svg.Bytes())
+	pattern := regexp.MustCompile(`svg width.*viewBox`)
+	svgString = pattern.ReplaceAllLiteralString(svgString, "svg viewBox")
+
 	buffer = fmt.Sprintf(`
 <div>%s</div>
 <div class="progress">
   <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% isolation</div>
 </div>
 <div class="progress">
-  <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% isolation (namespace-to-namespace)</div>
+  <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% namespace isolation</div>
 </div>
 <div class="progress">
   <div class="progress-bar %s" style="width: %d%%%%" role="progressbar" aria-valuenow="%d" aria-valuemin="0" aria-valuemax="100">%d%%%% namespace coverage</div>
@@ -134,7 +139,7 @@ func handleGet(w *http.ResponseWriter, r *http.Request) {
 		percentageIsolated,
 		percentageIsolated,
 		percentageIsolated,
-		colorClassIsolationNamespaceToNamespace,
+		colorClassNamespaceIsolation,
 		percentageIsolatedNamespaceToNamespace,
 		percentageIsolatedNamespaceToNamespace,
 		percentageIsolatedNamespaceToNamespace,

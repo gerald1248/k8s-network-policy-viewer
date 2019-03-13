@@ -7,11 +7,15 @@ import (
 )
 
 func writeDot(namespacePodMap *map[string][]string, edgeMap *map[string][]string, buffer *bytes.Buffer) {
-	buffer.WriteString("digraph podNetwork {\n")
+	buffer.WriteString(`digraph podNetwork {
+  color=white
+  bgcolor=black
+`)
+
 	counter := 0
 	var allPods []string
 	for k, v := range *namespacePodMap {
-		counter += 1
+		counter++
 		buffer.WriteString("  subgraph cluster_")
 		fmt.Fprintf(buffer, "%d", counter)
 		buffer.WriteString(" {\n")
