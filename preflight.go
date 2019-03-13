@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/ghodss/yaml"
 	"unicode/utf8"
+
+	"github.com/ghodss/yaml"
 )
 
 // ensure YAML as well as JSON can be read
@@ -33,7 +34,7 @@ func preflightAsset(a *[]byte) error {
 	// not JSON
 	json, err := yaml.YAMLToJSON(*a)
 	if err != nil {
-		return errors.New(fmt.Sprintf("invalid JSON: %v; invalid YAML: %v", jsonError, err))
+		return fmt.Errorf("invalid JSON: %v; invalid YAML: %v", jsonError, err)
 	}
 
 	// successful conversion

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -13,7 +12,7 @@ func makeList(a *[]byte) error {
 	err := json.Unmarshal(*a, &obj)
 
 	if err != nil {
-		return errors.New(fmt.Sprintf("invalid JSON: %v", err))
+		return fmt.Errorf("invalid JSON: %v", err)
 	}
 
 	switch obj.Kind {
@@ -25,5 +24,5 @@ func makeList(a *[]byte) error {
 		*a = b
 		return nil
 	}
-	return errors.New(fmt.Sprintf("can't parse JSON: no API objects found"))
+	return fmt.Errorf("can't parse JSON: no API objects found")
 }

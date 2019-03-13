@@ -40,7 +40,7 @@ func filterEdgeMap(
 	namespacePodMap *map[string][]string,
 	namespaceLabelMap *map[string]map[string]string,
 	podLabelMap *map[string]map[string]string,
-	networkPolicies *[]ApiObject,
+	networkPolicies *[]APIObject,
 	mode int) {
 	for _, o := range *networkPolicies {
 		namespace := o.Metadata.Namespace

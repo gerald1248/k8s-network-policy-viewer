@@ -3,10 +3,7 @@ package main
 func selectPods(namespace string, selector *Selector, namespacePodMap *map[string][]string, podLabelMap *map[string]map[string]string) []string {
 	// special case: empty map selects all pods
 	if selectorIsEmpty(selector) {
-		//fmt.Printf("Selector empty: %v\n", *selector)
 		return (*namespacePodMap)[namespace]
-	} else {
-		//fmt.Printf("Selector not empty: %v\n", *selector)
 	}
 
 	var selectedPods []string
@@ -55,7 +52,7 @@ func selectPods(namespace string, selector *Selector, namespacePodMap *map[strin
 			}
 		case "Exists":
 			for _, pod := range (*namespacePodMap)[namespace] {
-				for k, _ := range (*podLabelMap)[pod] {
+				for k := range (*podLabelMap)[pod] {
 					if k == requirement.Key {
 						selectedPods = append(selectedPods, pod)
 						continue
@@ -65,7 +62,7 @@ func selectPods(namespace string, selector *Selector, namespacePodMap *map[strin
 		case "DoesNotExist":
 			for _, pod := range (*namespacePodMap)[namespace] {
 				found := false
-				for k, _ := range (*podLabelMap)[pod] {
+				for k := range (*podLabelMap)[pod] {
 					if k == requirement.Key {
 						found = true
 					}

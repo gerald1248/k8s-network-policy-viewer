@@ -6,9 +6,9 @@ import (
 )
 
 func TestPage(t *testing.T) {
-	unescapedHtml := "<p>Alice, Bob &amp; Eve</p>"
-	result := page(unescapedHtml)
-	if !strings.Contains(result, unescapedHtml) {
+	unescapedHTML := "<p>Alice, Bob &amp; Eve</p>"
+	result := page(unescapedHTML)
+	if !strings.Contains(result, unescapedHTML) {
 		t.Errorf("Unescaped HTML has to be passed unchanged")
 	}
 }

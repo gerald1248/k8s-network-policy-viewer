@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+// PostStruct wraps a buffer string
 type PostStruct struct {
 	Buffer string
 }
@@ -59,7 +60,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 func metricsHandler(w http.ResponseWriter, r *http.Request) {
 	var buffer, output string
 
-	getJsonData(&buffer)
+	getJSONData(&buffer)
 
 	output = "dot"
 
@@ -76,7 +77,7 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 func handleGet(w *http.ResponseWriter, r *http.Request) {
 	var buffer, dot, output string
 
-	getJsonData(&buffer)
+	getJSONData(&buffer)
 
 	output = "dot"
 

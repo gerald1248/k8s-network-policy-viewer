@@ -13,7 +13,7 @@ import (
 
 // don't allow errors to bubble up
 // TODO: switch to byte array as that's what is used in the end
-func getJsonData(buffer *string) {
+func getJSONData(buffer *string) {
 	*buffer = "{}"
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -40,11 +40,11 @@ func getJsonData(buffer *string) {
 		return
 	}
 
-	for index, _ := range pods.Items {
+	for index := range pods.Items {
 		pods.Items[index].Kind = "Pod"
 	}
 
-	podsJson, err := json.Marshal(pods.Items)
+	podsJSON, err := json.Marshal(pods.Items)
 	if err != nil {
 		log.Printf("Can't marshal pods: %s\n", err.Error())
 		return
@@ -63,11 +63,11 @@ func getJsonData(buffer *string) {
 		return
 	}
 
-	for index, _ := range namespaces.Items {
+	for index := range namespaces.Items {
 		pods.Items[index].Kind = "Namespace"
 	}
 
-	namespacesJson, err := json.Marshal(pods.Items)
+	namespacesJSON, err := json.Marshal(pods.Items)
 	if err != nil {
 		log.Printf("Can't marshal namespaces: %s\n", err.Error())
 		return
@@ -84,26 +84,26 @@ func getJsonData(buffer *string) {
 		return
 	}
 
-	for index, _ := range networkPolicies.Items {
+	for index := range networkPolicies.Items {
 		networkPolicies.Items[index].Kind = "NetworkPolicy"
 	}
 
-	networkPoliciesJson, err := json.Marshal(networkPolicies.Items)
+	networkPoliciesJSON, err := json.Marshal(networkPolicies.Items)
 	if err != nil {
 		log.Printf("Can't marshal network policies: %s\n", err.Error())
 		return
 	}
 
 	// stringify, trim, assemble
-	podsJsonString := string(podsJson)
-	namespacesJsonString := string(namespacesJson)
-	networkPoliciesJsonString := string(networkPoliciesJson)
+	podsJSONString := string(podsJSON)
+	namespacesJSONString := string(namespacesJSON)
+	networkPoliciesJSONString := string(networkPoliciesJSON)
 
-	trimBrackets(&podsJsonString)
-	trimBrackets(&namespacesJsonString)
-	trimBrackets(&networkPoliciesJsonString)
+	trimBrackets(&podsJSONString)
+	trimBrackets(&namespacesJSONString)
+	trimBrackets(&networkPoliciesJSONString)
 
-	*buffer = fmt.Sprintf("{\"kind\":\"List\",\"apiVersion\":\"v1\",\"Items\":[%s,%s,%s]}", podsJsonString, namespacesJsonString, networkPoliciesJsonString)
+	*buffer = fmt.Sprintf("{\"kind\":\"List\",\"apiVersion\":\"v1\",\"Items\":[%s,%s,%s]}", podsJSONString, namespacesJSONString, networkPoliciesJSONString)
 }
 
 func trimBrackets(s *string) {

@@ -16,7 +16,7 @@ func page(s string) string {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
-    <div class="navbar navbar-static-top bg-secondary text-center"><div class="container"><h1>Network policy viewer</h1></div></div>
+    <div class="navbar navbar-static-top navbar-dark bg-dark text-light"><div class="container"><h1>Network policy viewer</h1></div></div>
     <div class="container">
       %s
     </div>

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"math"
@@ -19,7 +18,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 	//preflight with optional conversion from YAMLs
 	err := preflightAsset(&byteArray)
 	if err != nil {
-		return "", 0, 0, 0, errors.New(fmt.Sprintf("input failed preflight check: %v", err))
+		return "", 0, 0, 0, fmt.Errorf("input failed preflight check: %v", err)
 	}
 
 	// make sure config objects are presented as a list
@@ -28,10 +27,10 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 		return "", 0, 0, 0, err
 	}
 
-	var apiObjectSet ApiObjectSet
+	var apiObjectSet APIObjectSet
 
 	if err = json.Unmarshal(byteArray, &apiObjectSet); err != nil {
-		return "", 0, 0, 0, errors.New(fmt.Sprintf("can't unmarshal data: %v", err))
+		return "", 0, 0, 0, fmt.Errorf("can't unmarshal data: %v", err)
 	}
 
 	// extract compact datastructures
@@ -39,8 +38,8 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 	namespaceLabelMap := make(map[string]map[string]string)
 	podLabelMap := make(map[string]map[string]string)
 	networkPolicyNamespaces := make(map[string]struct{})
-	networkPolicies := []ApiObject{}
-	for _, apiObject := range apiObjectSet.ApiObjects {
+	networkPolicies := []APIObject{}
+	for _, apiObject := range apiObjectSet.APIObjects {
 		namespace := apiObject.Metadata.Namespace
 		switch apiObject.Kind {
 
@@ -118,7 +117,7 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 	case "dot":
 		writeDot(&namespacePodMap, &edgeMap, &buffer)
 	case "json":
-		writeJson(percentageIsolatedInt, percentageIsolatedNamespaceInt, percentageNamespaceCoverageInt, &buffer)
+		writeJSON(percentageIsolatedInt, percentageIsolatedNamespaceInt, percentageNamespaceCoverageInt, &buffer)
 	case "yaml":
 		writeYaml(percentageIsolatedInt, percentageIsolatedNamespaceInt, percentageNamespaceCoverageInt, &buffer)
 	case "markdown":
@@ -131,13 +130,13 @@ func processBytes(byteArray []byte, output *string) (string, int, int, int, erro
 func processFile(path string, output *string) (string, error) {
 	byteArray, err := ioutil.ReadFile(path)
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("can't read %s: %v", path, err))
+		return "", fmt.Errorf("can't read %s: %v", path, err)
 	}
 
 	result, _, _, _, err := processBytes(byteArray, output)
 
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("can't process %s: %s", path, err))
+		return "", fmt.Errorf("can't process %s: %s", path, err)
 	}
 
 	return result, nil

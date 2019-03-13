@@ -37,7 +37,7 @@ func markdownTable(t *[][]string) string {
 		}
 		b.WriteByte('\n')
 		if rowIndex == 0 {
-			for cellIndex, _ := range row {
+			for cellIndex := range row {
 				if cellIndex == 0 {
 					b.WriteByte('|')
 				}

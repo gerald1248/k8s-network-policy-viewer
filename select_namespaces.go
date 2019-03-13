@@ -1,10 +1,8 @@
 package main
 
-import ()
-
 func selectNamespaces(selector *map[string]string, namespacePodMap *map[string][]string, namespaceLabelMap *map[string]map[string]string) []string {
 	var namespaces []string
-	for key, _ := range *namespacePodMap {
+	for key := range *namespacePodMap {
 		namespaces = append(namespaces, key)
 	}
 
