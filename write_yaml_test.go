@@ -7,8 +7,8 @@ import (
 
 func TestWriteYaml(t *testing.T) {
 	expected := `percentageIsolated: 20
-percentageIsolatedNamespaceToNamespace: 20
 percentageNamespaceCoverage: 30
+percentageNamespaceIsolated: 20
 `
 
 	var buffer bytes.Buffer

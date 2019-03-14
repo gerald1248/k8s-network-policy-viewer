@@ -6,7 +6,7 @@ import (
 )
 
 func TestWriteJSON(t *testing.T) {
-	expected := `{"percentageIsolated":20,"percentageIsolatedNamespaceToNamespace":20,"percentageNamespaceCoverage":30}`
+	expected := `{"percentageIsolated":20,"percentageNamespaceIsolated":20,"percentageNamespaceCoverage":30}`
 
 	var buffer bytes.Buffer
 	writeJSON(20, 20, 30, &buffer)
