@@ -16,7 +16,7 @@ func TestHandler(t *testing.T) {
 	}
 
 	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(healthHandler)
+	handler := healthHandler("title")
 
 	handler.ServeHTTP(recorder, req)
 
@@ -40,7 +40,7 @@ func TestHealthHandler(t *testing.T) {
 	}
 
 	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(healthHandler)
+	handler := healthHandler("title")
 
 	handler.ServeHTTP(recorder, req)
 
@@ -64,7 +64,7 @@ func TestApiHandler(t *testing.T) {
 	}
 
 	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(apiHandler)
+	handler := apiHandler("title")
 
 	handler.ServeHTTP(recorder, req)
 

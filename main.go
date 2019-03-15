@@ -27,13 +27,26 @@ Alternatively, pipe input to STDIN: kubectl get networkpolicy,po --all-namespace
 	port := flag.Int("p", 8080, "listen on port")
 	output := flag.String("o", "dot", "output format (dot, json, yaml)")
 	server := flag.Bool("s", false, "launch server")
+	name := flag.String("n", "", "context name")
 
 	flag.Parse()
 	args := flag.Args()
 
+	// identify context/cluster name
+	var context string
+	// option #1: name param
+	if len(*name) > 0 {
+		context = *name
+	} else {
+		context = os.Getenv("CLUSTER_TESTS_CONTEXT") // option #2: custom context variable
+		if len(context) == 0 {
+			context = os.Getenv("KUBERNETES_PORT_443_TCP_ADDR") // option #3: IP address
+		}
+	}
+
 	//use case [A]: server
 	if *server == true {
-		serve(*port)
+		serve(*port, context)
 		return
 	}
 
