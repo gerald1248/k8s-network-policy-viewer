@@ -18,8 +18,9 @@ func page(title, s string) string {
   </head>
   <body>
     <div class="navbar navbar-static-top bg-secondary text-white">
-      <div class="container"><h1 style="text-align: center">%s network policies</h1></div>
+      <div class="container"><h4>%s network policies</h4></div>
     </div>
+    <br/>
     <div class="container">
       %s
     </div>
