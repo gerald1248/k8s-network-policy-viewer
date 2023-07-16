@@ -3,7 +3,7 @@ k8s-network-policy-viewer
 
 <a href="https://hub.docker.com/r/gerald1248/k8s-network-policy-viewer/builds/">
   <img src="https://img.shields.io/docker/automated/gerald1248/k8s-network-policy-viewer.svg" alt="Docker Automated"/>
-  <img src="https://img.shields.io/docker/build/gerald1248/k8s-network-policy-viewer.svg" alt="Docker Build"/>
+  <!--<img src="https://img.shields.io/docker/build/gerald1248/k8s-network-policy-viewer.svg" alt="Docker Build"/>-->
 </a>
 
 The network policy viewer visualizes the pod network. It is far from complete, but basic isolation rules can be represented in JSON, YAML or dot (Graphviz).
